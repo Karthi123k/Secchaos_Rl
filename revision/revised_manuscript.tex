@@ -292,12 +292,13 @@ Each mitigation action $a_k \in \mathcal{A}$ is parameterized by target fault co
     \item $a_8$ (rollback): Cost $0.35$, delay $d_8 = 1$, overheads $(0.10, 0.08, 0.03)$, targets $\{F8, F1\}$.
 \end{itemize}
 
-\textbf{Asynchronous Queue and Operational Action Outcomes:} In live microservice operations, automated interventions interact with non-deterministic failure dynamics across three distinct operational states:
+\textbf{Asynchronous Queue and Operational Action Outcomes:} In live microservice operations, automated interventions interact with non-deterministic failure dynamics across three strictly \textbf{mutually exclusive} non-success operational states:
 \begin{enumerate}
-    \item \textbf{Unnecessary Dispatch ($N_{wrong}$):} An action $a_t \ne 0$ is dispatched when neither an active fault matches its target codes nor the target service exhibits elevated vulnerability ($r_{target} \le 0.30$). Such actions reflect false alarms or policy churn and directly contribute to the False Mitigation Rate ($\text{FMR} = N_{wrong} / \max(1, N_{actions})$). The previous mitigation efficacy indicator $\eta_{prev}$ drops to $0.2$, and the agent incurs an operational penalty $\beta_4 \mathcal{P}_{wrong}$.
-    \item \textbf{Queue Redundancy ($N_{redundant}$):} An action was valid when dispatched (matching an active fault or elevated risk), but during its asynchronous queue latency $d_k$, an earlier maturing mitigation or natural fault expiration resolved the underlying fault. Upon maturity ($t_{due} = t + d_k$), the action executes but finds no matching active fault. Such actions represent unavoidable queuing latency artifacts rather than controller misclassifications; they consume transient resource overheads ($\Delta u_{cpu}, \Delta u_{mem}, \Delta u_{net}$) without altering service health.
-    \item \textbf{Transient Execution Failure ($N_{drop}$):} To model transient cloud-native RPC timeouts, pod scheduling delays, or admission control rejections, dispatched mitigations face an empirical $8\%$ transient failure rate ($92\%$ successful queue admission). Dropped actions incur invocation cost without entering the queue $\mathcal{Q}$.
+    \item \textbf{Unnecessary Dispatch ($N_{wrong}$):} An action $a_t \ne 0$ is dispatched when neither an active fault matches its target codes nor the target service exhibits elevated vulnerability ($r_{target} \le 0.30$). Such actions represent policy classification errors. They are immediately intercepted at the admission boundary, penalizing the agent ($\beta_4 \mathcal{P}_{wrong}$) and setting $\eta_{prev} \leftarrow 0.2$ without entering the queue $\mathcal{Q}$. FMR strictly measures this dispatch-level error: $\text{FMR} = N_{wrong} / \max(1, N_{actions})$.
+    \item \textbf{Transient Execution Failure ($N_{drop}$):} To model transient cloud-native RPC timeouts, pod scheduling delays, or admission control rejections, valid dispatches face an empirical $8\%$ transient failure rate ($92\%$ successful queue admission). Dropped actions incur transient resource overheads ($\Delta u_{cpu}, \Delta u_{mem}, \Delta u_{net}$) and invocation cost without entering the queue $\mathcal{Q}$.
+    \item \textbf{Queue Redundancy ($N_{redundant}$):} An action was valid when dispatched and successfully admitted to $\mathcal{Q}$, but during its asynchronous queue delay $d_k$, an earlier maturing mitigation or natural fault expiration resolved the underlying fault. Upon maturity ($t_{due} = t + d_k$), the action executes but finds no matching active fault ($\mathcal{M}_a = \emptyset$). Because such actions were valid at dispatch, they represent unavoidable queue latency artifacts rather than controller misclassifications; they consume transient overheads without altering service health and are strictly distinct from $N_{wrong}$.
 \end{enumerate}
+Crucially, transient resource overheads ($\Delta u_{cpu}, \Delta u_{mem}, \Delta u_{net}$) are applied immediately upon dispatch to cluster utilization (Section~\ref{sec:architecture}) regardless of admission success, accurately capturing the computational and network cost of command serialization, TLS handshakes, and container scheduler API requests.
 
 Within each discrete simulation step $t$, operations proceed in the following strict order:
 \begin{enumerate}
@@ -408,16 +409,16 @@ The complete operational lifecycle of SecChaos-RL is formalized in Algorithm~\re
     \If{$a_t \neq 0$} \Comment{Operational Dispatch Validation (Section~\ref{subsec:action_space})}
         \State Retrieve action specification: delay $d_{a_t} \in \{0, 1, 2\}$, target codes $\mathcal{C}_{a_t}$, overheads $(\Delta u_{cpu}, \Delta u_{mem}, \Delta u_{net})$
         \State Check dispatch validity: $v_{valid} \leftarrow \big(\exists f \in \mathcal{F}_{act}: f.code \in \mathcal{C}_{a_t}\big) \lor \big(\max_{v \in \text{targets}(\mathcal{C}_{a_t})} r(v) > 0.30\big)$
-        \If{\textbf{not} $v_{valid}$} \Comment{Unnecessary Dispatch Outcome}
+        \If{\textbf{not} $v_{valid}$} \Comment{Unnecessary Dispatch: intercepted at admission gate}
             \State $N_{wrong} \leftarrow N_{wrong} + 1$; set $\eta_{prev} \leftarrow 0.2$; assign penalty $\beta_4 \mathcal{P}_{wrong}$
-        \Else
+        \Else \Comment{Valid Dispatch: evaluate queue admission}
             \State Set $\eta_{prev} \leftarrow 1.0$
-        \EndIf
-        \State Sample queue admission: $u_{adm} \sim \mathcal{U}(0, 1)$ \Comment{92\% admission / 8\% transient failure}
-        \If{$u_{adm} < 0.92$}
-            \State Enqueue pending mitigation: $\mathcal{Q} \leftarrow \mathcal{Q} \cup \{(t + d_{a_t}, a_t)\}$
-        \Else \Comment{Transient Execution Drop Outcome}
-            \State $N_{drop} \leftarrow N_{drop} + 1$ \Comment{Action dropped; transient resource overheads still incurred}
+            \State Sample queue admission: $u_{adm} \sim \mathcal{U}(0, 1)$ \Comment{92\% admission / 8\% transient failure}
+            \If{$u_{adm} < 0.92$}
+                \State Enqueue pending mitigation: $\mathcal{Q} \leftarrow \mathcal{Q} \cup \{(t + d_{a_t}, a_t)\}$
+            \Else \Comment{Transient Execution Drop Outcome}
+                \State $N_{drop} \leftarrow N_{drop} + 1$ \Comment{Dropped from queue; transient overheads still applied}
+            \EndIf
         \EndIf
     \EndIf
     \State Extract mature actions: $\mathcal{D}_t \leftarrow \{(t_{due}, a) \in \mathcal{Q} \mid t_{due} \le t\}$; $\mathcal{Q} \leftarrow \mathcal{Q} \setminus \mathcal{D}_t$
@@ -429,8 +430,8 @@ The complete operational lifecycle of SecChaos-RL is formalized in Algorithm~\re
                 \State Update target risk: $r(f.service) \leftarrow \max(0.05, r(f.service) - 0.80 \cdot f.severity)$
                 \State Invoke graph healing: \texttt{heal\_service}($f.service, f.severity$)
             \EndFor
-        \Else \Comment{Queue Redundancy Outcome}
-            \State $N_{redundant} \leftarrow N_{redundant} + 1$ \Comment{Target fault expired or resolved while action was queued}
+        \Else \Comment{Queue Redundancy Outcome (Mutually Exclusive from $N_{wrong}$)}
+            \State $N_{redundant} \leftarrow N_{redundant} + 1$ \Comment{Valid when queued, but fault cleared before maturity}
         \EndIf
     \EndFor
     \State Stochastic fault injection: sample $f_{new} \sim \text{Poisson}(\lambda_{fault})$; apply fault to target service
@@ -537,12 +538,21 @@ To answer RQ3 and investigate the empirical behavior and operational trade-offs 
         \text{FMR} = \frac{N_{wrong}}{\max(1, N_{actions})} \times 100\%
     \end{equation}
     where $N_{actions}$ is total non-idle mitigations dispatched and $N_{wrong}$ counts actions dispatched when no active fault matches the target and targeted risk is below $0.30$. We report both FMR and absolute action counts ($N_{actions}$ and $N_{wrong}$ per episode) to distinguish action frequency from proportional precision.
-    \item \textbf{Decision Latency (ms):} End-to-end controller duration in milliseconds (feature processing, inference, and action selection) measured via \texttt{time.perf\_counter()} over 2,000 timed decisions following a 100-step warm-up.
-    \item \textbf{Holistic Resilience Score (\%):} Composite system survivability index evaluated per seed $k$:
-    \begin{equation}
-        \mathcal{R}_k = 0.4 \Delta \mathcal{L}_{sec, k} + 0.4 \bar{a}_k + 0.2 \left(\frac{100}{1 + \text{MTTR}_k}\right)
-    \end{equation}
-    The reported score is the sample mean $\bar{\mathcal{R}} = \frac{1}{N}\sum_{k=1}^N \mathcal{R}_k$ across the $N=30$ seeds. The weights reflect standard SRE balance: $40\%$ weight on security risk reduction ($\Delta \mathcal{L}_{sec}$), $40\%$ weight on operational request fulfillment and service availability ($\bar{a}$), and $20\%$ weight on rapid degradation recovery ($100 / (1 + \text{MTTR})$). Note that because $f(x) = \frac{100}{1+x}$ is a strictly convex function for $x > -1$, by Jensen's inequality $\mathbb{E}[f(x)] > f(\mathbb{E}[x])$; thus, evaluating Eq.~(15) using aggregate column means yields $44.94\%$, whereas the true sample mean of per-seed resilience is $45.21\% \pm 2.26\%$.
+    \item \textbf{Decision Latency (ms):} End-to-end controller duration in milliseconds (feature ingestion, neural forward inference, and action selection) measured via \texttt{time.perf\_counter()}. We report both the online per-step latency recorded across the 30 benchmark evaluation runs ($0.44 \pm 0.15$\,ms, Table~\ref{tab:rl_resilience_results}) and the fine-grained tail latency profile ($0.46 \pm 0.52$\,ms mean, $0.36$\,ms median, $1.04$\,ms $p_{99}$) measured across 2,000 continuous decisions on our dedicated CPU testbed following a 100-step warm-up.
+    \item \textbf{Holistic Resilience Score (\%):} A composite system survivability index combining security risk mitigation, service availability, and recovery speed. To eliminate ambiguity between fractional $[0, 1]$ and percentage $[0, 100]\%$ scales, we formalize the metric first in normalized dimensionless form $\mathcal{R}_k^{norm} \in [0, 1]$ and subsequently express it on the standard percentage scale $\mathcal{R}_k \in [0, 100]\%$. For each evaluation seed $k$:
+    \begin{align}
+        \mathcal{R}_k^{norm} &= w_1 \cdot \Delta \ell_{sec, k} + w_2 \cdot a_k + w_3 \cdot \left(\frac{1}{1 + \text{MTTR}_k}\right) \in [0, 1], \label{eq:resilience_norm} \\
+        \mathcal{R}_k &= \mathcal{R}_k^{norm} \times 100\% = w_1 \cdot \Delta \mathcal{L}_{sec, k} + w_2 \cdot \mathcal{A}_k + w_3 \cdot \left(\frac{100\%}{1 + \text{MTTR}_k}\right) \in [0, 100]\% \label{eq:resilience_pct}
+    \end{align}
+    where the individual components and their exact measurement units are strictly defined as:
+    \begin{itemize}
+        \item $\Delta \ell_{sec, k} = \Delta \mathcal{L}_{sec, k} / 100 \in [0, 1]$ is the normalized security risk reduction fraction, where $\Delta \mathcal{L}_{sec, k} \in [0, 100]\%$ is evaluated via Eq.~(13).
+        \item $a_k = \mathcal{A}_k / 100 \in [0, 1]$ is the mean service availability fraction across all microservices and evaluation steps, where $\mathcal{A}_k \in [0, 100]\%$ represents percentage availability.
+        \item $\frac{1}{1 + \text{MTTR}_k} \in [0, 1]$ is the normalized recovery speed factor, bounded between $0$ (infinitely slow recovery) and $1$ (instantaneous zero-step recovery), corresponding to $\frac{100\%}{1 + \text{MTTR}_k} \in [0, 100]\%$ on the percentage scale.
+        \item Convex weights $w_1 = 0.40$, $w_2 = 0.40$, and $w_3 = 0.20$ satisfy $\sum_{i=1}^3 w_i = 1.0$, balancing security protection ($40\%$), operational request fulfillment ($40\%$), and rapid incident recovery ($20\%$).
+    \end{itemize}
+    The reported holistic resilience score for any policy is the sample mean across the $N=30$ evaluation seeds: $\bar{\mathcal{R}} = \frac{1}{N}\sum_{k=1}^N \mathcal{R}_k$. 
+    \textbf{Mathematical Audit of Per-Seed Calculation and Jensen's Inequality:} Because the recovery transformation $f(x) = \frac{100}{1+x}$ is strictly convex for $x > -1$, Jensen's inequality guarantees that $\mathbb{E}[f(x)] > f(\mathbb{E}[x])$. Evaluating Eq.~(\ref{eq:resilience_pct}) naively by plugging in aggregate summary column means yields $0.4(3.85\%) + 0.4(90.58\%) + 0.2(100 / (1 + 1.79)) = 44.94\%$. In contrast, the true per-seed resilience scores $\mathcal{R}_k$ computed in code and persisted in \texttt{raw\_benchmark\_metrics.csv} evaluate to a sample mean of $\mathbf{45.21\% \pm 2.26\%}$. All reported tables (Tables~\ref{tab:rl_resilience_results}, \ref{tab:paired_statistical_results}, and \ref{tab:ablation_results}) and statistical hypothesis tests use the true per-seed evaluated metric $\mathcal{R}_k$ identically.
 \end{enumerate}
 
 % ==============================================================================
@@ -622,7 +632,9 @@ Table~\ref{tab:ablation_results} and Figure~\ref{fig:ablation_study} summarize t
 \end{figure}
 
 \textbf{Statistical Significance Across Successive Architectural Transitions:}
-A rigorous inspection of Panel B demonstrates that the incremental addition of architectural components does not establish monotonic, statistically significant increments in the composite scalar resilience score (paired differences across adjacent stages range from $\Delta = -0.56\%$ to $+0.19\%$, with all $p \ge 0.12$; overall Stage 6 vs. Stage 1: $\Delta = -0.70\%$, $95\%\ \text{CI} = [-1.80, +0.40]$, paired-$t = -1.30, p = 0.2044$; Wilcoxon $W = 137, p = 0.3282$; Cohen's $d = -0.24$). Similarly, recovery time (MTTR) differences across adjacent stages remain tightly bounded within $[-0.03, +0.08]$ steps (all $p \ge 0.44$). Rather than claiming that every neural layer independently elevates the composite resilience score, the ablation reveals how each component governs distinct operational trade-offs across microservice security:
+A rigorous inspection of Panel B demonstrates that the incremental addition of architectural components does not establish monotonic, statistically significant increments in the composite scalar resilience score: paired differences across adjacent stages range from $\Delta = -0.56\%$ to $+0.19\%$, with unadjusted $p$-values ranging from $0.1266$ to $0.9523$, and Holm-Bonferroni adjusted $p$-values all satisfying $p_{adj} \ge 0.6332$. Similarly, recovery time (MTTR) differences across adjacent stages remain tightly bounded within $[-0.03, +0.08]$ steps (all unadjusted $p \ge 0.4450$, all $p_{adj} = 1.0000$). For the overall comparison between Full SecChaos-RL and Baseline PPO, the composite resilience score difference is $\Delta = -0.70\%$ ($95\%\ \text{CI} = [-1.80, +0.40]$, paired-$t = -1.30, p = 0.2044$; Wilcoxon $W = 137, p = 0.3282$; Cohen's $d = -0.24$) and the MTTR difference is $\Delta = +0.11$ steps ($95\%\ \text{CI} = [-0.11, +0.34]$, paired-$t = 1.04, p = 0.3065$). Neither difference is statistically significant.
+
+Rather than claiming that every neural layer independently elevates the composite resilience score over standard PPO, the ablation reveals how each component governs distinct operational trade-offs across microservice security:
 \begin{enumerate}
     \item \textbf{Stage 1 (Baseline PPO):} Standard PPO with an isotropic MLP and unweighted reward achieves an initial resilience score of $45.9\% \pm 2.3\%$ and MTTR of $1.68 \pm 0.52$ steps, matching the PPO baseline in Table~\ref{tab:rl_resilience_results}.
     \item \textbf{Stage 2 (+Multi-Objective Resilience Reward):} Introducing our composite resilience reward function formalizes trade-offs between risk reduction, availability preservation, and recovery speed without modifying neural capacity. It yields statistically identical resilience ($\Delta = -0.03\%$, $95\%\ \text{CI} = [-1.01, +0.95]$, $t = -0.06, p = 0.9523$) and recovery speed ($\Delta \text{MTTR} = -0.03$ steps, $t = -0.34, p = 0.7335$).
@@ -644,12 +656,16 @@ Figure~\ref{fig:learning_curves} depicts the training convergence trajectories a
 \end{figure}
 
 \subsection{RQ4: Computational Overhead and Practical Deployability}
-To assess practical viability for cloud-native container orchestration, we evaluated controller decision latency across two complementary settings: (1) online decision latency recorded per step during evaluation across all 30 benchmark seeds ($0.44 \pm 0.15$\,ms per step, Table~\ref{tab:rl_resilience_results}), and (2) dedicated micro-benchmarking across 2,000 continuous timed decisions following a 100-step warm-up on our dedicated testbed (13th Gen Intel Core i7-13700 CPU, 24 logical threads, Ubuntu 22.04 LTS, PyTorch 2.12.0):
-\begin{itemize}
-    \item \textbf{SecChaos-RL:} Dedicated micro-benchmark mean decision latency of $\mathbf{0.463 \pm 0.521}$\,ms, with a median of $0.359$\,ms, 95th percentile ($p_{95}$) of $0.958$\,ms, and 99th percentile ($p_{99}$) of $1.037$\,ms. This micro-benchmark profile closely aligns with the online per-step average ($0.44 \pm 0.15$\,ms) while capturing tail execution latencies. The total model parameter footprint is $0.65$\,MB ($170,127$ parameters).
-    \item \textbf{Standard DRL Baselines:} Standard PPO and A2C require $0.029 \pm 0.003$\,ms ($p_{99} \le 0.035$\,ms, footprint $0.15$\,MB), while DQN requires $0.026 \pm 0.002$\,ms ($p_{99} \le 0.034$\,ms, footprint $0.28$\,MB).
-    \item \textbf{Deterministic Heuristics:} Rule-Based, Threshold-Based, and Queue-Aware heuristics execute in $< 0.008$\,ms ($p_{99} \le 0.012$\,ms, zero parameter memory).
-\end{itemize}
+To assess practical viability for cloud-native container orchestration, we evaluated controller decision latency across two complementary experimental protocols:
+\begin{enumerate}
+    \item \textbf{Online Per-Step Benchmark Latency ($0.44 \pm 0.15$\,ms, Table~\ref{tab:rl_resilience_results}):} Measured during active Phase 3 evaluation across all 30 benchmark seeds ($1,000$ decisions per seed, totaling 30,000 observations). This captures the timing boundary around \texttt{select\_action()} under active multi-process simulation load where background threads and environment stepping run concurrently. The reported value ($0.44 \pm 0.15$\,ms) reflects the mean and standard deviation of per-episode average decision latency across the 30 independent seeds.
+    \item \textbf{Dedicated CPU Microbenchmark Profile ($0.46 \pm 0.52$\,ms mean, $1.04$\,ms $p_{99}$):} Measured in an isolated profiling harness on our dedicated workstation (13th Gen Intel Core i7-13700 CPU, 24 logical threads, Ubuntu 22.04 LTS, PyTorch 2.12.0) across 2,000 continuous timed forward passes following an explicit 100-step warm-up period. This isolated protocol measures single-decision execution without simulation overhead, specifically capturing fine-grained tail latency percentiles required for SRE service-level objectives:
+    \begin{itemize}
+        \item \textbf{SecChaos-RL:} Micro-benchmark mean decision latency of $\mathbf{0.463 \pm 0.521}$\,ms (median $0.359$\,ms, $p_{95} = 0.958$\,ms, $p_{99} = 1.037$\,ms). The model parameter footprint is $0.65$\,MB ($170,127$ parameters).
+        \item \textbf{Standard DRL Baselines:} Standard PPO and A2C require $0.029 \pm 0.003$\,ms ($p_{99} \le 0.035$\,ms, footprint $0.15$\,MB), while DQN requires $0.026 \pm 0.002$\,ms ($p_{99} \le 0.034$\,ms, footprint $0.28$\,MB).
+        \item \textbf{Deterministic Heuristics:} Rule-Based, Threshold-Based, and Queue-Aware heuristics execute in $< 0.008$\,ms ($p_{99} \le 0.012$\,ms, zero parameter memory).
+    \end{itemize}
+\end{enumerate}
 
 \textbf{Practical Implications for Live Cloud Systems:} While deterministic rules execute in microseconds, SecChaos-RL's sub-millisecond inference ($p_{99} \approx 1.0$\,ms) is comfortably within the typical 10--50\,ms reconciliation loop budgets of Kubernetes controllers and service mesh sidecars (such as Envoy and Istio). However, we emphasize that this measurement reflects policy decision latency in the controller; in live Kubernetes deployments, end-to-end remediation latency will also include container initialization, network propagation, and service restart latencies.
 

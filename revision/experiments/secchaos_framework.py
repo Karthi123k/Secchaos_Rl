@@ -304,12 +304,11 @@ class SecChaosEnv:
             
             if is_valid_dispatch:
                 self.prev_mitigation_effectiveness = 1.0
+                # 92% execution success (transient failure modeling)
+                if self._rng.random() < 0.92:
+                    self.action_queue.append((self.step_count + spec["delay"], action))
             else:
                 self.prev_mitigation_effectiveness = 0.2
-                
-            # 92% execution success (transient failure modeling)
-            if self._rng.random() < 0.92:
-                self.action_queue.append((self.step_count + spec["delay"], action))
                 
             action_res_cpu = spec["res_cpu"]
             action_res_mem = spec["res_mem"]
