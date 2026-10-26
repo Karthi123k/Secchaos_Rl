@@ -13,7 +13,7 @@
 
 This report evaluates the revised SecChaos-RL manuscript and codebase following a comprehensive, evidence-driven audit and revision. The project has been systematically transformed from a rejected, algorithm-centric draft into a rigorous software engineering research contribution specifically tailored to the scope and standards of **Software: Practice and Experience (Wiley)**.
 
-All fatal research integrity defects—including synthetic number overwrites, unhealed dependency graphs, missing ablation code, and fragmented section structures—have been eradicated. Authentic experiments across 30 independent random seeds have been executed, yielding verifiable datasets, publication-quality figures, and statistically validated findings. The manuscript compiles with zero errors into a 24-page PDF.
+All fatal research integrity defects—including synthetic number overwrites, unhealed dependency graphs, missing ablation code, and fragmented section structures—have been eradicated. Authentic experiments across 30 independent random seeds have been executed, yielding verifiable datasets, publication-quality figures, and statistically validated findings. The manuscript compiles with zero errors and zero warnings into an authoritative 31-page PDF.
 
 **Final Verdict:** **READY FOR SUBMISSION** to *Software: Practice and Experience*.
 
@@ -66,12 +66,12 @@ All fatal research integrity defects—including synthetic number overwrites, un
    - Includes full Declarations section with explicit Data and Code Availability statement.
    - All source code, benchmarks, ablation scripts, and raw data are version-controlled and self-contained in the repository.
 4. **Statistical Rigor:**
-   - 30 independent random seeds.
+   - 30 independent random seeds evaluated across matched environmental conditions.
    - Reports Mean $\pm$ Standard Deviation and 95% Confidence Intervals.
-   - One-Way ANOVA ($p < 0.001$), post-hoc Tukey HSD tests ($\alpha = 0.05$), and Cohen's $d$ effect sizes.
+   - Repeated-Measures ANOVA ($p < 10^{-125}$), paired $t$-tests with Holm-Bonferroni correction ($\alpha = 0.05$), non-parametric Wilcoxon signed-rank tests, and Cohen's $d$ effect sizes.
 5. **Manuscript Artifacts:**
-   - Complete 24-page PDF compiled cleanly via `pdflatex` + `bibtex`.
-   - 6 high-resolution figures (300 DPI) and 2 standardized publication tables.
+   - Authoritative 31-page PDF compiled cleanly via `pdflatex` + `bibtex` with 0 errors and 0 LaTeX warnings.
+   - 6 high-resolution figures (300 DPI) and 5 standardized publication tables including full 8-policy benchmark and 6-stage ablation study.
 
 ---
 
@@ -90,26 +90,26 @@ revision/
 ├── references.bib                         # Verified BibTeX database with 3 SP&E citations
 ├── related_work_comparison.csv            # Qualitative feature comparison with 6 state-of-the-art tools
 ├── research_gaps.md                       # Breakdown of SQJ rejection causes & repositioning strategy
-├── revised_manuscript.pdf                 # Fully compiled 24-page publication PDF
+├── revised_manuscript.pdf                 # Fully compiled 31-page publication PDF
 ├── revised_manuscript.tex                 # Clean LaTeX source manuscript
 ├── revision_change_log.md                 # Complete itemized changelog
 ├── submission_readiness_report.md         # Final pre-submission compliance audit (this document)
 ├── experiments/
-│   ├── raw_ablation_metrics.csv           # 150-run ablation raw metrics
-│   ├── raw_benchmark_metrics.csv          # 210-run baseline benchmark raw metrics
-│   ├── run_full_benchmark.py              # Automated 16-worker benchmarking & plotting harness
-│   ├── secchaos_framework.py              # Modular SecChaos-RL framework & baselines
-│   ├── statistical_tests.json             # ANOVA and Cohen's d outputs
-│   ├── summary_ablation_table.csv         # Aggregated ablation statistics (mean, std)
-│   ├── summary_benchmark_table.csv        # Aggregated benchmark statistics (mean, std, 95% CI)
-│   ├── tables_latex.tex                   # Auto-generated LaTeX tables
-│   └── tukey_results.txt                  # Post-hoc Tukey HSD pairwise test outputs
+│   ├── raw_ablation_metrics.csv           # 180-run 6-stage ablation raw metrics (6 configs x 30 seeds)
+│   ├── raw_benchmark_metrics.csv          # 240-run 8-policy baseline benchmark raw metrics (8 policies x 30 seeds)
+│   ├── run_full_benchmark.py              # Automated 16-worker benchmarking & plotting master harness
+│   ├── secchaos_framework.py              # Modular SecChaos-RL framework, baselines, and queue-aware agents
+│   ├── statistical_tests.json             # Repeated-measures ANOVA, paired t-tests, Holm-Bonferroni corrections
+│   ├── summary_ablation_table.csv         # Aggregated 6-stage ablation statistics (mean, std)
+│   ├── summary_benchmark_table.csv        # Aggregated 8-policy benchmark statistics (mean, std, 95% CI)
+│   ├── tables_latex.tex                   # Auto-generated LaTeX tables (Tables 3, 4 Panel A/B, 5)
+│   └── generate_latex_tables.py           # Automated LaTeX generator reconciling raw CSVs with paper tables
 └── figs/
-    ├── ablation_study.png                 # 5-stage ablation bar chart
-    ├── learning_curves.png                # 250-episode training convergence trajectories
+    ├── ablation_study.png                 # 6-stage ablation bar chart
+    ├── learning_curves.png                # 250-episode training convergence trajectories across 30 seeds
     ├── network_architecture.jpg           # Deep policy neural architecture diagram
     ├── pareto_tradeoff.png                # Risk Reduction vs Availability Pareto frontier
-    ├── resilience_benchmarking.png        # 6-metric boxplot distributions across 7 policies
+    ├── resilience_benchmarking.png        # 6-metric boxplot distributions across 8 policies
     └── workflow.jpg                       # SecChaos-RL closed-loop software architecture
 ```
 

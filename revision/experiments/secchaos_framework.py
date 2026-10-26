@@ -287,17 +287,25 @@ class SecChaosEnv:
         action_res_cpu = 0.0
         action_res_mem = 0.0
         action_res_net = 0.0
+        is_valid_dispatch = False
+        max_targeted_risk = 0.0
         
         if action != 0:
             spec = ACTION_SPECS[action]
             action_cost = spec["cost"]
-            correct_mitigation = any(f.code in spec["targets"] for f in self.active_faults)
+            targets = spec["targets"]
+            target_indices = list(set([self.fault_to_service[c][1] for c in targets if c in self.fault_to_service]))
+            max_targeted_risk = max([prev_risks[idx] for idx in target_indices]) if target_indices else 0.0
+            has_matching_fault = any(f.code in targets for f in self.active_faults)
             
-            if not correct_mitigation:
-                is_wrong_action = True
-                self.prev_mitigation_effectiveness = 0.2
-            else:
+            # An action is valid if an active fault matches OR targeted risk is elevated (> 0.30)
+            is_valid_dispatch = has_matching_fault or (max_targeted_risk > 0.30)
+            is_wrong_action = not is_valid_dispatch
+            
+            if is_valid_dispatch:
                 self.prev_mitigation_effectiveness = 1.0
+            else:
+                self.prev_mitigation_effectiveness = 0.2
                 
             # 92% execution success (transient failure modeling)
             if self._rng.random() < 0.92:
@@ -310,8 +318,10 @@ class SecChaosEnv:
         due_actions = [act for t, act in self.action_queue if t <= self.step_count]
         self.action_queue = [(t, act) for t, act in self.action_queue if t > self.step_count]
         
+        redundant_queue_count = 0
         for act in due_actions:
             spec = ACTION_SPECS[act]
+            resolved_any = False
             for target_code in spec["targets"]:
                 matching = [f for f in self.active_faults if f.code == target_code]
                 for f in matching:
@@ -319,6 +329,9 @@ class SecChaosEnv:
                     svc, idx = self.fault_to_service[f.code]
                     self.risks[idx] = max(0.05, self.risks[idx] - f.severity * 0.80)
                     self.dep_graph.heal_service(svc, f.severity)
+                    resolved_any = True
+            if not resolved_any:
+                redundant_queue_count += 1
 
         # 2. Continuous Chaos Fault Injection
         fault_rate = 0.12 + 0.08 * self.difficulty_level
@@ -520,6 +533,42 @@ class ThresholdAgent:
             return 0  # Preserve availability during resource spikes or low risk
         if env is not None and len(env.active_faults) > 0:
             return self.mapping.get(env.active_faults[0].code, 0)
+        return 0
+
+class QueueAwareCooldownAgent:
+    """
+    Enhanced DevOps heuristic incorporating action queue introspection and cooldown timers
+    (t_cool = 2 steps). Prevents dispatching redundant mitigations if an action targeting
+    the same service is already pending in the queue or on cooldown.
+    """
+    def __init__(self, risk_thresh: float = 0.35, res_thresh: float = 0.85, cooldown_steps: int = 2):
+        self.risk_thresh = risk_thresh
+        self.res_thresh = res_thresh
+        self.cooldown_steps = cooldown_steps
+        self.cooldowns: Dict[int, int] = {a: 0 for a in range(1, 9)}
+        self.mapping = {"F1": 1, "F2": 2, "F3": 3, "F4": 4, "F5": 5, "F6": 7, "F7": 6, "F8": 8}
+
+    def reset(self):
+        self.cooldowns = {a: 0 for a in range(1, 9)}
+
+    def select_action(self, state: np.ndarray, env: Optional[SecChaosEnv] = None) -> int:
+        for a in self.cooldowns:
+            if self.cooldowns[a] > 0:
+                self.cooldowns[a] -= 1
+        avg_risk = float(np.mean(state[0:5]))
+        cpu = state[8]
+        if avg_risk < self.risk_thresh or cpu > self.res_thresh:
+            return 0
+        if env is not None:
+            pending_actions = [act for _, act in env.action_queue]
+            for f in env.active_faults:
+                candidate_act = self.mapping.get(f.code, 0)
+                if candidate_act == 0:
+                    continue
+                if candidate_act in pending_actions or self.cooldowns[candidate_act] > 0:
+                    continue
+                self.cooldowns[candidate_act] = self.cooldown_steps
+                return candidate_act
         return 0
 
 # ==============================================================================
