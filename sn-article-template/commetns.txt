@@ -1,0 +1,22 @@
+Ref: Submission ID b5280a90-1a75-4573-bda4-55470f82a6a1
+
+Dear Authors
+
+Thank you for submitting your manuscript  "SecChaos-RL: A Threat-Aware Self-Adaptive Resilience Engineering Framework for Secure Software Systems" to Software Quality Journal.
+
+Following an initial editorial assessment, I regret to inform you that we have decided not to send the manuscript for external peer review.
+
+The manuscript addresses an interesting topic concerning the use of reinforcement learning for autonomous mitigation in Security Chaos Engineering environments. However, the technical contribution does not appear sufficiently substantial or clearly differentiated from existing work to warrant publication in Software Quality Journal. The proposed framework formulates security mitigation as a Markov Decision Process and evaluates reinforcement-learning algorithms, including DQN, A2C, and PPO, in a simulated Security Chaos Engineering environment. While this provides an interesting application of established reinforcement-learning techniques, the manuscript does not sufficiently establish a significant methodological advance or a novel software-quality contribution beyond applying these techniques to the considered security-chaos setting.
+
+Furthermore, the empirical evaluation appears to be primarily based on a simulated environment and comparisons among established reinforcement-learning algorithms. The reported improvements in security, availability, and recovery time do not provide sufficient evidence of the broader effectiveness, generalizability, or practical applicability of the proposed approach to real-world microservice systems.
+
+In addition to these concerns regarding the technical contribution, the manuscript has significant presentation issues. In particular, it is divided into a large number of very short sections, which affects the coherence and readability of the manuscript and makes the overall presentation appear insufficiently developed for a journal submission.
+
+Given these concerns regarding the significance and substantiation of the technical contribution, together with the presentation issues, I have decided to decline the manuscript at the editorial screening stage without external review.
+
+Thank you for considering Software Quality Journal for your work.
+
+Best regards,
+Phuong Nguyen
+Editor-in-Chief
+Software Quality Journal

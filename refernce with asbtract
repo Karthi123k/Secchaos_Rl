@@ -1,0 +1,87 @@
+
+refernce :
+\bibitem{myrbakken2020security}
+H.~Myrbakken and R.~Colomo-Palacios, ``DevSecOps: A multivocal literature review,'' in \textit{Proc. Int. Conf. Softw. Process Improvement and Capability Determination (SPICE)}, Cham, Switzerland: Springer, Sep.~2017, pp.~17--29. [Online]. Available: \url{https://doi.org/10.1007/978-3-319-67383-7_2}
+abstract
+Involving security in DevOps has been a challenge because traditional security methods have been unable to keep up with DevOps’ agility and speed. DevSecOps is the movement that works on developing and integrating modernized security methods that can keep up with DevOps. This study is meant to give an overview of what DevSecOps is, what implementing DevSecOps means, the benefits gained from DevSecOps and the challenges an organization faces when doing so. To that end, we conducted a multivocal literature review, where we reviewed a selection of grey literature. We found that implementing security that can keep up with DevOps is a challenge, but it can gain great benefits if done correctly.
+
+
+refernce 
+\bibitem{shortridge2023security}
+K.~Shortridge, \textit{Security Chaos Engineering: Sustaining Resilience in Software and Systems}. Sebastopol, CA, USA: O'Reilly Media, 2023.
+
+Abstract:
+Cybersecurity is broken. Year after year, attackers remain unchallenged and undeterred, while engineering teams feel pressure to design, build, and operate" secure" systems. Failure can't be prevented, mental models of systems are incomplete, and our digital world constantly evolves. How can we verify that our systems behave the way we expect? What can we do to improve our systems' resilience? In this comprehensive guide, authors Kelly Shortridge and Aaron Rinehart help you navigate the challenges of sustaining resilience in complex software systems by using the principles and practices of security chaos engineering. By preparing for adverse events, you can ensure they don't disrupt your ability to innovate, move quickly, and achieve your engineering and business goals. Learn how to design a modern security program Make informed decisions at each phase of software delivery to nurture resilience and adaptive capacity Understand the complex systems dynamics upon which resilience outcomes depend Navigate technical and organizational trade-offsthat distort decision making in systems Explore chaos experimentation to verify critical assumptions about software quality and security Learn how major enterprises leverage security chaos engineering
+
+
+refenrce
+\bibitem{basiri2016chaos}
+A.~Basiri, N.~Behnam, R.~de~Rooij, L.~Hochstein, L.~Kosewski, J.~Reynolds, and C.~Rosenthal, ``Chaos engineering,'' \textit{IEEE Softw.}, vol.~33, no.~3, pp.~35--41, May--Jun.~2016, doi:~10.1109/MS.2016.60.
+Abstract
+Modern software-based services are implemented as distributed systems with complex behavior and failure modes. Many large tech organizations are using experimentation to verify such systems' reliability. Netflix engineers call this approach chaos engineering. They've determined several principles underlying it and have used it to run experiments. This article is part of a theme issue on DevOps.
+
+\bibitem{rosenthal2020chaos}
+C.~Rosenthal and N.~Jones, \textit{Chaos Engineering: System Resiliency in Practice}. Sebastopol, CA, USA: O'Reilly Media, 2020.
+abstract 
+As more companies move toward microservices and other distributed technologies, the complexity of these systems increases. You can't remove the complexity, but through Chaos Engineering you can discover vulnerabilities and prevent outages before they impact your customers. This practical guide shows engineers how to navigate complex systems while optimizing to meet business goals. Two of the field's prominent figures, Casey Rosenthal and Nora Jones, pioneered the discipline while working together at Netflix. In this book, they expound on the what, how, and why of Chaos Engineering while facilitating a conversation from practitioners across industries. Many chapters are written by contributing authors to widen the perspective across verticals within (and beyond) the software industry. Learn how Chaos Engineering enables your organization to navigate complexity Explore a methodology to avoid failures within your application, network, and infrastructure Move from theory to practice through real-world stories from industry experts at Google, Microsoft, Slack, and LinkedIn, among others Establish a framework for thinking about complexity within software systems Design a Chaos Engineering program around game days and move toward highly targeted, automated experiments Learn how to design continuous collaborative chaos experiments
+
+
+
+
+refernce
+\bibitem{owotogbe2025chaos}
+J.~Owotogbe, I.~Kumara, W.~J.~van~den~Heuvel, and D.~Tamburri, ``Chaos engineering: A multi-vocal literature review,'' \textit{ACM Comput. Surv.}, vol.~58, no.~7, pp.~1--44, 2025, doi:~10.1145/3736950.
+
+abstract
+Organizations, particularly medium and large enterprises, typically rely heavily on complex, distributed systems to deliver critical services and products. However, the growing complexity of these systems poses challenges in ensuring service availability, performance, and reliability. Traditional resilience testing methods often fail to capture the intricate interactions and failure modes of modern systems. Chaos Engineering addresses these challenges by proactively testing how systems in production behave under turbulent conditions, allowing developers to uncover and resolve potential issues before they escalate into outages. Though chaos engineering has received growing attention from researchers and practitioners alike, we observed a lack of reviews that synthesize insights from both academic and grey literature. Hence, we conducted a Multivocal Literature Review (MLR) on chaos engineering to address this research gap by systematically analyzing 96 academic and grey literature sources published between January 2016 and April 2024. We first used the chosen sources to derive a unified definition of chaos engineering and to identify key functionalities, components, and adoption drivers. We also developed a taxonomy for chaos engineering platforms, capturing dimensions such as execution environments, automation modes, automation strategies, and deployment types. This taxonomy was then used to compare the relevant chaos engineering tools. The taxonomy enables organizations to align tool selection with their system and infrastructure architectures (e.g., microservices, Kubernetes, or serverless platforms) and resilience objectives, while providing researchers with a consolidated foundation for benchmarking tools and for future work such as mining open-source repositories and extending chaos engineering to AI-enabled systems. Finally, we analyzed the current state of chaos engineering research and identified several open research issues.
+
+
+reference  instead of  H.~Myrbakken, I.~D.~M.~del~Pino, and R.~Colomo-Palacios, ``Security chaos engineering for continuous security assessment in DevOps,'' \textit{Comput. Stand. Interfaces}, vol.~79, p.~103546, 2021. of this i using this refernce
+
+Bedoya, M., Palacios, S., Díaz-López, D., Laverde, E. and Nespoli, P., 2024. Enhancing devsecops practice with large language models and security chaos engineering. International Journal of Information Security, 23(6), pp.3765-3788.
+
+ abstract 
+ Recently, the DevSecOps practice has improved companies’ agile production of secure software, reducing problems and
+improving return on investment. However, overreliance on security tools and traditional security techniques can facilitate the
+implementation of vulnerabilities in different stages of the software lifecycle.. Thus, this paper proposes the integration of a
+Large Language Model to help automate threat discovery at the design stage and Security Chaos Engineering to support the
+identification of security flaws that may be undetected by security tools. A specific use case is described to demonstrate how
+our proposal can be applied to a retail company that has the business need to produce rapidly secure software.
+
+
+refernce
+Standen, M., Lucas, M., Bowman, D., Richer, T.J., Kim, J. and Marriott, D., 2021. Cyborg: A gym for the development of autonomous cyber agents. arXiv preprint arXiv:2108.09118. 
+abstract 
+Autonomous Cyber Operations (ACO) involves the development of blue team (defender) and red team (attacker) decision-making agents in adversarial scenarios. To support the application of machine learning algorithms to solve this problem, and to encourage researchers in this field to attend to problems in the ACO setting, we introduce CybORG, a work-in-progress gym for ACO research. CybORG features a simulation and emulation environment with a common interface to facilitate the rapid training of autonomous agents that can then be tested on real-world systems. Initial testing demonstrates the feasibility of this approach.
+
+
+refernce:
+Sutton, R.S. and Barto, A.G., 1998. Reinforcement learning: An introduction (Vol. 1, No. 1, pp. 9-11). Cambridge: MIT press. 
+
+ 
+
+
+refernce:
+Silver, D., Huang, A., Maddison, C.J., Guez, A., Sifre, L., Van Den Driessche, G., Schrittwieser, J., Antonoglou, I., Panneershelvam, V., Lanctot, M. and Dieleman, S., 2016. Mastering the game of Go with deep neural networks and tree search. nature, 529(7587), pp.484-489.
+
+abstract
+The game of Go has long been viewed as the most challenging of classic games for artificial intelligence owing to its enormous search space and the difficulty of evaluating board positions and moves. Here we introduce a new approach to computer Go that uses ‘value networks’ to evaluate board positions and ‘policy networks’ to select moves. These deep neural networks are trained by a novel combination of supervised learning from human expert games, and reinforcement learning from games of self-play. Without any lookahead search, the neural networks play Go at the level of state-of-the-art Monte Carlo tree search programs that simulate thousands of random games of self-play. We also introduce a new search algorithm that combines Monte Carlo simulation with value and policy networks. Using this search algorithm, our program AlphaGo achieved a 99.8% winning rate against other Go programs, and defeated the human European Go champion by 5 games to 0. This is the first time that a computer program has defeated a human professional player in the full-sized game of Go, a feat previously thought to be at least a decade away. 
+
+refenrce 
+Zheng, M., Zhang, J., Zhan, C., Ren, X. and Lü, S., 2025. Proximal policy optimization with reward-based prioritization. Expert Systems with Applications, 283, p.127659.
+
+abstract:
+ The PPO (Proximal Policy Optimization) algorithm is a policy optimization-based deep reinforcement learning algorithm that has achieved outstanding results and widespread applications. Despite the popularity of the PPO algorithm, it has several notable drawbacks, including its sensitivity to hyperparameters, slow convergence, and limited exploration. In recent research, code-level optimization has been proposed to improve training effectiveness and achieved good performance. In this paper, we propose a Proximal Policy Optimization with Reward-based Prioritization (RP-PPO) algorithm that gives different experiences different priorities to update policy based on reward and find the model that gets the highest average reward. We also apply some minor techniques including Normalized Reward and Dual Learning Rate Decay to optimize our algorithm. Finally, we conduct a series of experiments and tests in four problem domains in the Gym environment to demonstrate the superiority of our algorithm. 
+ 
+ 
+ refernce:
+ Nguyen, T.T. and Reddi, V.J., 2021. Deep reinforcement learning for cyber security. IEEE Transactions on Neural Networks and Learning Systems, 34(8), pp.3779-3795.
+ asbtract
+ The scale of Internet-connected systems has increased considerably, and these systems are being exposed to cyberattacks more than ever. The complexity and dynamics of cyberattacks require protecting mechanisms to be responsive, adaptive, and scalable. Machine learning, or more specifically deep reinforcement learning (DRL), methods have been proposed widely to address these issues. By incorporating deep learning into traditional RL, DRL is highly capable of solving complex, dynamic, and especially high-dimensional cyber defense problems. This article presents a survey of DRL approaches developed for cyber security. We touch on different vital aspects, including DRL-based security methods for cyber–physical systems, autonomous intrusion detection techniques, and multiagent DRL-based game theory simulations for defense strategies against cyberattacks. Extensive discussions and future research directions on DRL-based cyber security are also given. We expect that this comprehensive review provides the foundations for and facilitates future studies on exploring the potential of emerging DRL to cope with increasingly complex cyber security problems. 
+ 
+ refernce: Liu, J., Zhang, Y., Zhou, S., Yang, J., Lu, Y. and Zhong, X., 2025. Autonomous penetration testing using reinforcement learning: A review and perspectives. Expert Systems with Applications, p.130219.
+ 
+ abstract
+ enetration testing (pentesting) assesses cybersecurity through controlled, authorized attacks, but traditional manual methods demand considerable human and time resources. Reinforcement learning (RL), with its agent-environment interaction paradigm, offers a promising approach for autonomous pentesting. Despite remarkable advancements in this field, there is a lack of comprehensive reviews and perspectives on RL-based autonomous pentesting. To address this gap, this paper presents a systematic review of RL-based autonomous pentesting research. We outline the key challenges faced when applying RL in autonomous pentesting and categorize the existing literature into two main areas: attack path planning and autonomous pentesting frameworks, based on the research objectives and hypotheses. Additionally, we offer an in-depth analysis of the latest advancements and limitations in this field, while proposing a perspective on future research directions in the field of RL-based autonomous pentesting. We hope that our work will provide valuable insights for researchers, contributing to the advancement of autonomous pentesting and its practical application in the complex and diverse scenarios of the real world.
+
+

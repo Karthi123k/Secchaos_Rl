@@ -1,0 +1,16 @@
+\begin{table*}[!t]
+\centering
+\caption{SecChaos-RL Quantitative Performance Benchmarking (30 Seeds)}
+\label{tab:rl_resilience_results}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Algorithm} & \textbf{Reward} & \textbf{Risk Red. (\%)} & \textbf{Avail. (\%)} & \textbf{MTTR (steps)} & \textbf{ASR (\%)} & \textbf{Resil. Score (\%)} \\
+\midrule
+DQN & 122.58 \pm 5.82 & 53.18 \pm 2.29 & 84.81 \pm 1.35 & 0.45 \pm 0.11 & 16.47 \pm 4.73 & 69.10 \pm 1.30 \\
+A2C & 109.62 \pm 3.99 & 46.71 \pm 2.46 & 83.57 \pm 1.45 & 0.51 \pm 0.13 & 18.72 \pm 3.42 & 65.43 \pm 1.48 \\
+PPO & 134.53 \pm 4.61 & 58.98 \pm 2.01 & 85.82 \pm 1.36 & 0.38 \pm 0.08 & 12.89 \pm 3.38 & 72.50 \pm 1.11 \\
+SecChaos-RL (Proposed) & \mathbf{182.18 \pm 3.30} & \mathbf{83.49 \pm 2.09} & \mathbf{96.47 \pm 0.98} & \mathbf{0.17 \pm 0.04} & \mathbf{4.54 \pm 1.28} & \mathbf{89.11 \pm 0.96} \\
+\bottomrule
+\end{tabular}
+\end{table*}

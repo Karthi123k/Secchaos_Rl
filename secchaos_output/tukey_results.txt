@@ -1,0 +1,78 @@
+=== Tukey HSD for cumulative_reward ===
+  Multiple Comparison of Means - Tukey HSD, FWER=0.05   
+========================================================
+group1    group2   meandiff p-adj  lower   upper  reject
+--------------------------------------------------------
+   A2C         DQN  12.9535   0.0  9.8544 16.0525   True
+   A2C         PPO   24.906   0.0  21.807 28.0051   True
+   A2C SecChaosPPO  72.5585   0.0 69.4594 75.6575   True
+   DQN         PPO  11.9526   0.0  8.8535 15.0516   True
+   DQN SecChaosPPO   59.605   0.0  56.506 62.7041   True
+   PPO SecChaosPPO  47.6524   0.0 44.5534 50.7515   True
+--------------------------------------------------------
+
+=== Tukey HSD for risk_reduction ===
+  Multiple Comparison of Means - Tukey HSD, FWER=0.05   
+========================================================
+group1    group2   meandiff p-adj  lower   upper  reject
+--------------------------------------------------------
+   A2C         DQN   6.4674   0.0  4.9484  7.9864   True
+   A2C         PPO  12.2611   0.0 10.7421 13.7801   True
+   A2C SecChaosPPO  36.7742   0.0 35.2552 38.2932   True
+   DQN         PPO   5.7937   0.0  4.2747  7.3126   True
+   DQN SecChaosPPO  30.3068   0.0 28.7878 31.8257   True
+   PPO SecChaosPPO  24.5131   0.0 22.9941 26.0321   True
+--------------------------------------------------------
+
+=== Tukey HSD for availability ===
+   Multiple Comparison of Means - Tukey HSD, FWER=0.05   
+=========================================================
+group1    group2   meandiff p-adj   lower   upper  reject
+---------------------------------------------------------
+   A2C         DQN   1.2421 0.0022  0.3555  2.1286   True
+   A2C         PPO   2.2552    0.0  1.3687  3.1418   True
+   A2C SecChaosPPO  12.9056    0.0  12.019 13.7921   True
+   DQN         PPO   1.0132 0.0183  0.1266  1.8997   True
+   DQN SecChaosPPO  11.6635    0.0 10.7769   12.55   True
+   PPO SecChaosPPO  10.6503    0.0  9.7638 11.5369   True
+---------------------------------------------------------
+
+=== Tukey HSD for mttr ===
+   Multiple Comparison of Means - Tukey HSD, FWER=0.05   
+=========================================================
+group1    group2   meandiff p-adj   lower   upper  reject
+---------------------------------------------------------
+   A2C         DQN  -0.0659 0.0452 -0.1308  -0.001   True
+   A2C         PPO  -0.1366    0.0 -0.2015 -0.0716   True
+   A2C SecChaosPPO  -0.3428    0.0 -0.4078 -0.2779   True
+   DQN         PPO  -0.0706 0.0273 -0.1356 -0.0057   True
+   DQN SecChaosPPO  -0.2769    0.0 -0.3419  -0.212   True
+   PPO SecChaosPPO  -0.2063    0.0 -0.2712 -0.1414   True
+---------------------------------------------------------
+
+=== Tukey HSD for attack_success_rate ===
+    Multiple Comparison of Means - Tukey HSD, FWER=0.05    
+===========================================================
+group1    group2   meandiff p-adj   lower    upper   reject
+-----------------------------------------------------------
+   A2C         DQN  -2.2521 0.0652  -4.6006   0.0964  False
+   A2C         PPO  -5.8326    0.0  -8.1812  -3.4841   True
+   A2C SecChaosPPO  -14.188    0.0 -16.5365 -11.8395   True
+   DQN         PPO  -3.5806 0.0007  -5.9291   -1.232   True
+   DQN SecChaosPPO -11.9359    0.0 -14.2844  -9.5874   True
+   PPO SecChaosPPO  -8.3554    0.0 -10.7039  -6.0068   True
+-----------------------------------------------------------
+
+=== Tukey HSD for resilience_score ===
+  Multiple Comparison of Means - Tukey HSD, FWER=0.05   
+========================================================
+group1    group2   meandiff p-adj  lower   upper  reject
+--------------------------------------------------------
+   A2C         DQN   3.6769   0.0  2.8361  4.5177   True
+   A2C         PPO   7.0754   0.0  6.2346  7.9163   True
+   A2C SecChaosPPO  23.6809   0.0 22.8401 24.5218   True
+   DQN         PPO   3.3985   0.0  2.5577  4.2394   True
+   DQN SecChaosPPO   20.004   0.0 19.1632 20.8449   True
+   PPO SecChaosPPO  16.6055   0.0 15.7647 17.4464   True
+--------------------------------------------------------
+

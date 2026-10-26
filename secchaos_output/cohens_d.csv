@@ -1,0 +1,7 @@
+metric,comparison,cohens_d
+cumulative_reward,SecChaosPPO vs PPO,11.679554285108823
+risk_reduction,SecChaosPPO vs PPO,11.750563777335081
+availability,SecChaosPPO vs PPO,8.8495076994661
+mttr,SecChaosPPO vs PPO,-3.205657204727307
+attack_success_rate,SecChaosPPO vs PPO,-3.218211616579703
+resilience_score,SecChaosPPO vs PPO,15.749454971868074
