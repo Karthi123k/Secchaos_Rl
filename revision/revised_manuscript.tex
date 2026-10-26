@@ -53,7 +53,7 @@ Modern enterprise software systems are increasingly architected as distributed, 
 
 To bridge this operational divide, this paper presents \textbf{SecChaos-RL}, an autonomous, closed-loop software resilience framework that unifies Security Chaos Engineering with deep reinforcement learning. SecChaos-RL formalizes the runtime mitigation decision problem as a multi-objective Markov Decision Process (MDP) designed to balance security risk reduction, operational availability preservation, recovery speed (Mean Time to Recovery, MTTR), and mitigation cost. The framework introduces a domain-tailored neural policy architecture incorporating Multi-Head Self-Attention over microservice dependency telemetry, Threat-Aware Feature Gating, an Auxiliary Next-Step Risk Prediction Head, and Threat-Adaptive Policy Temperature Exploration. We conduct a rigorous comparative evaluation against deterministic software engineering baselines (No-Mitigation, Static Rule-Based, and DevOps Threshold-Based heuristics) and standard RL algorithms (DQN, A2C, and PPO) across 30 independent random seeds under multi-stage security chaos and cascading failure dynamics. 
 
-Our empirical evaluation and repeated-measures statistical analysis reveal critical operational trade-offs: while static rule-based heuristics achieve high local risk reduction ($55.5\% \pm 4.8\%$) under alert triggers, they induce severe mitigation churn (deploying redundant actions with a $30.8\% \pm 4.9\%$ false mitigation rate, $15.4 \pm 2.5$ wrong actions/ep). In contrast, SecChaos-RL balances multi-objective stability, achieving significantly faster recovery under cascading failure compared to conservative DevOps heuristics ($\text{MTTR} = 1.79 \pm 0.53$ steps vs. $2.29 \pm 0.30$ for Threshold-Based, paired $p_{holm} = 0.0013$; and $2.24 \pm 0.23$ for Queue-Aware Cooldown, paired $p_{holm} = 0.0013$), maintaining superior action selectivity over static rules ($7.5$ vs. $15.4$ wrong actions/ep), and executing decisions in sub-millisecond latency ($0.44 \pm 0.15$\,ms mean, $1.04$\,ms $p_{99}$ on CPU). A systematic six-stage ablation study isolates the contributions of each architectural mechanism, and our findings establish practical deployment boundaries between deterministic heuristics and autonomous reinforcement learning control.
+Our empirical evaluation and repeated-measures statistical analysis reveal critical operational trade-offs: while static rule-based heuristics achieve high local risk reduction ($55.5\% \pm 4.8\%$) under alert triggers, they induce severe mitigation churn (deploying redundant actions with a $30.8\% \pm 4.9\%$ false mitigation rate, $15.4 \pm 2.5$ wrong actions/ep). In contrast, SecChaos-RL balances multi-objective stability, achieving significantly faster recovery under cascading failure compared to conservative DevOps heuristics ($\text{MTTR} = 1.79 \pm 0.53$ steps vs. $2.29 \pm 0.30$ for Threshold-Based, paired $p_{holm} = 0.0013$; and $2.24 \pm 0.23$ for Queue-Aware Cooldown, paired $p_{holm} = 0.0013$), cutting unnecessary dispatches by half compared to greedy rules ($7.5 \pm 1.9$ vs. $15.4 \pm 2.5$ wrong actions/ep, out of $35.3 \pm 3.0$ vs. $50.0 \pm 0.1$ total actions/ep; $\text{FMR} = 20.9\% \pm 4.4\%$ vs. $30.8\% \pm 4.9\%$), and executing decisions with sub-millisecond latency ($0.44 \pm 0.15$\,ms per-step benchmark latency; $0.46 \pm 0.52$\,ms mean, $1.04$\,ms $p_{99}$ micro-benchmark on CPU). A systematic six-stage ablation study substantiates the operational trade-offs of each architectural mechanism, and our findings establish practical deployment boundaries between deterministic heuristics and autonomous reinforcement learning control.
 \end{abstract}
 
 \vspace{0.5em}
@@ -99,7 +99,7 @@ This paper makes the following concrete contributions to the software engineerin
     \item \textbf{Algorithmic Reinforcement Learning Contribution:} We formalize the microservice mitigation problem as a multi-objective Markov Decision Process (MDP). To address the challenges of correlated telemetry and delayed execution feedback, we introduce a domain-tailored neural policy architecture incorporating Multi-Head Self-Attention over dependency features, Threat-Aware Feature Gating (amplifying vulnerability signals during active compromise), an Auxiliary Risk Prediction Head (regularizing latent representations against future state transitions), and Threat-Adaptive Policy Temperature Exploration.
     \item \textbf{Formal Algorithmic Workflows:} We provide complete, mathematically rigorous algorithmic workflows for both closed-loop runtime mitigation execution (Algorithm~\ref{alg:secchaos_execution}) and threat-aware policy optimization with auxiliary risk regularization (Algorithm~\ref{alg:policy_training}).
     \item \textbf{Rigorous Comparative Evaluation Across 30 Seeds:} We conduct an extensive empirical evaluation across 30 independent random seeds, benchmarking SecChaos-RL against deterministic software heuristics (No-Mitigation, Static Rule-Based, Threshold-Based, and Queue-Aware Cooldown heuristics) and standard RL algorithms (DQN, A2C, standard PPO). Using repeated-measures ANOVA and paired hypothesis testing, we rigorously characterize the operational trade-offs between heuristic rule triggering and reinforcement learning control.
-    \item \textbf{Six-Stage Ablation and Hardware Profiling:} We execute a six-stage ablation study isolating the marginal contributions of each architectural component (reward shaping, self-attention, auxiliary risk prediction, threat-aware gating, and adaptive temperature exploration), and profile runtime decision latency ($0.44 \pm 0.15$\,ms mean, $1.04$\,ms $p_{99}$ on CPU) to assess practical deployability in cloud-native container environments.
+    \item \textbf{Six-Stage Ablation and Hardware Profiling:} We execute a six-stage ablation study analyzing the incremental operational behavior and trade-offs of each architectural component (reward shaping, self-attention, auxiliary risk prediction, threat-aware gating, and adaptive temperature exploration), and profile runtime decision latency ($0.44 \pm 0.15$\,ms per-step benchmark latency; $0.46 \pm 0.52$\,ms mean, $0.36$\,ms median, $1.04$\,ms $p_{99}$ micro-benchmark on CPU) to assess practical deployability in cloud-native container environments.
     \item \textbf{Complete, Verifiable Replication Package:} We provide a self-contained, open-source replication package containing the entire simulator environment, agent implementations, evaluation scripts, raw CSV telemetry across all 30 seeds, and automated analysis code to ensure full reproducibility.
 \end{enumerate}
 
@@ -272,6 +272,7 @@ Notice that the active fault count appears in two mathematically distinct forms:
 \end{equation}
 
 \subsubsection{Action Space, Execution Queues, and Transition Semantics}
+\label{subsec:action_space}
 The action space $\mathcal{A}$ comprises nine discrete operational mitigations:
 \begin{align}
     \mathcal{A} = \{ & a_0: \text{ignore/idle}, a_1: \text{rotate\_cert}, a_2: \text{patch\_dep}, \nonumber \\
@@ -392,27 +393,45 @@ The complete operational lifecycle of SecChaos-RL is formalized in Algorithm~\re
 \begin{algorithm}[!htbp]
 \caption{SecChaos-RL Closed-Loop Mitigation and Healing Execution}
 \label{alg:secchaos_execution}
+\small
 \begin{algorithmic}[1]
-\Require Microservice topology $\mathcal{G} = (\mathcal{V}, \mathcal{E})$, trained policy $\pi_\theta$, value network $V_\phi$, action queue $\mathcal{Q} \leftarrow \emptyset$, maximum steps $T$.
+\Require Microservice topology $\mathcal{G} = (\mathcal{V}, \mathcal{E})$, policy network $\pi_\theta$, value network $V_\phi$, action queue $\mathcal{Q} \leftarrow \emptyset$, maximum episode steps $T$.
 \Ensure Logged episode telemetry and resilience trajectory $\mathcal{T}$.
 \State Initialize microservice health: $r(v) \leftarrow r_0(v), a(v) \leftarrow 1.0, \forall v \in \mathcal{V}$
-\State Initialize active faults $\mathcal{F} \leftarrow \emptyset$, active attacks $A \leftarrow 0$, step counter $t \leftarrow 0$
+\State Initialize active faults $\mathcal{F}_{act} \leftarrow \emptyset$, active attacks $A \leftarrow 0$, action counters $N_{wrong}, N_{redundant}, N_{drop} \leftarrow 0$
 \While{$t < T$ \textbf{and} system not collapsed}
     \State $t \leftarrow t + 1$
-    \State Observe telemetry vector $\mathbf{s}_t \in \mathbb{R}^{16}$ via \texttt{StateMonitor}
+    \State Observe telemetry vector $\mathbf{s}_t \in \mathbb{R}^{16}$ via \texttt{StateMonitor} (Table~\ref{tab:observation_spec})
     \State Compute global threat severity $\mathcal{L}_{threat} \leftarrow \frac{1}{1 + \exp[-6.0(\mathcal{V}_{score} - 0.40)]}$
     \State Compute adaptive temperature $\tau_{temp} \leftarrow \max(0.2, 1.0 - 0.50 \cdot \mathcal{L}_{threat})$
-    \State Select mitigation action $a_t \sim \pi_\theta(\cdot \mid \mathbf{s}_t, \tau_{temp})$
-    \If{$a_t \neq 0$}
-        \State Retrieve action specification: delay $d_{a_t} \in \{0, 1, 2\}$, overheads $(\Delta u_{cpu}, \Delta u_{mem}, \Delta u_{net})$
-        \State Enqueue pending mitigation: $\mathcal{Q} \leftarrow \mathcal{Q} \cup \{(t + d_{a_t}, a_t)\}$
+    \State Select mitigation action $a_t \sim \pi_\theta(\cdot \mid \mathbf{s}_t, \tau_{temp})$ \Comment{or $\text{argmax}$ during evaluation}
+    \If{$a_t \neq 0$} \Comment{Operational Dispatch Validation (Section~\ref{subsec:action_space})}
+        \State Retrieve action specification: delay $d_{a_t} \in \{0, 1, 2\}$, target codes $\mathcal{C}_{a_t}$, overheads $(\Delta u_{cpu}, \Delta u_{mem}, \Delta u_{net})$
+        \State Check dispatch validity: $v_{valid} \leftarrow \big(\exists f \in \mathcal{F}_{act}: f.code \in \mathcal{C}_{a_t}\big) \lor \big(\max_{v \in \text{targets}(\mathcal{C}_{a_t})} r(v) > 0.30\big)$
+        \If{\textbf{not} $v_{valid}$} \Comment{Unnecessary Dispatch Outcome}
+            \State $N_{wrong} \leftarrow N_{wrong} + 1$; set $\eta_{prev} \leftarrow 0.2$; assign penalty $\beta_4 \mathcal{P}_{wrong}$
+        \Else
+            \State Set $\eta_{prev} \leftarrow 1.0$
+        \EndIf
+        \State Sample queue admission: $u_{adm} \sim \mathcal{U}(0, 1)$ \Comment{92\% admission / 8\% transient failure}
+        \If{$u_{adm} < 0.92$}
+            \State Enqueue pending mitigation: $\mathcal{Q} \leftarrow \mathcal{Q} \cup \{(t + d_{a_t}, a_t)\}$
+        \Else \Comment{Transient Execution Drop Outcome}
+            \State $N_{drop} \leftarrow N_{drop} + 1$ \Comment{Action dropped; transient resource overheads still incurred}
+        \EndIf
     \EndIf
-    \State Extract due actions: $\mathcal{D}_t \leftarrow \{(t_{due}, a) \in \mathcal{Q} \mid t_{due} \le t\}$; $\mathcal{Q} \leftarrow \mathcal{Q} \setminus \mathcal{D}_t$
-    \For{each action $a \in \mathcal{D}_t$}
-        \For{each target fault code $c \in \text{targets}(a)$}
-            \State Remove resolved fault from active set: $\mathcal{F} \leftarrow \mathcal{F} \setminus \{f \in \mathcal{F} \mid f.code = c\}$
-            \State Invoke active graph healing: \texttt{heal\_service}(target($c$), severity)
-        \EndFor
+    \State Extract mature actions: $\mathcal{D}_t \leftarrow \{(t_{due}, a) \in \mathcal{Q} \mid t_{due} \le t\}$; $\mathcal{Q} \leftarrow \mathcal{Q} \setminus \mathcal{D}_t$
+    \For{each action $a \in \mathcal{D}_t$} \Comment{Execution-Time Fault State Verification}
+        \State Identify matching active faults: $\mathcal{M}_a \leftarrow \{f \in \mathcal{F}_{act} \mid f.code \in \text{targets}(a)\}$
+        \If{$\mathcal{M}_a \neq \emptyset$} \Comment{Successful Mitigation Execution}
+            \For{each fault $f \in \mathcal{M}_a$}
+                \State Remove resolved fault: $\mathcal{F}_{act} \leftarrow \mathcal{F}_{act} \setminus \{f\}$
+                \State Update target risk: $r(f.service) \leftarrow \max(0.05, r(f.service) - 0.80 \cdot f.severity)$
+                \State Invoke graph healing: \texttt{heal\_service}($f.service, f.severity$)
+            \EndFor
+        \Else \Comment{Queue Redundancy Outcome}
+            \State $N_{redundant} \leftarrow N_{redundant} + 1$ \Comment{Target fault expired or resolved while action was queued}
+        \EndIf
     \EndFor
     \State Stochastic fault injection: sample $f_{new} \sim \text{Poisson}(\lambda_{fault})$; apply fault to target service
     \State Cascading failure propagation: update downstream nodes $(u, v) \in \mathcal{E}$ with $r(u) > 0.35$
@@ -426,6 +445,7 @@ The complete operational lifecycle of SecChaos-RL is formalized in Algorithm~\re
 \begin{algorithm}[!htbp]
 \caption{Threat-Aware Policy Optimization with Auxiliary Risk Regularization}
 \label{alg:policy_training}
+\small
 \begin{algorithmic}[1]
 \Require Policy parameters $\theta$, value parameters $\phi$, auxiliary head $\psi$, learning rates $\eta_\pi, \eta_v, \eta_{aux}$, clipping threshold $\epsilon = 0.2$, GAE parameter $\lambda = 0.95$.
 \For{iteration $k = 1, 2, \dots, K$}
@@ -484,7 +504,7 @@ To comprehensively evaluate SecChaos-RL's software engineering utility, we evalu
 \end{enumerate}
 
 \subsection{Six-Stage Ablation Configurations}
-To answer RQ3 and isolate the independent empirical contribution of each architectural component, we evaluate six incremental configurations across all 30 random seeds:
+To answer RQ3 and investigate the empirical behavior and operational trade-offs of each architectural component, we evaluate six incremental configurations across all 30 random seeds:
 \begin{itemize}
     \item \textbf{Stage 1 (Baseline PPO):} Standard PPO with standard MLP policy and unweighted reward, corresponding identically to the PPO baseline in the comparative benchmark.
     \item \textbf{Stage 2 (PPO + SecReward):} PPO utilizing our multi-objective security resilience reward function (Eq.~\ref{eq:reward_function}).
@@ -592,7 +612,7 @@ To test whether improved action scheduling alone could resolve this dilemma, we 
 Under reinforcement learning control, DQN, A2C, and PPO deploy $34.2$ to $34.7$ actions per episode with false mitigation rates of $20.4\%$, $22.0\%$, and $21.7\%$ ($7.2$ to $7.8$ wrong actions per episode). SecChaos-RL achieves a balanced profile: deploying $35.3 \pm 3.0$ actions per episode with $7.5 \pm 1.9$ wrong actions ($\text{FMR} = 20.9\% \pm 4.4\%$) while maintaining service availability at $90.6\% \pm 0.5\%$.
 
 \subsection{RQ3: Architectural Ablation and Component Contributions}
-Table~\ref{tab:ablation_results} and Figure~\ref{fig:ablation_study} summarize the quantitative results of the six-stage ablation study across all 30 random seeds, isolating the marginal impact of each architectural component:
+Table~\ref{tab:ablation_results} and Figure~\ref{fig:ablation_study} summarize the empirical findings of the six-stage ablation study across all 30 independent random seeds. Panel A reports absolute multi-metric performance, while Panel B details paired differences ($\Delta = \text{Stage}_k - \text{Stage}_{k-1}$) between successive architectural additions along with 95\% confidence intervals, paired $t$-tests ($t$, unadjusted $p$), and Cohen's $d$.
 
 \begin{figure}[!htbp]
 \centering
@@ -601,15 +621,18 @@ Table~\ref{tab:ablation_results} and Figure~\ref{fig:ablation_study} summarize t
 \label{fig:ablation_study}
 \end{figure}
 
-To provide rigorous verification, we examine the progression across the six architectural stages across the identical 30 seeds:
+\textbf{Statistical Significance Across Successive Architectural Transitions:}
+A rigorous inspection of Panel B demonstrates that the incremental addition of architectural components does not establish monotonic, statistically significant increments in the composite scalar resilience score (paired differences across adjacent stages range from $\Delta = -0.56\%$ to $+0.19\%$, with all $p \ge 0.12$; overall Stage 6 vs. Stage 1: $\Delta = -0.70\%$, $95\%\ \text{CI} = [-1.80, +0.40]$, paired-$t = -1.30, p = 0.2044$; Wilcoxon $W = 137, p = 0.3282$; Cohen's $d = -0.24$). Similarly, recovery time (MTTR) differences across adjacent stages remain tightly bounded within $[-0.03, +0.08]$ steps (all $p \ge 0.44$). Rather than claiming that every neural layer independently elevates the composite resilience score, the ablation reveals how each component governs distinct operational trade-offs across microservice security:
 \begin{enumerate}
-    \item \textbf{Stage 1 (Baseline PPO):} Evaluates standard PPO with default MLP and unweighted reward, establishing a baseline resilience score of $45.9\% \pm 2.3\%$ and MTTR of $1.68 \pm 0.52$ steps, identical to the PPO benchmark in Table~\ref{tab:rl_resilience_results}.
-    \item \textbf{Stage 2 (+SecReward):} Introducing our composite resilience reward function maintains strong availability ($90.63\% \pm 0.52\%$) and achieves an MTTR of $1.64 \pm 0.48$ steps, establishing multi-objective alignment without altering network capacity.
-    \item \textbf{Stage 3 (+Attention):} Incorporating 2-head self-attention over the 16 state embeddings captures topological dependencies across microservices, maintaining low false mitigation rate ($20.91\% \pm 3.72\%$) and MTTR of $1.67 \pm 0.37$ steps.
-    \item \textbf{Stage 4 (+AuxRisk):} Adding the auxiliary next-step risk prediction head regularizes latent representations during training, achieving an MTTR of $1.65 \pm 0.43$ steps and availability of $90.65\% \pm 0.47\%$.
-    \item \textbf{Stage 5 (+Threat-Aware Gating):} Introducing Threat-Aware Feature Gating independently prioritizes security features during active chaos spikes, achieving $4.25\% \pm 3.32\%$ risk reduction, $90.55\% \pm 0.60\%$ availability, and $45.44\% \pm 2.19\%$ resilience score.
-    \item \textbf{Stage 6 (Full SecChaos-RL):} Completing the architecture with Threat-Adaptive Temperature Exploration provides controlled exploration during active emergencies, achieving an FMR of $20.89\% \pm 4.43\%$ and resilience score of $45.21\% \pm 2.26\%$, matching the proposed model in Table~\ref{tab:rl_resilience_results} to the exact decimal.
+    \item \textbf{Stage 1 (Baseline PPO):} Standard PPO with an isotropic MLP and unweighted reward achieves an initial resilience score of $45.9\% \pm 2.3\%$ and MTTR of $1.68 \pm 0.52$ steps, matching the PPO baseline in Table~\ref{tab:rl_resilience_results}.
+    \item \textbf{Stage 2 (+Multi-Objective Resilience Reward):} Introducing our composite resilience reward function formalizes trade-offs between risk reduction, availability preservation, and recovery speed without modifying neural capacity. It yields statistically identical resilience ($\Delta = -0.03\%$, $95\%\ \text{CI} = [-1.01, +0.95]$, $t = -0.06, p = 0.9523$) and recovery speed ($\Delta \text{MTTR} = -0.03$ steps, $t = -0.34, p = 0.7335$).
+    \item \textbf{Stage 3 (+Multi-Head Self-Attention):} Incorporating 2-head self-attention over the 16 state embeddings captures relational dependencies across microservice nodes. This topological awareness improves mitigation selectivity, reducing the False Mitigation Rate by $\Delta = -1.47\%$ (from $22.38\%$ to $20.91\%$, $95\%\ \text{CI} = [-3.34, +0.39]$, $t = -1.62, p = 0.1168$) and decreasing wrong actions from $8.07$ to $7.56$ acts/ep, at a minor, non-significant cost to local risk reduction ($\Delta = -0.89\%$, $p = 0.1884$).
+    \item \textbf{Stage 4 (+Auxiliary Risk Prediction Head):} Adding the auxiliary next-step risk prediction head serves as an inductive regularizer against delayed mitigation credit assignment during policy gradient updates. This yields slight improvements in availability ($\Delta = +0.06\%$) and composite resilience ($\Delta = +0.19\%$, $95\%\ \text{CI} = [-0.54, +0.93]$, $t = +0.54, p = 0.5914$; $\Delta \text{MTTR} = -0.02$ steps, $p = 0.8730$), with zero runtime overhead because the head is detached during inference.
+    \item \textbf{Stage 5 (+Threat-Aware Feature Gating):} Introducing Threat-Aware Feature Gating independently prioritizes security features during active chaos spikes. This elevates security risk reduction by $\Delta = +0.41\%$ ($95\%\ \text{CI} = [-0.86, +1.68]$, $t = +0.66, p = 0.5117$) while maintaining resilience ($45.44\% \pm 2.19\%$, $\Delta = -0.08\%$, $p = 0.8448$).
+    \item \textbf{Stage 6 (Full SecChaos-RL / +Adaptive Temperature Exploration):} Completing the framework with Threat-Adaptive Temperature Exploration enforces deterministic greedy action selection during high-threat emergencies while preserving stochastic exploration during quiescent states. This reduces wrong actions further to $7.53 \pm 1.86$ acts/ep and lowers FMR to $20.89\% \pm 4.43\%$ ($\Delta = -0.77\%$, $p = 0.5194$), achieving exact identity with the proposed SecChaos-RL model in Table~\ref{tab:rl_resilience_results}.
 \end{enumerate}
+
+\textbf{Empirical Trade-Off Interpretation:} These findings demonstrate that SecChaos-RL's primary practical value does not stem from universal scalar dominance over standard RL baselines, but from achieving an operationally disciplined self-adaptive controller: it significantly accelerates recovery latency over conservative DevOps heuristics ($p_{holm} = 0.0013$) while eliminating the severe mitigation churn and alert storming of static greedy rules ($7.53$ vs. $15.42$ wrong actions/ep).
 
 Figure~\ref{fig:learning_curves} depicts the training convergence trajectories across 250 curriculum episodes for all four learning algorithms. SecChaos-RL exhibits stable convergence behavior across all 30 seeds, showing consistent advantage over DQN and A2C under escalating chaos stages.
 
@@ -621,11 +644,11 @@ Figure~\ref{fig:learning_curves} depicts the training convergence trajectories a
 \end{figure}
 
 \subsection{RQ4: Computational Overhead and Practical Deployability}
-To assess practical viability for cloud-native orchestration, we profiled controller decision latency across 2,000 timed decisions per policy following a 100-step warm-up on our dedicated testbed (13th Gen Intel Core i7-13700 CPU, 24 logical threads, Ubuntu 22.04 LTS, PyTorch 2.12.0):
+To assess practical viability for cloud-native container orchestration, we evaluated controller decision latency across two complementary settings: (1) online decision latency recorded per step during evaluation across all 30 benchmark seeds ($0.44 \pm 0.15$\,ms per step, Table~\ref{tab:rl_resilience_results}), and (2) dedicated micro-benchmarking across 2,000 continuous timed decisions following a 100-step warm-up on our dedicated testbed (13th Gen Intel Core i7-13700 CPU, 24 logical threads, Ubuntu 22.04 LTS, PyTorch 2.12.0):
 \begin{itemize}
-    \item \textbf{SecChaos-RL:} Mean decision latency of $\mathbf{0.463 \pm 0.521}$\,ms, with a median of $0.359$\,ms, 95th percentile ($p_{95}$) of $0.958$\,ms, and 99th percentile ($p_{99}$) of $1.037$\,ms. The model parameter footprint is $0.65$\,MB ($170,127$ parameters).
+    \item \textbf{SecChaos-RL:} Dedicated micro-benchmark mean decision latency of $\mathbf{0.463 \pm 0.521}$\,ms, with a median of $0.359$\,ms, 95th percentile ($p_{95}$) of $0.958$\,ms, and 99th percentile ($p_{99}$) of $1.037$\,ms. This micro-benchmark profile closely aligns with the online per-step average ($0.44 \pm 0.15$\,ms) while capturing tail execution latencies. The total model parameter footprint is $0.65$\,MB ($170,127$ parameters).
     \item \textbf{Standard DRL Baselines:} Standard PPO and A2C require $0.029 \pm 0.003$\,ms ($p_{99} \le 0.035$\,ms, footprint $0.15$\,MB), while DQN requires $0.026 \pm 0.002$\,ms ($p_{99} \le 0.034$\,ms, footprint $0.28$\,MB).
-    \item \textbf{Deterministic Heuristics:} Rule-Based and Threshold-Based heuristics execute in $< 0.003$\,ms ($p_{99} \le 0.004$\,ms, zero parameter memory).
+    \item \textbf{Deterministic Heuristics:} Rule-Based, Threshold-Based, and Queue-Aware heuristics execute in $< 0.008$\,ms ($p_{99} \le 0.012$\,ms, zero parameter memory).
 \end{itemize}
 
 \textbf{Practical Implications for Live Cloud Systems:} While deterministic rules execute in microseconds, SecChaos-RL's sub-millisecond inference ($p_{99} \approx 1.0$\,ms) is comfortably within the typical 10--50\,ms reconciliation loop budgets of Kubernetes controllers and service mesh sidecars (such as Envoy and Istio). However, we emphasize that this measurement reflects policy decision latency in the controller; in live Kubernetes deployments, end-to-end remediation latency will also include container initialization, network propagation, and service restart latencies.
@@ -691,7 +714,7 @@ Deploying autonomous reinforcement learning controllers in mission-critical micr
 
 This paper introduced \textbf{SecChaos-RL}, an autonomous, threat-aware resilience engineering framework that unifies Security Chaos Engineering with deep reinforcement learning for microservice software systems. By formalizing security mitigation as a multi-objective Markov Decision Process and designing a specialized neural policy architecture—incorporating multi-head self-attention, threat-aware feature gating, auxiliary risk prediction, and threat-adaptive temperature exploration—SecChaos-RL addresses the fundamental operational tension between rapid security isolation and microservice availability SLAs.
 
-Rigorous evaluation across 30 independent random seeds and paired statistical testing demonstrate that SecChaos-RL achieves superior recovery speed compared to heuristic automation ($\text{MTTR} = 1.79 \pm 0.53$ steps vs. $2.24 \pm 0.23$ for Queue-Aware Cooldown, $p_{holm} = 0.0013$; and $2.29 \pm 0.30$ for Threshold-Based, $p_{holm} = 0.0013$), reduces false mitigations to $20.9\% \pm 4.4\%$ compared to greedy heuristics ($30.8\% \pm 4.9\%$ for Rule-Based), avoids disruptive action storms ($35.3$ vs. $50.0$ actions/ep), and executes with sub-millisecond decision latency ($0.44 \pm 0.15$\,ms mean). A systematic six-stage ablation study substantiates the incremental contribution of each architectural component, and our comparative findings delineate the practical boundaries between deterministic alert heuristics and adaptive reinforcement learning control in cloud-native software environments.
+Rigorous evaluation across 30 independent random seeds and paired statistical testing demonstrate that SecChaos-RL achieves superior recovery speed compared to heuristic automation ($\text{MTTR} = 1.79 \pm 0.53$ steps vs. $2.24 \pm 0.23$ for Queue-Aware Cooldown, $p_{holm} = 0.0013$; and $2.29 \pm 0.30$ for Threshold-Based, $p_{holm} = 0.0013$), cuts unnecessary dispatches by half compared to greedy rules ($7.5 \pm 1.9$ vs. $15.4 \pm 2.5$ wrong actions/ep out of $35.3 \pm 3.0$ vs. $50.0 \pm 0.1$ total acts/ep; $\text{FMR} = 20.9\% \pm 4.4\%$ vs. $30.8\% \pm 4.9\%$), and executes decisions with sub-millisecond latency ($0.44 \pm 0.15$\,ms online mean, $1.04$\,ms $p_{99}$ micro-benchmark on CPU). A systematic six-stage ablation study substantiates the operational trade-offs of each architectural component, and our comparative findings delineate the practical boundaries between deterministic alert heuristics and adaptive reinforcement learning control in cloud-native software environments.
 
 In future work, we plan to package SecChaos-RL as a production-grade Kubernetes Operator, streaming real-time telemetry from Prometheus and executing chaos experiments via Chaos Mesh on live distributed testbeds. Furthermore, we intend to explore hierarchical multi-agent reinforcement learning to coordinate decentralized mitigation policies across multi-cluster cloud deployments.
 

@@ -49,11 +49,13 @@ No-Mitigation & $+0.552$ [$+0.286, +0.819$] & $t=4.24$ ($p = 0.0002$) & $p = 0.0
 \begin{table*}[!t]
 \centering
 \scriptsize
-\caption{Ablation Study: Incremental Contribution of Architectural Components Across 30 Seeds (Mean $\pm$ Std. Dev.)}
+\caption{Ablation Study: Architectural Component Analysis Across 30 Independent Random Seeds. Panel A presents absolute metrics (Mean $\pm$ Std. Dev.). Panel B reports paired differences between successive stages ($\Delta = \text{Stage}_k - \text{Stage}_{k-1}$) and overall (Stage 6 vs. Stage 1) with 95\% confidence intervals, paired $t$-tests ($t$, unadjusted $p$), and Cohen's $d$.}
 \label{tab:ablation_results}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lccccccc}
 \toprule
+\multicolumn{8}{c}{\textbf{Panel A: Multi-Metric Performance by Ablation Stage (Mean $\pm$ Std. Dev.)}} \\
+\midrule
 \textbf{Ablation Stage / Configuration} & \textbf{Risk Red. (\%)} & \textbf{Avail. (\%)} & \textbf{MTTR (steps)} & \textbf{Total Acts/Ep} & \textbf{Wrong Acts/Ep} & \textbf{FMR (\%)} & \textbf{Resilience (\%)} \\
 \midrule
 Stage 1: Baseline PPO & $4.8 \pm 3.5$ & $90.6 \pm 0.6$ & $1.68 \pm 0.52$ & $34.2 \pm 2.5$ & $7.7 \pm 2.0$ & $21.7 \pm 5.1$ & $45.9 \pm 2.3$ \\
@@ -62,6 +64,17 @@ Stage 3: + Multi-Head Self-Attention & $3.7 \pm 4.3$ & $90.6 \pm 0.6$ & $1.67 \p
 Stage 4: + Auxiliary Risk Prediction Head & $3.8 \pm 4.0$ & $90.7 \pm 0.5$ & $1.65 \pm 0.43$ & $34.6 \pm 2.7$ & $7.7 \pm 1.9$ & $21.7 \pm 4.7$ & $45.5 \pm 1.7$ \\
 Stage 5: + Threat-Aware Feature Gating & $4.2 \pm 3.3$ & $90.6 \pm 0.6$ & $1.73 \pm 0.44$ & $35.1 \pm 3.5$ & $7.9 \pm 2.0$ & $21.7 \pm 4.7$ & $45.4 \pm 2.2$ \\
 \textbf{Stage 6: Full SecChaos-RL (+ Adaptive Temp Exploration)} & $\mathbf{3.9 \pm 4.1}$ & $\mathbf{90.6 \pm 0.5}$ & $\mathbf{1.79 \pm 0.53}$ & $\mathbf{35.3 \pm 3.0}$ & $\mathbf{7.5 \pm 1.9}$ & $\mathbf{20.9 \pm 4.4}$ & $\mathbf{45.2 \pm 2.3}$ \\
+\midrule
+\multicolumn{8}{c}{\textbf{Panel B: Paired Statistical Differences Between Successive Stages ($\Delta = \text{Stage}_k - \text{Stage}_{k-1}$) and Overall vs. Baseline}} \\
+\midrule
+\textbf{Architectural Transition} & \textbf{$\Delta$ Resilience [95\% CI]} & \textbf{Paired $t$ ($p$)} & \textbf{$\Delta$ MTTR [95\% CI]} & \textbf{Paired $t$ ($p$)} & \textbf{$\Delta$ FMR (\%) [95\% CI]} & \textbf{Paired $t$ ($p$)} & \textbf{Cohen $d$ (Res)} \\
+\midrule
+Stage 2 vs. Stage 1 (+ SecReward) & $-0.03$ [$-1.01, +0.95$] & $t=-0.06$ ($p = 0.9523$) & $-0.03$ [$-0.22, +0.15$] & $t=-0.34$ ($p = 0.7335$) & $+0.72$ [$-1.88, +3.31$] & $t=+0.57$ ($p = 0.5758$) & $-0.01$ \\
+Stage 3 vs. Stage 2 (+ Attention) & $-0.56$ [$-1.28, +0.17$] & $t=-1.57$ ($p = 0.1266$) & $+0.02$ [$-0.19, +0.23$] & $t=+0.24$ ($p = 0.8098$) & $-1.47$ [$-3.34, +0.39$] & $t=-1.62$ ($p = 0.1168$) & $-0.29$ \\
+Stage 4 vs. Stage 3 (+ AuxRisk) & $+0.19$ [$-0.54, +0.93$] & $t=+0.54$ ($p = 0.5914$) & $-0.02$ [$-0.23, +0.19$] & $t=-0.16$ ($p = 0.8730$) & $+0.77$ [$-1.28, +2.82$] & $t=+0.77$ ($p = 0.4502$) & $+0.10$ \\
+Stage 5 vs. Stage 4 (+ Gating) & $-0.08$ [$-0.88, +0.72$] & $t=-0.20$ ($p = 0.8448$) & $+0.08$ [$-0.12, +0.27$] & $t=+0.77$ ($p = 0.4450$) & $-0.02$ [$-1.81, +1.78$] & $t=-0.02$ ($p = 0.9862$) & $-0.04$ \\
+Stage 6 vs. Stage 5 (+ Adaptive Temp) & $-0.23$ [$-1.03, +0.57$] & $t=-0.59$ ($p = 0.5572$) & $+0.06$ [$-0.16, +0.28$] & $t=+0.57$ ($p = 0.5752$) & $-0.77$ [$-3.16, +1.63$] & $t=-0.65$ ($p = 0.5194$) & $-0.11$ \\
+Stage 6 vs. Stage 1 (Full vs. Baseline) & $-0.70$ [$-1.80, +0.40$] & $t=-1.30$ ($p = 0.2044$) & $+0.11$ [$-0.11, +0.34$] & $t=+1.04$ ($p = 0.3065$) & $-0.77$ [$-3.57, +2.03$] & $t=-0.56$ ($p = 0.5787$) & $-0.24$ \\
 \bottomrule
 \end{tabular}}
 \end{table*}

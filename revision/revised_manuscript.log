@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.8.6)  27 OCT 2026 04:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.8.6)  27 OCT 2026 04:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -710,7 +710,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 156--156
  []
 
 [7]
-<figs/workflow.jpg, id=343, 165.9801pt x 297.7524pt>
+<figs/workflow.jpg, id=342, 165.9801pt x 297.7524pt>
 File: figs/workflow.jpg Graphic file (type jpg)
 <use figs/workflow.jpg>
 Package pdftex.def Info: figs/workflow.jpg  used on input line 172.
@@ -743,44 +743,51 @@ Underfull \hbox (badness 10000) in paragraph at lines 212--213
  []
 
 [10] [11] [12] [13]
-<figs/network_architecture.jpg, id=409, 217.0509pt x 203.0787pt>
+<figs/network_architecture.jpg, id=408, 217.0509pt x 203.0787pt>
 File: figs/network_architecture.jpg Graphic file (type jpg)
 <use figs/network_architecture.jpg>
-Package pdftex.def Info: figs/network_architecture.jpg  used on input line 351.
+Package pdftex.def Info: figs/network_architecture.jpg  used on input line 352.
 
 (pdftex.def)             Requested size: 353.31439pt x 330.59703pt.
- [14 <./figs/network_architecture.jpg>]
+ [14 <./figs/network_architecture.jpg>] [15]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 393.
- [15] [16] [17]
-[18] [19] (experiments/tables_latex.tex)
-<figs/resilience_benchmarking.png, id=474, 1156.32pt x 650.43pt>
+put line 394.
+
+Underfull \hbox (badness 2213) in paragraph at lines 409--410
+[] \OT1/cmr/m/n/10 (+20) Re-trieve ac-tion spec-i-fi-ca-tion: de-lay $\OML/cmm/
+m/it/10 d[] \OMS/cmsy/m/n/10 2 f\OT1/cmr/m/n/10 (+20) 0\OML/cmm/m/it/10 ; \OT1/
+cmr/m/n/10 (+20) 1\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 (+20) 2\OMS/cmsy/m/n/10 g$
+\OT1/cmr/m/n/10 (+20) , tar-get codes $\OMS/cmsy/m/n/10 C[]$\OT1/cmr/m/n/10 (+2
+0) , over-heads
+ []
+
+[16] [17] [18] [19] (experiments/tables_latex.tex)
+<figs/resilience_benchmarking.png, id=472, 1156.32pt x 650.43pt>
 File: figs/resilience_benchmarking.png Graphic file (type png)
 <use figs/resilience_benchmarking.png>
 Package pdftex.def Info: figs/resilience_benchmarking.png  used on input line 5
-40.
+60.
 (pdftex.def)             Requested size: 416.72963pt x 234.40274pt.
- [20] [21 <./figs/resilience_benchmarking.png>]
-<figs/pareto_tradeoff.png, id=497, 505.89pt x 361.35pt>
+ [20] [21] [22 <./figs/resilience_benchmarking.png>]
+<figs/pareto_tradeoff.png, id=505, 505.89pt x 361.35pt>
 File: figs/pareto_tradeoff.png Graphic file (type png)
 <use figs/pareto_tradeoff.png>
-Package pdftex.def Info: figs/pareto_tradeoff.png  used on input line 581.
+Package pdftex.def Info: figs/pareto_tradeoff.png  used on input line 601.
 (pdftex.def)             Requested size: 280.83788pt x 200.60124pt.
- [22]
-<figs/ablation_study.png, id=505, 758.835pt x 361.35pt>
+ [23 <./figs/pareto_tradeoff.png>]
+<figs/ablation_study.png, id=514, 758.835pt x 361.35pt>
 File: figs/ablation_study.png Graphic file (type png)
 <use figs/ablation_study.png>
-Package pdftex.def Info: figs/ablation_study.png  used on input line 599.
+Package pdftex.def Info: figs/ablation_study.png  used on input line 619.
 (pdftex.def)             Requested size: 339.72592pt x 161.77342pt.
- [23 <./figs/pareto_tradeoff.png>]
-<figs/learning_curves.png, id=517, 578.16pt x 361.35pt>
+ [24 <./figs/ablation_study.png>]
+<figs/learning_curves.png, id=524, 578.16pt x 361.35pt>
 File: figs/learning_curves.png Graphic file (type png)
 <use figs/learning_curves.png>
-Package pdftex.def Info: figs/learning_curves.png  used on input line 618.
+Package pdftex.def Info: figs/learning_curves.png  used on input line 641.
 (pdftex.def)             Requested size: 326.13744pt x 203.8323pt.
- [24 <./figs/ablation_study.png>] [25 <./figs/learning_curves.png>] [26] [27] [
-28] (revised_manuscript.bbl
-[29] [30]) [31] (revised_manuscript.aux)
+ [25] [26 <./figs/learning_curves.png>] [27] [28] [29]
+(revised_manuscript.bbl [30] [31] [32]) [33] (revised_manuscript.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
@@ -789,19 +796,20 @@ Package rerunfilecheck Info: File `revised_manuscript.out' has not changed.
 (rerunfilecheck)             Checksum: E8AD0B919CEB7281A3DEE0F48EA508EA;8838.
  ) 
 Here is how much of TeX's memory you used:
- 15927 strings out of 467511
- 252649 string characters out of 5412721
- 743072 words of memory out of 5000000
- 44468 multiletter control sequences out of 15000+600000
- 650507 words of font info for 239 fonts, out of 8000000 for 9000
+ 15946 strings out of 467511
+ 252901 string characters out of 5412721
+ 753419 words of memory out of 5000000
+ 44482 multiletter control sequences out of 15000+600000
+ 651051 words of font info for 242 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 74i,12n,79p,1621b,605s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 74i,12n,79p,1621b,684s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </home/karthik/.miktex/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm10
 95.pk> </home/karthik/.miktex/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi600/tc
 rm0600.pk> </home/karthik/.miktex/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi60
 0/tcrm0800.pk></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfonts
 /cm/cmbx10.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfont
 s/cm/cmbx12.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfon
+ts/cm/cmbx7.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfon
 ts/cm/cmbx8.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfon
 ts/cm/cmex10.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfo
 nts/cm/cmmi10.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsf
@@ -817,13 +825,14 @@ ts/cm/cmr8.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfont
 s/cm/cmr9.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfonts
 /cm/cmsy10.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfont
 s/cm/cmsy6.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfont
+s/cm/cmsy7.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfont
 s/cm/cmsy8.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfont
 s/cm/cmti10.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfon
 ts/cm/cmtt10.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfo
 nts/symbols/msbm10.pfb>
-Output written on revised_manuscript.pdf (31 pages, 1989990 bytes).
+Output written on revised_manuscript.pdf (33 pages, 2030124 bytes).
 PDF statistics:
- 723 PDF objects out of 1000 (max. 8388607)
- 197 named destinations out of 1000 (max. 500000)
- 45879 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 745 PDF objects out of 1000 (max. 8388607)
+ 199 named destinations out of 1000 (max. 500000)
+ 48439 words of extra memory for PDF output out of 51595 (max. 10000000)
 

@@ -82,25 +82,26 @@
 \citation{bedoya2024enhancing}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Security Chaos Engineering (SCE) and DevSecOps}{7}{subsection.2.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Reinforcement Learning for Cyber Defense and Mitigation}{7}{subsection.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Critical Synthesis and Identified Gap}{7}{subsection.2.5}\protected@file@percent }
 \citation{salehie2009self,garlan2004rainbow}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Systematic Qualitative Comparison Between SecChaos-RL and Existing Approaches}}{8}{table.caption.1}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{tab:related_work_comparison}{{1}{8}{Systematic Qualitative Comparison Between SecChaos-RL and Existing Approaches}{table.caption.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Critical Synthesis and Identified Gap}{8}{subsection.2.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3}SecChaos-RL Framework Architecture}{8}{section.3}\protected@file@percent }
 \newlabel{sec:architecture}{{3}{8}{SecChaos-RL Framework Architecture}{section.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces SecChaos-RL Closed-Loop Software Architecture: Interaction between the monitored microservice dependency topology, the Security Chaos Engine, telemetry collection, the threat-aware deep RL orchestrator, and the asynchronous mitigation executor.}}{9}{figure.caption.2}\protected@file@percent }
 \newlabel{fig:framework_architecture}{{1}{9}{SecChaos-RL Closed-Loop Software Architecture: Interaction between the monitored microservice dependency topology, the Security Chaos Engine, telemetry collection, the threat-aware deep RL orchestrator, and the asynchronous mitigation executor}{figure.caption.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Threat Model and Decision Methodology}{9}{section.4}\protected@file@percent }
-\newlabel{sec:methodology}{{4}{9}{Threat Model and Decision Methodology}{section.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Threat Model and Fault Taxonomy}{9}{subsection.4.1}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces SecChaos-RL Security Fault Taxonomy}}{10}{table.caption.3}\protected@file@percent }
 \newlabel{tab:fault_categories}{{2}{10}{SecChaos-RL Security Fault Taxonomy}{table.caption.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Markov Decision Process (MDP) Formulation}{10}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Threat Model and Decision Methodology}{10}{section.4}\protected@file@percent }
+\newlabel{sec:methodology}{{4}{10}{Threat Model and Decision Methodology}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Threat Model and Fault Taxonomy}{10}{subsection.4.1}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Complete 16-Dimensional Observation Vector Specification}}{11}{table.caption.4}\protected@file@percent }
 \newlabel{tab:observation_spec}{{3}{11}{Complete 16-Dimensional Observation Vector Specification}{table.caption.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Markov Decision Process (MDP) Formulation}{11}{subsection.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}Observation Space and Feature Specification}{11}{subsubsection.4.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Action Space, Execution Queues, and Transition Semantics}{11}{subsubsection.4.2.2}\protected@file@percent }
+\newlabel{subsec:action_space}{{4.2.2}{11}{Action Space, Execution Queues, and Transition Semantics}{subsubsection.4.2.2}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}Multi-Objective Reward Function}{13}{subsubsection.4.2.3}\protected@file@percent }
 \newlabel{eq:reward_function}{{7}{13}{Multi-Objective Reward Function}{equation.7}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Threat-Aware Neural Network Architecture: Multi-Head Self-Attention over projected state embeddings, Threat-Aware Feature Gating, Auxiliary Risk Prediction, and Actor-Critic heads.}}{14}{figure.caption.5}\protected@file@percent }
@@ -108,52 +109,52 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Deep Policy Architecture and Training Dynamics}{14}{subsection.4.3}\protected@file@percent }
 \citation{vaswani2017attention}
 \citation{aderaldo2025declarative,soldani2023microservice}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Formal Algorithmic Workflows}{15}{subsection.4.4}\protected@file@percent }
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces SecChaos-RL Closed-Loop Mitigation and Healing Execution}}{16}{algorithm.1}\protected@file@percent }
-\newlabel{alg:secchaos_execution}{{1}{16}{SecChaos-RL Closed-Loop Mitigation and Healing Execution}{algorithm.1}{}}
+\citation{mnih2015human}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Formal Algorithmic Workflows}{16}{subsection.4.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {5}Experimental Setup}{16}{section.5}\protected@file@percent }
 \newlabel{sec:setup}{{5}{16}{Experimental Setup}{section.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Microservice Benchmark Topology}{16}{subsection.5.1}\protected@file@percent }
-\citation{mnih2015human}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Threat-Aware Policy Optimization with Auxiliary Risk Regularization}}{17}{algorithm.2}\protected@file@percent }
-\newlabel{alg:policy_training}{{2}{17}{Threat-Aware Policy Optimization with Auxiliary Risk Regularization}{algorithm.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Baseline Policies for Comparison}{17}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Baseline Policies for Comparison}{16}{subsection.5.2}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces SecChaos-RL Closed-Loop Mitigation and Healing Execution}}{17}{algorithm.1}\protected@file@percent }
+\newlabel{alg:secchaos_execution}{{1}{17}{SecChaos-RL Closed-Loop Mitigation and Healing Execution}{algorithm.1}{}}
 \citation{mnih2016asynchronous}
 \citation{schulman2017ppo}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Threat-Aware Policy Optimization with Auxiliary Risk Regularization}}{18}{algorithm.2}\protected@file@percent }
+\newlabel{alg:policy_training}{{2}{18}{Threat-Aware Policy Optimization with Auxiliary Risk Regularization}{algorithm.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Six-Stage Ablation Configurations}{18}{subsection.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Training and Evaluation Protocol}{18}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Training and Evaluation Protocol}{19}{subsection.5.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Quantitative Resilience Metrics}{19}{subsection.5.5}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Quantitative Resilience Performance Benchmarking Across 30 Independent Random Seeds (Mean $\pm $ Std. Dev.)}}{20}{table.caption.6}\protected@file@percent }
-\newlabel{tab:rl_resilience_results}{{4}{20}{Quantitative Resilience Performance Benchmarking Across 30 Independent Random Seeds (Mean $\pm $ Std. Dev.)}{table.caption.6}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Paired Statistical Comparisons: SecChaos-RL versus Comparative Baselines Across 30 Matched Seeds. Reporting both unadjusted and Holm-Bonferroni adjusted $p$-values to control the Family-Wise Error Rate ($\alpha =0.05$) across seven pairwise comparisons.}}{20}{table.caption.7}\protected@file@percent }
-\newlabel{tab:paired_statistical_results}{{5}{20}{Paired Statistical Comparisons: SecChaos-RL versus Comparative Baselines Across 30 Matched Seeds. Reporting both unadjusted and Holm-Bonferroni adjusted $p$-values to control the Family-Wise Error Rate ($\alpha =0.05$) across seven pairwise comparisons}{table.caption.7}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Ablation Study: Incremental Contribution of Architectural Components Across 30 Seeds (Mean $\pm $ Std. Dev.)}}{20}{table.caption.8}\protected@file@percent }
-\newlabel{tab:ablation_results}{{6}{20}{Ablation Study: Incremental Contribution of Architectural Components Across 30 Seeds (Mean $\pm $ Std. Dev.)}{table.caption.8}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Empirical Results and Analysis}{20}{section.6}\protected@file@percent }
 \newlabel{sec:results}{{6}{20}{Empirical Results and Analysis}{section.6}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.1}RQ1: Resilience and Recovery Efficacy}{20}{subsection.6.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Comprehensive quantitative resilience benchmarking across 30 random seeds: Distributions of Risk Reduction, Service Availability, MTTR, Attack Success Rate (ASR), False Mitigation Rate (FMR), and Composite Resilience Score across eight compared policies.}}{21}{figure.caption.9}\protected@file@percent }
-\newlabel{fig:resilience_benchmarking}{{3}{21}{Comprehensive quantitative resilience benchmarking across 30 random seeds: Distributions of Risk Reduction, Service Availability, MTTR, Attack Success Rate (ASR), False Mitigation Rate (FMR), and Composite Resilience Score across eight compared policies}{figure.caption.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}RQ2: Operational Availability and Trade-Off Balance}{22}{subsection.6.2}\protected@file@percent }
-\newlabel{subsec:rq2_availability}{{6.2}{22}{RQ2: Operational Availability and Trade-Off Balance}{subsection.6.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Quantitative Resilience Performance Benchmarking Across 30 Independent Random Seeds (Mean $\pm $ Std. Dev.)}}{21}{table.caption.6}\protected@file@percent }
+\newlabel{tab:rl_resilience_results}{{4}{21}{Quantitative Resilience Performance Benchmarking Across 30 Independent Random Seeds (Mean $\pm $ Std. Dev.)}{table.caption.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Paired Statistical Comparisons: SecChaos-RL versus Comparative Baselines Across 30 Matched Seeds. Reporting both unadjusted and Holm-Bonferroni adjusted $p$-values to control the Family-Wise Error Rate ($\alpha =0.05$) across seven pairwise comparisons.}}{21}{table.caption.7}\protected@file@percent }
+\newlabel{tab:paired_statistical_results}{{5}{21}{Paired Statistical Comparisons: SecChaos-RL versus Comparative Baselines Across 30 Matched Seeds. Reporting both unadjusted and Holm-Bonferroni adjusted $p$-values to control the Family-Wise Error Rate ($\alpha =0.05$) across seven pairwise comparisons}{table.caption.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Ablation Study: Architectural Component Analysis Across 30 Independent Random Seeds. Panel A presents absolute metrics (Mean $\pm $ Std. Dev.). Panel B reports paired differences between successive stages ($\Delta = \text  {Stage}_k - \text  {Stage}_{k-1}$) and overall (Stage 6 vs. Stage 1) with 95\% confidence intervals, paired $t$-tests ($t$, unadjusted $p$), and Cohen's $d$.}}{21}{table.caption.8}\protected@file@percent }
+\newlabel{tab:ablation_results}{{6}{21}{Ablation Study: Architectural Component Analysis Across 30 Independent Random Seeds. Panel A presents absolute metrics (Mean $\pm $ Std. Dev.). Panel B reports paired differences between successive stages ($\Delta = \text {Stage}_k - \text {Stage}_{k-1}$) and overall (Stage 6 vs. Stage 1) with 95\% confidence intervals, paired $t$-tests ($t$, unadjusted $p$), and Cohen's $d$}{table.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Comprehensive quantitative resilience benchmarking across 30 random seeds: Distributions of Risk Reduction, Service Availability, MTTR, Attack Success Rate (ASR), False Mitigation Rate (FMR), and Composite Resilience Score across eight compared policies.}}{22}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:resilience_benchmarking}{{3}{22}{Comprehensive quantitative resilience benchmarking across 30 random seeds: Distributions of Risk Reduction, Service Availability, MTTR, Attack Success Rate (ASR), False Mitigation Rate (FMR), and Composite Resilience Score across eight compared policies}{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}RQ2: Operational Availability and Trade-Off Balance}{23}{subsection.6.2}\protected@file@percent }
+\newlabel{subsec:rq2_availability}{{6.2}{23}{RQ2: Operational Availability and Trade-Off Balance}{subsection.6.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Pareto trade-off between Security Risk Reduction and Service Availability across 30 seeds. Visualizing the operational boundaries between deterministic heuristics and autonomous reinforcement learning policies.}}{23}{figure.caption.10}\protected@file@percent }
 \newlabel{fig:pareto_tradeoff}{{4}{23}{Pareto trade-off between Security Risk Reduction and Service Availability across 30 seeds. Visualizing the operational boundaries between deterministic heuristics and autonomous reinforcement learning policies}{figure.caption.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}RQ3: Architectural Ablation and Component Contributions}{23}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}RQ3: Architectural Ablation and Component Contributions}{24}{subsection.6.3}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Ablation Study: Incremental contribution of SecChaos-RL architectural components across 30 random seeds.}}{24}{figure.caption.11}\protected@file@percent }
 \newlabel{fig:ablation_study}{{5}{24}{Ablation Study: Incremental contribution of SecChaos-RL architectural components across 30 random seeds}{figure.caption.11}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}RQ4: Computational Overhead and Practical Deployability}{24}{subsection.6.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Training convergence trajectories across 30 random seeds through curriculum progression (Stages 0--3) with $95\%$ confidence intervals.}}{25}{figure.caption.12}\protected@file@percent }
-\newlabel{fig:learning_curves}{{6}{25}{Training convergence trajectories across 30 random seeds through curriculum progression (Stages 0--3) with $95\%$ confidence intervals}{figure.caption.12}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Discussion and Practical Implications}{25}{section.7}\protected@file@percent }
-\newlabel{sec:discussion}{{7}{25}{Discussion and Practical Implications}{section.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}When Is Autonomous RL Mitigation Superior to Static Rules?}{25}{subsection.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Industrial Deployment Roadmap for Kubernetes}{26}{subsection.7.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Operational Safety Safeguards for Autonomous Remediation}{26}{subsection.7.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Training convergence trajectories across 30 random seeds through curriculum progression (Stages 0--3) with $95\%$ confidence intervals.}}{26}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:learning_curves}{{6}{26}{Training convergence trajectories across 30 random seeds through curriculum progression (Stages 0--3) with $95\%$ confidence intervals}{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}RQ4: Computational Overhead and Practical Deployability}{26}{subsection.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Discussion and Practical Implications}{27}{section.7}\protected@file@percent }
+\newlabel{sec:discussion}{{7}{27}{Discussion and Practical Implications}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}When Is Autonomous RL Mitigation Superior to Static Rules?}{27}{subsection.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Industrial Deployment Roadmap for Kubernetes}{27}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Operational Safety Safeguards for Autonomous Remediation}{28}{subsection.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Threats to Validity}{28}{section.8}\protected@file@percent }
+\newlabel{sec:validity}{{8}{28}{Threats to Validity}{section.8}{}}
 \citation{aderaldo2025declarative,soldani2023microservice}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Threats to Validity}{27}{section.8}\protected@file@percent }
-\newlabel{sec:validity}{{8}{27}{Threats to Validity}{section.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion and Future Work}{28}{section.9}\protected@file@percent }
-\newlabel{sec:conclusion}{{9}{28}{Conclusion and Future Work}{section.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion and Future Work}{29}{section.9}\protected@file@percent }
+\newlabel{sec:conclusion}{{9}{29}{Conclusion and Future Work}{section.9}{}}
 \bibstyle{IEEEtran}
 \bibdata{references}
 \bibcite{basiri2016chaos}{1}
@@ -197,4 +198,4 @@
 \bibcite{xiao2018iot}{39}
 \bibcite{hou2024large}{40}
 \bibcite{vaswani2017attention}{41}
-\gdef \@abspage@last{31}
+\gdef \@abspage@last{33}

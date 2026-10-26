@@ -1,6 +1,7 @@
 import json
 import pandas as pd
 import numpy as np
+from scipy import stats
 
 def generate_tables():
     with open("statistical_tests.json") as f:
@@ -143,17 +144,19 @@ def generate_tables():
     latex.append("")
 
     # ==============================================================================
-    # Table 5: 6-Stage Ablation Study Results
+    # Table 5: 6-Stage Ablation Study Results (Panel A: Absolute Metrics, Panel B: Paired Differences)
     # ==============================================================================
     latex.append(r"% Table 5: 6-Stage Ablation Study Results")
     latex.append(r"\begin{table*}[!t]")
     latex.append(r"\centering")
     latex.append(r"\scriptsize")
-    latex.append(r"\caption{Ablation Study: Incremental Contribution of Architectural Components Across 30 Seeds (Mean $\pm$ Std. Dev.)}")
+    latex.append(r"\caption{Ablation Study: Architectural Component Analysis Across 30 Independent Random Seeds. Panel A presents absolute metrics (Mean $\pm$ Std. Dev.). Panel B reports paired differences between successive stages ($\Delta = \text{Stage}_k - \text{Stage}_{k-1}$) and overall (Stage 6 vs. Stage 1) with 95\% confidence intervals, paired $t$-tests ($t$, unadjusted $p$), and Cohen's $d$.}")
     latex.append(r"\label{tab:ablation_results}")
     latex.append(r"\resizebox{\textwidth}{!}{")
     latex.append(r"\begin{tabular}{lccccccc}")
     latex.append(r"\toprule")
+    latex.append(r"\multicolumn{8}{c}{\textbf{Panel A: Multi-Metric Performance by Ablation Stage (Mean $\pm$ Std. Dev.)}} \\")
+    latex.append(r"\midrule")
     latex.append(r"\textbf{Ablation Stage / Configuration} & \textbf{Risk Red. (\%)} & \textbf{Avail. (\%)} & \textbf{MTTR (steps)} & \textbf{Total Acts/Ep} & \textbf{Wrong Acts/Ep} & \textbf{FMR (\%)} & \textbf{Resilience (\%)} \\")
     latex.append(r"\midrule")
 
@@ -198,6 +201,54 @@ def generate_tables():
                 f"${fmr_m:.1f} \\pm {fmr_s:.1f}$ & "
                 f"${res_m:.1f} \\pm {res_s:.1f}$ \\\\"
             )
+        latex.append(row_str)
+
+    latex.append(r"\midrule")
+    latex.append(r"\multicolumn{8}{c}{\textbf{Panel B: Paired Statistical Differences Between Successive Stages ($\Delta = \text{Stage}_k - \text{Stage}_{k-1}$) and Overall vs. Baseline}} \\")
+    latex.append(r"\midrule")
+    latex.append(r"\textbf{Architectural Transition} & \textbf{$\Delta$ Resilience [95\% CI]} & \textbf{Paired $t$ ($p$)} & \textbf{$\Delta$ MTTR [95\% CI]} & \textbf{Paired $t$ ($p$)} & \textbf{$\Delta$ FMR (\%) [95\% CI]} & \textbf{Paired $t$ ($p$)} & \textbf{Cohen $d$ (Res)} \\")
+    latex.append(r"\midrule")
+
+    # Compute paired transitions
+    transitions = [
+        ("Stage 2 vs. Stage 1 (+ SecReward)", "Baseline PPO", "PPO + SecReward"),
+        ("Stage 3 vs. Stage 2 (+ Attention)", "PPO + SecReward", "PPO + SecReward + Attention"),
+        ("Stage 4 vs. Stage 3 (+ AuxRisk)", "PPO + SecReward + Attention", "PPO + SecReward + Attention + AuxRisk"),
+        ("Stage 5 vs. Stage 4 (+ Gating)", "PPO + SecReward + Attention + AuxRisk", "PPO + SecReward + Attention + AuxRisk + Gating"),
+        ("Stage 6 vs. Stage 5 (+ Adaptive Temp)", "PPO + SecReward + Attention + AuxRisk + Gating", "Full SecChaos-RL"),
+        ("Stage 6 vs. Stage 1 (Full vs. Baseline)", "Baseline PPO", "Full SecChaos-RL")
+    ]
+
+    for trans_label, prev_k, curr_k in transitions:
+        df_prev = df_a[df_a['algorithm'] == prev_k].sort_values('seed')
+        df_curr = df_a[df_a['algorithm'] == curr_k].sort_values('seed')
+
+        def calc_paired(m):
+            v_p = df_prev[m].values
+            v_c = df_curr[m].values
+            d = v_c - v_p
+            m_d = np.mean(d)
+            s_d = np.std(d, ddof=1)
+            sem = s_d / np.sqrt(len(d))
+            ci = stats.t.interval(0.95, df=len(d)-1, loc=m_d, scale=sem)
+            t_s, p_v = stats.ttest_rel(v_c, v_p)
+            cd = m_d / s_d if s_d > 1e-9 else 0.0
+            return m_d, ci, t_s, p_v, cd
+
+        r_md, r_ci, r_t, r_p, r_cd = calc_paired('resilience_score')
+        m_md, m_ci, m_t, m_p, _ = calc_paired('mttr')
+        f_md, f_ci, f_t, f_p, _ = calc_paired('false_mitigation_rate')
+
+        def fmt_pv(p):
+            return "< 0.0001" if p < 0.0001 else f"= {p:.4f}"
+
+        row_str = (
+            f"{trans_label} & "
+            f"${r_md:+.2f}$ [${r_ci[0]:+.2f}, {r_ci[1]:+.2f}$] & $t={r_t:+.2f}$ ($p {fmt_pv(r_p)}$) & "
+            f"${m_md:+.2f}$ [${m_ci[0]:+.2f}, {m_ci[1]:+.2f}$] & $t={m_t:+.2f}$ ($p {fmt_pv(m_p)}$) & "
+            f"${f_md:+.2f}$ [${f_ci[0]:+.2f}, {f_ci[1]:+.2f}$] & $t={f_t:+.2f}$ ($p {fmt_pv(f_p)}$) & "
+            f"${r_cd:+.2f}$ \\\\"
+        )
         latex.append(row_str)
 
     latex.append(r"\bottomrule")

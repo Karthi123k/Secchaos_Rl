@@ -70,8 +70,8 @@ All fatal research integrity defects—including synthetic number overwrites, un
    - Reports Mean $\pm$ Standard Deviation and 95% Confidence Intervals.
    - Repeated-Measures ANOVA ($p < 10^{-125}$), paired $t$-tests with Holm-Bonferroni correction ($\alpha = 0.05$), non-parametric Wilcoxon signed-rank tests, and Cohen's $d$ effect sizes.
 5. **Manuscript Artifacts:**
-   - Authoritative 31-page PDF compiled cleanly via `pdflatex` + `bibtex` with 0 errors and 0 LaTeX warnings.
-   - 6 high-resolution figures (300 DPI) and 5 standardized publication tables including full 8-policy benchmark and 6-stage ablation study.
+   - Authoritative 33-page PDF compiled cleanly via `pdflatex` + `bibtex` with 0 errors and 0 LaTeX warnings.
+   - 6 high-resolution figures (300 DPI) and 5 standardized publication tables including full 8-policy benchmark and 6-stage ablation study with paired stage differences (Panel A/B).
 
 ---
 
