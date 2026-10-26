@@ -1,0 +1,22 @@
+{
+  "anova_resilience_score": {
+    "f_statistic": 557.4660743490725,
+    "p_value": 3.664467606248879e-123
+  },
+  "anova_risk_reduction": {
+    "f_statistic": 1202.8238057707138,
+    "p_value": 1.164043107164819e-155
+  },
+  "anova_availability": {
+    "f_statistic": 413.8291945191379,
+    "p_value": 6.51723431080808e-111
+  },
+  "anova_mttr": {
+    "f_statistic": 14.643534403494868,
+    "p_value": 7.098464801616588e-14
+  },
+  "cohens_d_vs_ppo": 0.306388565619712,
+  "cohens_d_vs_rule": -10.009781772575215,
+  "cohens_d_vs_threshold": -4.369752721128562,
+  "cohens_d_vs_dqn": -0.14608284625467055
+}

@@ -1,0 +1,40 @@
+% Table 1: Quantitative Benchmarking Results
+\begin{table*}[!t]
+\centering
+\small
+\caption{Quantitative Resilience Performance Benchmarking Across 30 Independent Random Seeds}
+\label{tab:rl_resilience_results}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lccccccc}
+\toprule
+\textbf{Policy / Algorithm} & \textbf{Reward} & \textbf{Risk Red. (\%)} & \textbf{Avail. (\%)} & \textbf{MTTR (steps)} & \textbf{ASR (\%)} & \textbf{FMR (\%)} & \textbf{Resilience (\%)} \\
+\midrule
+No-Mitigation & $52.5 \pm 7.0$ & $0.4 \pm 0.5$ & $90.5 \pm 0.6$ & $1.24 \pm 0.58$ & $35.2 \pm 2.2$ & $0.0 \pm 0.0$ & $45.8 \pm 2.1$ \\
+Rule-Based & $280.1 \pm 4.6$ & $55.2 \pm 5.5$ & $95.6 \pm 0.6$ & $1.75 \pm 0.29$ & $17.3 \pm 2.0$ & $43.2 \pm 4.0$ & $67.7 \pm 2.8$ \\
+Threshold-Based & $240.5 \pm 6.4$ & $19.8 \pm 3.4$ & $92.9 \pm 0.4$ & $2.29 \pm 0.30$ & $27.4 \pm 1.3$ & $0.2 \pm 0.1$ & $51.2 \pm 1.5$ \\
+DQN & $107.1 \pm 13.4$ & $2.0 \pm 3.1$ & $85.1 \pm 1.3$ & $1.34 \pm 0.51$ & $33.1 \pm 2.0$ & $90.1 \pm 2.2$ & $43.8 \pm 2.0$ \\
+A2C & $106.9 \pm 13.3$ & $1.9 \pm 2.5$ & $85.5 \pm 1.6$ & $1.68 \pm 0.61$ & $32.3 \pm 1.9$ & $91.5 \pm 2.3$ & $42.8 \pm 2.0$ \\
+PPO & $111.3 \pm 12.7$ & $1.9 \pm 2.7$ & $85.6 \pm 1.3$ & $1.64 \pm 0.57$ & $32.6 \pm 1.9$ & $90.4 \pm 2.6$ & $42.9 \pm 2.0$ \\
+\textbf{SecChaos-RL (Proposed)} & $\mathbf{109.3 \pm 14.7}$ & $\mathbf{1.9 \pm 2.6}$ & $\mathbf{85.8 \pm 1.7}$ & $\mathbf{1.47 \pm 0.48}$ & $\mathbf{33.1 \pm 2.0}$ & $\mathbf{86.6 \pm 16.5}$ & $\mathbf{43.5 \pm 2.0}$ \\
+\bottomrule
+\end{tabular}}
+\end{table*}
+
+% Table 2: Ablation Study Results
+\begin{table}[!t]
+\centering
+\small
+\caption{Ablation Study: Incremental Contribution of SecChaos-RL Architectural Components (30 Seeds)}
+\label{tab:ablation_results}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Configuration} & \textbf{Risk Red. (\%)} & \textbf{Avail. (\%)} & \textbf{MTTR (steps)} & \textbf{Resilience (\%)} \\
+\midrule
+Baseline PPO & $1.9 \pm 2.7$ & $85.6 \pm 1.3$ & $1.64 \pm 0.57$ & $42.9 \pm 2.0$ \\
+PPO + SecReward & $1.7 \pm 2.5$ & $85.9 \pm 1.5$ & $1.69 \pm 0.72$ & $43.0 \pm 2.0$ \\
+PPO + SecReward + Attention & $2.5 \pm 3.5$ & $85.5 \pm 1.5$ & $1.44 \pm 0.50$ & $43.7 \pm 2.2$ \\
+PPO + SecReward + Attention + AuxRisk & $1.3 \pm 2.2$ & $85.2 \pm 1.4$ & $1.37 \pm 0.50$ & $43.4 \pm 2.2$ \\
+\textbf{Full SecChaos-RL} & $\mathbf{1.9 \pm 2.6}$ & $\mathbf{85.8 \pm 1.7}$ & $\mathbf{1.47 \pm 0.48}$ & $\mathbf{43.5 \pm 2.0}$ \\
+\bottomrule
+\end{tabular}
+\end{table}

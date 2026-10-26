@@ -1,0 +1,6 @@
+Configuration,risk_reduction,availability,mttr,attack_success_rate,resilience_score
+Baseline PPO,1.90 ± 2.75,85.59 ± 1.25,1.64 ± 0.57,32.59 ± 1.91,42.89 ± 2.03
+PPO + SecReward,1.72 ± 2.50,85.88 ± 1.48,1.69 ± 0.72,32.50 ± 1.97,42.96 ± 1.98
+PPO + SecReward + Attention,2.50 ± 3.48,85.48 ± 1.54,1.44 ± 0.50,32.15 ± 1.84,43.70 ± 2.18
+PPO + SecReward + Attention + AuxRisk,1.31 ± 2.25,85.18 ± 1.44,1.37 ± 0.50,32.98 ± 2.05,43.43 ± 2.18
+Full SecChaos-RL,1.94 ± 2.60,85.80 ± 1.67,1.47 ± 0.48,33.08 ± 1.97,43.50 ± 1.99

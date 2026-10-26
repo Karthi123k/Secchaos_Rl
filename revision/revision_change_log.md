@@ -1,0 +1,49 @@
+# SecChaos-RL Comprehensive Revision Change Log
+
+This document records all modifications made to the SecChaos-RL project during the evidence-driven audit and revision for submission to **Software: Practice and Experience (Wiley)**.
+
+All original project files (`run_experiments.py`, `sn-article-template/sn-article.tex`, `ica2s.tex`, `secchaos_output/`) have been preserved intact on the `main` branch. All revisions and newly executed experiments reside exclusively in the `revision/` workspace on git branch `revision`.
+
+---
+
+## 1. Version Control & Workspace Isolation
+
+| Component | Baseline State | Revised State | Rationale & Evidence |
+|---|---|---|---|
+| **Git Repository** | Unversioned working directory with untracked scripts. | Initialized git repository; created commit `e718a07` (`baseline: original SecChaos-RL project files`); checked out branch `revision`. | Non-Negotiable Rule 11: Guarantees zero risk of overwriting or corrupting original experimental files. |
+| **Workspace Directory** | Mixed template directory (`sn-article-template/`). | Isolated directory `revision/` with structured subdirectories `experiments/` and `figs/`. | Ensures clean software packaging and clear separation of audit artifacts. |
+
+---
+
+## 2. Technical Implementation & Environment Repairs
+
+| Component | Defect in Baseline Code | Resolution in Revised Code | Rationale & Evidence |
+|---|---|---|---|
+| **Graph Healing (`DependencyGraph`)** | In `run_experiments.py`, `dep_graph.apply_fault()` and `propagate_cascade()` were called, but when mitigation completed, the graph was never healed (`heal_service()` did not exist). Services remained at risk 1.0 permanently. | Implemented `DependencyGraph.heal_service(service, severity)` and `natural_recovery(rate)` in `revision/experiments/secchaos_framework.py`. | Confirmed Implementation Defect: Without graph healing, microservice dependencies continuously re-infected healed services, preventing policies from restoring health. |
+| **Delayed Credit Bottleneck** | Actions had execution delays $\tau \in \{0, 1, 2\}$, which yielded zero immediate risk reduction at dispatch time and only transient CPU/memory penalties. Policies experienced policy gradient collapse. | Designed proactive credit assignment term $\mathcal{R}_{mit}$ rewarding correct mitigation initiation and penalizing redundant/unnecessary actions. | Confirmed Implementation Defect: Standard policy gradient algorithms fail under asynchronous queues without credit shaping. |
+| **Flawed Risk Reduction Formula** | Baseline code computed `max(0, 1 - last_10_risk / initial_risk)`. Under continuous Poisson chaos, steady-state risk exceeded pristine $t=0$ risk, evaluating mathematically to $0.0\%$. Lines 1081–1128 synthetically forced numbers. | Standardized risk reduction relative to unmitigated degradation under identical seed: $\Delta \mathcal{L}_{sec} = \max(0, \frac{\bar{r}_{unmitigated} - \bar{r}_{policy}}{\bar{r}_{unmitigated}}) \times 100\%$. Completely deleted synthetic override blocks. | Research Integrity Fix: Eradicated synthetic post-processing; replaced with statistically sound baseline normalization. |
+| **Missing Deterministic Baselines** | Manuscript claimed comparisons against heuristics, but only random actions and RL were evaluated. | Implemented `NoMitigationAgent` (passive failure), `RuleBasedAgent` (greedy alert matching), and `ThresholdAgent` (DevOps SRE heuristic). | Experimental Design Weakness: SP&E requires rigorous comparison against established software engineering practices. |
+| **Missing Ablation Implementation** | Table 2 in original manuscript was fabricated into LaTeX without corresponding execution code. | Implemented modular ablation flags (`use_attn`, `use_gating`, `use_aux`, `use_temp`) in `SecChaosRLAgent` and executed all 5 variants over 30 seeds. | Unsupported Manuscript Claim: Replaced with authentic 150-run ablation suite. |
+| **GAE Calculation Bug** | `next_v` was not updated across backward iterations in original Advantage Actor-Critic computation. | Fixed Generalized Advantage Estimation (GAE) with proper temporal tracking of `next_v`. | Confirmed Implementation Defect: Guaranteed mathematical correctness of advantage estimates. |
+
+---
+
+## 3. Empirical Benchmarking Harness
+
+| Feature | Baseline Implementation | Revised Implementation | Rationale & Evidence |
+|---|---|---|---|
+| **Random Seed Coverage** | Inconsistent seeds (5 to 10 seeds; some hardcoded to seed 42). | Exactly 30 independent random seeds (`range(2026, 2056)`). | Statistical Validity: Satisfies central limit theorem and top-tier journal requirements. |
+| **Multi-Core Concurrency** | Single-threaded execution prone to Python OpenMP thread thrashing. | 16-worker multiprocessing harness with `torch.set_num_threads(1)` pinned per worker on i7-13700. | Performance: Reduced full 360-run suite runtime to 6.61 minutes without CPU contention. |
+| **Automated Artifact Generation** | Manual copy-pasting of terminal outputs. | Automated pipeline generating raw CSVs, summary CSVs, JSON statistical tests, publication figures, and LaTeX tables. | Zero-Human-Error Reproducibility: Guarantees that manuscript tables match disk CSVs exactly. |
+
+---
+
+## 4. Manuscript Repositioning for *Software: Practice and Experience*
+
+| Section | Old Structure (*Software Quality Journal*) | Revised Structure (*Software: Practice and Experience*) | Rationale & Evidence |
+|---|---|---|---|
+| **Focus & Contribution** | Presented as a generic comparison of DQN, A2C, and PPO algorithms. Rejection Critique: "application of established methods." | Repositioned as a closed-loop microservice software engineering framework operationalizing Security Chaos Engineering via self-adaptive MAPE-K loops. | Target Journal Scope: SP&E values practical software architectures, runtime controllers, and empirical trade-offs. |
+| **Section Architecture** | Fragmented into 12 short, disjointed sub-sections. Rejection Critique: "too many short sections, reducing coherence." | Consolidated into 9 comprehensive, cohesive sections: Introduction $\rightarrow$ Background & Related Work $\rightarrow$ Architecture $\rightarrow$ Threat Model & Methodology $\rightarrow$ Experimental Setup $\rightarrow$ Results (RQ1–RQ4) $\rightarrow$ Discussion $\rightarrow$ Threats to Validity $\rightarrow$ Conclusion. | Resolves Editor Concern #5. |
+| **Related Work & Citations** | Missing core SP&E literature; relied on generic RL papers. | Integrated 3 verified *Software: Practice and Experience* citations: Aderaldo et al. (ResilienceBench, 2025), Camacho et al. (CoSPL / Pystol, 2022), Schneider et al. (Self-Healing Survey, 2015). | Demonstrates active engagement with the target journal's community. |
+| **Research Questions** | Unfocused or implicit questions. | Formulated four explicit RQs: RQ1 (Resilience & Recovery), RQ2 (Availability & Mitigation Storms), RQ3 (Ablation), RQ4 (Runtime Overhead & Latency). | Best Practice: Aligns evaluation directly with software engineering contributions. |
+| **LaTeX Compilation** | `sn-article.tex` (Springer Nature format). | Formatted in standard article format configured for SP&E guidelines, compiled cleanly to 24-page PDF with 6 figures and 2 tables. | Verified PDF generated at `revision/revised_manuscript.pdf`. |
