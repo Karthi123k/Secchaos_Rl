@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.8.6)  27 OCT 2026 02:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.8.6)  27 OCT 2026 02:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -447,7 +447,7 @@ Package: authblk 2001/02/27 1.3 (PWD)
 \c@authors=\count332
 \c@affil=\count333
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 25.
+Package hyperref Info: Option `colorlinks' set `true' on input line 31.
 
 (/home/karthik/.miktex/texmfs/install/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2026-02-18 L3 backend support: PDF output (pdfTeX)
@@ -455,24 +455,24 @@ File: l3backend-pdftex.def 2026-02-18 L3 backend support: PDF output (pdfTeX)
 ) (revised_manuscript.aux)
 \openout1 = `revised_manuscript.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -530,19 +530,19 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 (/home/karthik/.miktex/texmfs/install/tex/latex/00miktex/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring ON on input line 40.
+Package hyperref Info: Link coloring ON on input line 46.
 
 (revised_manuscript.out) (revised_manuscript.out)
 \@outlinefile=\write3
 \openout3 = `revised_manuscript.out'.
 
-LaTeX Info: Redefining \microtypecontext on input line 40.
-Package microtype Info: Applying patch `item' on input line 40.
-Package microtype Info: Applying patch `toc' on input line 40.
-Package microtype Info: Applying patch `eqnum' on input line 40.
-Package microtype Info: Applying patch `footnote' on input line 40.
-Package microtype Info: Applying patch `verbatim' on input line 40.
-LaTeX Info: Redefining \microtypesetup on input line 40.
+LaTeX Info: Redefining \microtypecontext on input line 46.
+Package microtype Info: Applying patch `item' on input line 46.
+Package microtype Info: Applying patch `toc' on input line 46.
+Package microtype Info: Applying patch `eqnum' on input line 46.
+Package microtype Info: Applying patch `footnote' on input line 46.
+Package microtype Info: Applying patch `verbatim' on input line 46.
+LaTeX Info: Redefining \microtypesetup on input line 46.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -560,7 +560,7 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 )
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 42.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 48.
 
 
 (/home/karthik/.miktex/texmfs/install/tex/latex/amsfonts/umsa.fd
@@ -569,7 +569,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/home/karthik/.miktex/texmfs/install/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 42.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 48.
 
 
 (/home/karthik/.miktex/texmfs/install/tex/latex/amsfonts/umsb.fd
@@ -582,226 +582,226 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 {/home/karthik/.miktex/texmfs/data/fonts/map/pdftex/pdftex.map}] [2] [3] [4] [5
 ]
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/bx/n/10 (+20) Mitigation
  []
 
 
-Underfull \hbox (badness 4084) in paragraph at lines 143--143
+Underfull \hbox (badness 4084) in paragraph at lines 152--152
 []|\OT1/cmr/bx/n/10 (+20) Key Lim-i-ta-tion /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 (+20) Passive ter-mi-na-
  []
 
 
-Underfull \hbox (badness 4181) in paragraph at lines 143--143
+Underfull \hbox (badness 4181) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 (+20) Hybrid Cloud /
  []
 
 
-Underfull \hbox (badness 5316) in paragraph at lines 143--143
+Underfull \hbox (badness 5316) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 (+20) Network la-tency,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 (+20) Microservices /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 (+20) Network drop,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 (+20) Static
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 (+20) Self-Healing Sur-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 (+20) Rule-based
  []
 
 
-Underfull \hbox (badness 1755) in paragraph at lines 143--143
+Underfull \hbox (badness 1755) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 (+20) Resource ex-haus-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 (+20) Restart, repli-ca-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 \OT1/cmr/m/n/10 (+20) mi-croser-vices; lacks
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 (+20) Gym RL
  []
 
 
-Underfull \hbox (badness 4543) in paragraph at lines 143--143
+Underfull \hbox (badness 4543) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 (+20) Static net-works; ig-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 \OT1/cmr/m/n/10 (+20) nores mi-croser-vice
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 (+20) DevSecOps
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 (+20) Design-time ad-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 (+20) Build-time anal-y-sis;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/bx/n/10 (+20) SecChaos-RL
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/bx/n/10 (+20) Closed-loop
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/bx/n/10 (+20) 8 Se-cu-rity
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/bx/n/10 (+20) Autonomous,
  []
 
 
-Underfull \hbox (badness 1881) in paragraph at lines 143--143
+Underfull \hbox (badness 1881) in paragraph at lines 152--152
 \OT1/cmr/bx/n/10 (+20) bal-anc-ing of se-cu-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 \OT1/cmr/bx/n/10 (+20) rity, avail-abil-ity,
  []
 
 [7]
-<figs/workflow.jpg, id=281, 165.9801pt x 297.7524pt>
+<figs/workflow.jpg, id=336, 165.9801pt x 297.7524pt>
 File: figs/workflow.jpg Graphic file (type jpg)
 <use figs/workflow.jpg>
-Package pdftex.def Info: figs/workflow.jpg  used on input line 159.
-(pdftex.def)             Requested size: 416.72963pt x 747.61855pt.
-
-
-LaTeX Warning: Float too large for page by 104.03143pt on input line 162.
-
+Package pdftex.def Info: figs/workflow.jpg  used on input line 168.
+(pdftex.def)             Requested size: 148.3879pt x 266.19603pt.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 167.
-
-Underfull \hbox (badness 10000) in paragraph at lines 192--193
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 176.
+ [8]
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
 []|\OT1/cmr/m/n/10 (+20) Insecure chan-nel; en-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 192--193
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
 \OT1/cmr/m/n/10 (+20) ables Man-in-the-Middle
  []
 
 
-Underfull \hbox (badness 5077) in paragraph at lines 196--197
+Underfull \hbox (badness 5077) in paragraph at lines 205--206
 []|\OT1/cmr/m/n/10 (+20) Brute-force sus-cep-ti-bil-ity;
  []
 
 
-Underfull \hbox (badness 1033) in paragraph at lines 198--199
+Underfull \hbox (badness 1033) in paragraph at lines 207--208
 []|\OT1/cmr/m/n/10 (+20) Unpatched op-er-at-ing sys-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--200
+Underfull \hbox (badness 10000) in paragraph at lines 208--209
 []|\OT1/cmr/m/n/10 (+20) Unauthenticated in-ter-nal
  []
 
-[8]
-Overfull \hbox (5.64043pt too wide) detected at line 222
+[9 <./figs/workflow.jpg>]
+Overfull \hbox (5.64043pt too wide) detected at line 231
 [][][]\OML/cmm/m/it/10.95 o[] \OT1/cmr/m/n/10.95 = [][]
  []
 
-[9]
-<figs/network_architecture.jpg, id=309, 217.0509pt x 203.0787pt>
+[10]
+<figs/network_architecture.jpg, id=367, 217.0509pt x 203.0787pt>
 File: figs/network_architecture.jpg Graphic file (type jpg)
 <use figs/network_architecture.jpg>
-Package pdftex.def Info: figs/network_architecture.jpg  used on input line 260.
+Package pdftex.def Info: figs/network_architecture.jpg  used on input line 270.
 
-(pdftex.def)             Requested size: 385.02547pt x 360.27043pt.
- [10] [11] [12] (experiments/tables_latex.tex
+(pdftex.def)             Requested size: 353.31439pt x 330.59703pt.
+ [11] [12 <./figs/network_architecture.jpg>]
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
+put line 305.
+ [13] [14] [15]
+(experiments/tables_latex.tex
 Overfull \hbox (71.31435pt too wide) in paragraph at lines 29--40
  [][] 
  []
 
 )
-<figs/resilience_benchmarking.png, id=351, 1084.05pt x 650.43pt>
+<figs/resilience_benchmarking.png, id=422, 1084.05pt x 650.43pt>
 File: figs/resilience_benchmarking.png Graphic file (type png)
 <use figs/resilience_benchmarking.png>
-Package pdftex.def Info: figs/resilience_benchmarking.png  used on input line 3
-67.
-(pdftex.def)             Requested size: 452.9679pt x 271.77934pt.
- [13] [14]
-<figs/pareto_tradeoff.png, id=379, 505.89pt x 361.35pt>
+Package pdftex.def Info: figs/resilience_benchmarking.png  used on input line 4
+43.
+(pdftex.def)             Requested size: 416.72963pt x 250.03421pt.
+ [16] [17 <./figs/resilience_benchmarking.png>]
+<figs/pareto_tradeoff.png, id=450, 505.89pt x 361.35pt>
 File: figs/pareto_tradeoff.png Graphic file (type png)
 <use figs/pareto_tradeoff.png>
-Package pdftex.def Info: figs/pareto_tradeoff.png  used on input line 393.
-(pdftex.def)             Requested size: 308.01485pt x 220.01515pt.
-<figs/ablation_study.png, id=382, 650.43pt x 325.215pt>
+Package pdftex.def Info: figs/pareto_tradeoff.png  used on input line 465.
+(pdftex.def)             Requested size: 280.83788pt x 200.60124pt.
+ [18 <./figs/pareto_tradeoff.png>]
+<figs/ablation_study.png, id=459, 650.43pt x 325.215pt>
 File: figs/ablation_study.png Graphic file (type png)
 <use figs/ablation_study.png>
-Package pdftex.def Info: figs/ablation_study.png  used on input line 403.
-(pdftex.def)             Requested size: 362.37569pt x 181.1912pt.
-<figs/learning_curves.png, id=384, 578.16pt x 361.35pt>
+Package pdftex.def Info: figs/ablation_study.png  used on input line 479.
+(pdftex.def)             Requested size: 339.72592pt x 169.86705pt.
+ [19 <./figs/ablation_study.png>]
+<figs/learning_curves.png, id=472, 578.16pt x 361.35pt>
 File: figs/learning_curves.png Graphic file (type png)
 <use figs/learning_curves.png>
-Package pdftex.def Info: figs/learning_curves.png  used on input line 420.
-(pdftex.def)             Requested size: 339.72592pt x 212.329pt.
- [15] [16] [17] (revised_manuscript.bbl [18] [19]) [20] [21 <./figs/workflow.jp
-g>] [22 <./figs/network_architecture.jpg>] [23 <./figs/resilience_benchmarking.
-png> <./figs/pareto_tradeoff.png>] [24 <./figs/ablation_study.png> <./figs/lear
-ning_curves.png>] (revised_manuscript.aux)
+Package pdftex.def Info: figs/learning_curves.png  used on input line 496.
+(pdftex.def)             Requested size: 326.13744pt x 203.8323pt.
+ [20 <./figs/learning_curves.png>] [21]
+[22] (revised_manuscript.bbl [23] [24]) [25] (revised_manuscript.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
  ***********
 Package rerunfilecheck Info: File `revised_manuscript.out' has not changed.
-(rerunfilecheck)             Checksum: 13F29BB479FD5994144632132FFFBE95;7970.
+(rerunfilecheck)             Checksum: D41CF68F5F5A7BA98AE933DF17BF897B;8174.
  ) 
 Here is how much of TeX's memory you used:
- 15745 strings out of 467511
- 249854 string characters out of 5412721
- 722439 words of memory out of 5000000
- 44382 multiletter control sequences out of 15000+600000
- 649479 words of font info for 221 fonts, out of 8000000 for 9000
+ 15845 strings out of 467511
+ 251548 string characters out of 5412721
+ 725406 words of memory out of 5000000
+ 44446 multiletter control sequences out of 15000+600000
+ 649965 words of font info for 227 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 74i,11n,79p,1547b,607s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 74i,11n,79p,1740b,601s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </home/karthik/.miktex/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm10
 95.pk> </home/karthik/.miktex/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi600/tc
 rm0600.pk> </home/karthik/.miktex/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi60
@@ -822,9 +822,9 @@ ts/cm/cmsy8.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfon
 ts/cm/cmti10.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfo
 nts/cm/cmtt10.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsf
 onts/symbols/msbm10.pfb>
-Output written on revised_manuscript.pdf (24 pages, 1735916 bytes).
+Output written on revised_manuscript.pdf (25 pages, 1772304 bytes).
 PDF statistics:
- 553 PDF objects out of 1000 (max. 8388607)
- 142 named destinations out of 1000 (max. 500000)
- 47911 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 633 PDF objects out of 1000 (max. 8388607)
+ 166 named destinations out of 1000 (max. 500000)
+ 47919 words of extra memory for PDF output out of 51595 (max. 10000000)
 
