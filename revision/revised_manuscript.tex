@@ -17,6 +17,12 @@
 \usepackage{url}
 \usepackage{authblk}
 
+% Float placement parameters to prevent figures from drifting to the document end
+\renewcommand{\topfraction}{0.90}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.10}
+\renewcommand{\floatpagefraction}{0.80}
+
 \hypersetup{
     colorlinks=true,
     linkcolor=blue!70!black,
@@ -42,9 +48,9 @@
 \maketitle
 
 \begin{abstract}
-Modern enterprise software systems are increasingly deployed as complex, distributed microservice topologies. While microservice decomposition improves scalability and deployment agility, it dramatically expands the operational attack surface and introduces intricate dependency failure modes. Security Chaos Engineering (SCE) proactively exposes system vulnerabilities by intentionally injecting security faults; however, existing SCE practices remain predominantly manual, offline, and disconnected from runtime mitigation loops. Furthermore, automated security mitigation in live microservices introduces a profound operational tension: aggressive defensive actions (e.g., immediate container restarts, aggressive traffic isolation, or rollback cascades) frequently trigger downstream availability collapse and severe service-level objective (SLO) violations. 
+Modern enterprise software systems are increasingly architected as distributed, multi-tier microservice topologies deployed across cloud-native container orchestration environments. While microservice decomposition enhances developer velocity and elasticity, it dramatically expands the operational attack surface and introduces complex dependency failure propagation pathways. Security Chaos Engineering (SCE) proactively uncovers vulnerabilities by intentionally injecting security turbulence into running systems; however, contemporary SCE practices remain overwhelmingly manual, declarative, and open-loop. Furthermore, automating security remediation in live distributed architectures introduces a profound operational dilemma: aggressive mitigations (such as container restarts, credential revocations, or network isolation) frequently trigger cascading transaction timeouts and catastrophic availability collapse.
 
-To overcome these challenges, this paper presents \textbf{SecChaos-RL}, an open, modular software framework that operationalizes closed-loop, threat-aware resilience engineering for microservice systems. SecChaos-RL models the mitigation decision space as a multi-objective Markov Decision Process (MDP) designed to balance security risk reduction, operational availability preservation, and rapid recovery time (MTTR). The framework features a deep reinforcement learning architecture incorporating multi-head self-attention over dependency telemetry, threat-aware feature gating, an auxiliary next-step risk prediction head, and threat-adaptive policy temperature exploration. We validate SecChaos-RL against six baseline policies—including deterministic software engineering baselines (No-Mitigation, Static Rule-Based, and DevOps Threshold-Based heuristics) and standard RL algorithms (DQN, A2C, and PPO)—across 30 independent random seeds under multi-stage security chaos and cascading failure dynamics. The empirical evaluation confirms that SecChaos-RL achieves superior systemic resilience, eliminating false mitigation storms and maintaining high service availability while outperforming static rule heuristics and standard RL baselines. A systematic five-stage ablation study isolates the contributions of each architectural component, and runtime profiling verifies sub-millisecond decision latency, demonstrating practical deployability for cloud-native software environments.
+To bridge this operational divide, this paper presents \textbf{SecChaos-RL}, an autonomous, closed-loop software resilience framework that unifies Security Chaos Engineering with deep reinforcement learning. SecChaos-RL formalizes the runtime mitigation decision problem as a multi-objective Markov Decision Process (MDP) designed to balance security risk reduction, operational availability preservation, recovery speed (MTTR), and mitigation cost. The framework introduces a domain-tailored neural policy architecture incorporating Multi-Head Self-Attention over microservice dependency telemetry, Threat-Aware Feature Gating, an Auxiliary Next-Step Risk Prediction Head, and Threat-Adaptive Policy Temperature Exploration. We conduct a rigorous comparative evaluation against deterministic software engineering baselines (No-Mitigation, Static Rule-Based, and DevOps Threshold-Based heuristics) and standard RL algorithms (DQN, A2C, and PPO) across 30 independent random seeds under multi-stage security chaos and cascading failure dynamics. The empirical evaluation demonstrates that SecChaos-RL achieves superior recovery time ($\text{MTTR} = 1.47 \pm 0.48$ steps vs. $1.64$ for standard PPO and $1.68$ for A2C), reduces false mitigation churn ($86.6\%$ vs. $91.5\%$), and delivers sub-millisecond decision latency ($0.52 \pm 0.26$\,ms per step on CPU), verifying practical feasibility for cloud-native orchestration controllers. A systematic five-stage ablation study isolates the contributions of each architectural mechanism, and our findings establish the operational boundaries between deterministic heuristics and autonomous reinforcement learning control.
 \end{abstract}
 
 \vspace{0.5em}
@@ -58,21 +64,21 @@ To overcome these challenges, this paper presents \textbf{SecChaos-RL}, an open,
 \section{Introduction}
 \label{sec:introduction}
 
-Distributed microservice architectures have become the foundational paradigm for cloud-native enterprise computing, supporting high-throughput transaction processing in finance, healthcare, telecommunications, and critical infrastructure~\cite{basiri2016chaos, aderaldo2025declarative}. In a microservice ecosystem, fine-grained services communicate via asynchronous messaging and lightweight REST or gRPC APIs, managed dynamically by orchestration platforms such as Kubernetes~\cite{aderaldo2025declarative, camacho2022chaos}. While this decoupled architectural style enables independent service deployment and horizontal elasticity, it introduces unprecedented software complexity: service dependency graphs often span dozens of interdependent microservices, creating expansive, porous attack surfaces and nonlinear failure propagation pathways~\cite{myrbakken2020security, esen2025chaos}.
+Distributed microservice architectures have become the foundational paradigm for cloud-native enterprise computing, supporting large-scale mission-critical applications in finance, telecommunications, healthcare, and e-commerce~\cite{basiri2016chaos, aderaldo2025declarative, soldani2023microservice}. In contrast to monolithic software, microservice systems decompose enterprise logic into fine-grained, independently deployable services that communicate across lightweight network protocols (e.g., REST, gRPC) and asynchronous message queues~\cite{taibi2021microservice, camacho2022chaos}. While this architectural decoupling enables continuous deployment and organizational scaling, it dramatically magnifies software complexity: real-world service dependency graphs span dozens of interdependent services, creating expansive, porous attack surfaces and nonlinear failure propagation pathways~\cite{esen2025chaos, myrbakken2020security}.
 
-Traditional software security practices—such as pre-commit static application security testing (SAST), pre-deployment dynamic application security testing (DAST), penetration testing, and periodic vulnerability scanning—provide essential build-time guarantees~\cite{shortridge2023security, bedoya2024enhancing}. However, these static techniques are fundamentally blind to runtime emergence: they evaluate components in isolation and cannot predict how active cyber threats, misconfigurations, and cascading operational degradations interact across interconnected services under live traffic~\cite{shortridge2023security, owotogbe2025chaos}.
+Ensuring continuous software correctness and reliability in hyperscale environments represents a paramount software engineering challenge~\cite{brooker2025systems}. Traditional pre-production software security practices—such as pre-commit static application security testing (SAST), pre-deployment dynamic testing (DAST), automated test plan generation~\cite{haldar2026testplan}, static buffer-overflow vulnerability analysis~\cite{huang2026cotstatic}, bug report classification~\cite{du2024llmbrc}, and opcode slicing-enhanced vulnerability learning~\cite{tong2026osel}—provide vital build-time guarantees. However, these static techniques are fundamentally blind to runtime emergence: they analyze components in isolation and cannot predict how active cyber threats, configuration drifts, and cascading operational degradations interact across interconnected services under live production traffic~\cite{shortridge2023security, owotogbe2025chaos}. Furthermore, adversarial manipulation of software analytics models~\cite{awal2025adversarial} highlights the necessity of validating defensive mechanisms under active, adversarial runtime conditions.
 
-To bridge this operational gap, the software engineering community has embraced \textit{Chaos Engineering}—the discipline of experimenting on a software system to build confidence in its capability to withstand turbulent conditions in production~\cite{basiri2016chaos, owotogbe2025chaos}. Originating with infrastructure-focused tools such as Netflix's Chaos Monkey and evolving into cloud-native platforms like Chaos Mesh and LitmusChaos, chaos engineering systematically injects hardware crashes, network partitions, and resource starvation~\cite{camacho2022chaos, esen2025chaos}. Recently, this methodology has expanded into \textit{Security Chaos Engineering} (SCE)~\cite{shortridge2023security, myrbakken2021security}. Rather than focusing solely on server crashes, SCE injects security-specific turbulence—such as expired TLS certificates, vulnerable third-party dependencies, credential leaks, privilege escalations, and API misconfigurations—to validate defensive controls under adversarial conditions~\cite{myrbakken2021security, bedoya2024enhancing}.
+To address this challenge, the software engineering community has embraced \textit{Chaos Engineering}—the discipline of experimenting on a software system to build confidence in its capability to withstand turbulent conditions in production~\cite{basiri2016chaos, rosenthal2020chaos}. Originating with infrastructure-focused tools such as Netflix's Chaos Monkey and evolving into cloud-native platforms like ChaosBlade~\cite{chaosblade2021}, LitmusChaos~\cite{litmus2022}, Gremlin~\cite{gremlin2022}, Chaos Mesh~\cite{chaosmesh2021}, and AWS Fault Injection Simulator~\cite{awsfis2023}, chaos engineering systematically injects physical server crashes, network partitions, and resource exhaustion~\cite{camacho2022chaos, esen2025chaos, baghorn2022fault}. Recently, this methodology has evolved into \textit{Security Chaos Engineering} (SCE)~\cite{shortridge2023security, myrbakken2021security}. Rather than focusing solely on server crashes, SCE injects security-specific turbulence—such as expired TLS certificates, vulnerable third-party dependencies, credential leaks, privilege escalations, and API misconfigurations—to validate defensive controls under adversarial conditions~\cite{myrbakken2021security, bedoya2024enhancing}.
 
 Despite its conceptual promise, current SCE practice exhibits a critical software engineering limitation: \textbf{it operates as an open-loop, human-in-the-loop paradigm}~\cite{owotogbe2025chaos, shortridge2023security}. Faults are injected according to pre-scripted schedules, telemetry is inspected post-experiment, and remediation requires manual engineer intervention. In high-velocity DevSecOps environments, human-driven incident response is too slow to mitigate automated attacks that exploit transient chaos windows within seconds~\cite{shortridge2023security, liu2025autonomous}.
 
 However, attempting to automate security mitigation in live microservices introduces a fundamental operational conflict:
 \begin{itemize}
-    \item \textbf{The Security vs. Availability Dilemma:} Applying immediate, aggressive security mitigations—such as terminating suspicious pods, blocking network routes, revoking credentials, or rolling back service configurations—frequently causes service degradation. In tightly coupled microservice topologies, killing an authentication or inventory service triggers upstream timeout storms, circuit-breaker trips, and cascading transaction failures, converting a minor security fault into a catastrophic availability outage~\cite{aderaldo2025declarative, schneider2015survey}.
+    \item \textbf{The Security vs. Availability Dilemma:} Applying immediate, aggressive security mitigations—such as terminating suspicious pods, blocking network routes, revoking credentials, or rolling back service configurations—frequently causes severe operational disruption. In tightly coupled microservice topologies, killing an authentication or inventory service triggers upstream timeout storms, circuit-breaker trips, and cascading transaction failures, converting a localized security fault into a catastrophic availability outage~\cite{aderaldo2025declarative, schneider2015survey}.
     \item \textbf{Failure of Static and Heuristic Rules:} In production systems, software engineers frequently rely on deterministic alert-matching scripts (e.g., ``if certificate alert detected, execute certificate rotation''). Under concurrent faults and high background traffic, naive rules suffer from alert flapping and mitigation storms: multiple services deploy simultaneous mitigations, exhausting cluster CPU and memory, multiplying operational delays, and degrading request throughput~\cite{schneider2015survey}.
 \end{itemize}
 
-Self-adaptive software systems (SASS) and autonomic computing frameworks provide an established theoretical basis for closed-loop self-healing through the classic MAPE-K (Monitor, Analyze, Plan, Execute, Knowledge) loop~\cite{salehie2009self, garlan2004rainbow, schneider2015survey}. Reinforcement learning (RL) has emerged as an attractive candidate for the ``Plan'' phase, allowing autonomous agents to learn multi-objective control policies through trial-and-error interaction with a dynamic environment~\cite{sutton2018reinforcement, mnih2015human}. However, applying standard RL algorithms (such as DQN~\cite{mnih2015human}, A2C~\cite{mnih2016asynchronous}, or standard PPO~\cite{schulman2017ppo}) directly to microservice security mitigation fails in practice. Standard RL policies lack domain-specific awareness of microservice topologies, treat all telemetry dimensions homogeneously, struggle with delayed mitigation execution effects, and frequently destabilize live services through exploratory actions during critical attack spikes~\cite{zheng2025proximal, standen2021cyborg}.
+Self-adaptive software systems (SASS) and autonomic computing frameworks provide an established theoretical foundation for closed-loop self-healing through the classic MAPE-K (Monitor, Analyze, Plan, Execute, Knowledge) loop~\cite{salehie2009self, garlan2004rainbow, schneider2015survey}. Reinforcement learning (RL) has emerged as an attractive candidate for the ``Plan'' phase, allowing autonomous agents to learn multi-objective control policies through trial-and-error interaction with a dynamic environment~\cite{sutton1998reinforcement, mnih2015human}. While deep reinforcement learning (DRL) has demonstrated remarkable success in complex domains~\cite{silver2016mastering, mnih2016asynchronous} and standardized benchmarking suites~\cite{towers2026gymnasium, raffin2021stable}, applying standard RL algorithms (such as DQN~\cite{mnih2015human}, A2C~\cite{mnih2016asynchronous}, or standard PPO~\cite{schulman2017ppo}) directly to microservice security mitigation fails in practice. Standard RL policies lack domain-specific awareness of microservice topologies, treat all telemetry dimensions homogeneously, struggle with delayed mitigation execution effects, and frequently destabilize live services through exploratory actions during critical attack spikes~\cite{zheng2025proximal, standen2021cyborg, nguyen2021deep, xiao2018iot}. Emerging research on Large Language Models (LLMs) for software engineering~\cite{hou2024large} similarly underscores that without closed-loop execution verification, design-time advice cannot govern runtime microservice safety.
 
 \subsection{Research Questions}
 To address these technical challenges and deliver a practically useful software contribution, this paper formulates and investigates four core Research Questions (RQs):
@@ -88,11 +94,12 @@ This paper makes the following concrete contributions to the software engineerin
 \begin{enumerate}
     \item \textbf{A Modular Software Resilience Framework:} We design and implement SecChaos-RL, an open-source, modular Python framework that operationalizes closed-loop Security Chaos Engineering. The architecture decouples fault injection (\texttt{ChaosEngine}), dependency topology modeling (\texttt{DependencyTopology}), threat-aware decision orchestration (\texttt{ThreatAwareOrchestrator}), asynchronous action execution (\texttt{MitigationExecutor}), and statistical evaluation (\texttt{BenchmarkHarness}).
     \item \textbf{A Threat-Aware Decision Methodology:} We formalize the microservice mitigation problem as a multi-objective MDP. We introduce a domain-tailored neural policy architecture incorporating Multi-Head Self-Attention over service telemetry, Threat-Aware Feature Gating (amplifying vulnerability signals during active compromise), an Auxiliary Risk Prediction Head (regularizing latent representations against future state transitions), and Threat-Adaptive Policy Temperature Exploration (enforcing deterministic safety under critical attacks).
+    \item \textbf{Formal Algorithmic Specification:} We provide complete, mathematically rigorous algorithmic workflows for both closed-loop runtime execution (Algorithm~\ref{alg:secchaos_execution}) and threat-aware policy optimization (Algorithm~\ref{alg:policy_training}).
     \item \textbf{Rigorous Comparative Evaluation Across 30 Seeds:} We conduct an extensive empirical evaluation across 30 independent random seeds, benchmarking SecChaos-RL against six baseline policies: three deterministic software heuristics (No-Mitigation, Static Rule-Based, Threshold-Based) and three standard RL algorithms (DQN, A2C, standard PPO).
-    \item \textbf{Comprehensive Ablation and Profiling:} We execute a five-stage ablation study isolating each architectural mechanism, and profile runtime decision latency ($<1$\,ms) to demonstrate feasibility for live Kubernetes integration. All experimental scripts, raw observation datasets, and statistical tests are fully verified and open-source.
+    \item \textbf{Comprehensive Ablation and Profiling:} We execute a five-stage ablation study isolating each architectural mechanism, and profile runtime decision latency ($0.52 \pm 0.26$\,ms per step) to demonstrate feasibility for live Kubernetes integration. All experimental scripts, raw observation datasets, and statistical tests are fully verified and open-source.
 \end{enumerate}
 
-The remainder of this paper is structured as follows. Section~\ref{sec:related_work} reviews related literature in chaos engineering, microservice resiliency benchmarking, and self-adaptive security. Section~\ref{sec:architecture} presents the SecChaos-RL software framework architecture. Section~\ref{sec:methodology} formalizes the threat model, MDP formulation, and deep policy design. Section~\ref{sec:setup} details the experimental setup and evaluation protocol. Section~\ref{sec:results} presents the empirical results and answers RQ1–RQ4. Section~\ref{sec:discussion} discusses practical implications for software engineers. Section~\ref{sec:validity} addresses threats to validity, and Section~\ref{sec:conclusion} concludes the paper.
+The remainder of this paper is structured as follows. Section~\ref{sec:related_work} reviews related literature in chaos engineering, microservice resiliency benchmarking, and self-adaptive security. Section~\ref{sec:architecture} presents the SecChaos-RL software framework architecture. Section~\ref{sec:methodology} formalizes the threat model, MDP formulation, algorithms, and deep policy design. Section~\ref{sec:setup} details the experimental setup and evaluation protocol. Section~\ref{sec:results} presents the empirical results and answers RQ1–RQ4. Section~\ref{sec:discussion} discusses practical implications for software engineers. Section~\ref{sec:validity} addresses threats to validity, and Section~\ref{sec:conclusion} concludes the paper.
 
 % ==============================================================================
 % 2. BACKGROUND AND RELATED WORK
@@ -103,24 +110,26 @@ The remainder of this paper is structured as follows. Section~\ref{sec:related_w
 This section reviews related research across four key areas: Chaos Engineering, Microservice Resiliency Benchmarking, Security Chaos Engineering, and Autonomous Reinforcement Learning for Cyber Defense.
 
 \subsection{Chaos Engineering and Distributed Fault Injection}
-Chaos Engineering was established as a disciplined practice by Netflix engineers to verify the reliability of large-scale distributed cloud applications~\cite{basiri2016chaos}. Rosenthal and Jones synthesized core industry practices, emphasizing the necessity of automating experiments, minimizing blast radiuses, and running continuous turbulence campaigns in production~\cite{shortridge2023security}. A comprehensive multi-vocal literature review by Owotogbe et al.~\cite{owotogbe2025chaos} analyzed 96 academic and industrial sources, formalizing a taxonomy of chaos engineering platforms across execution environments, automation modes, and target architectures. Esen et al.~\cite{esen2025chaos} systematically reviewed chaos experiments in microservices across 31 papers and 38 tools, noting that mainstream tooling (e.g., Chaos Mesh, Gremlin, Chaos Toolkit) focuses overwhelmingly on physical and network faults—such as packet latency, CPU stress, and container restarts—while neglecting security-specific compromise states.
+Chaos Engineering was established as a disciplined practice by Netflix engineers to verify the reliability of large-scale distributed cloud applications~\cite{basiri2016chaos}. Rosenthal and Jones synthesized core industry practices, emphasizing the necessity of automating experiments, minimizing blast radiuses, and running continuous turbulence campaigns in production~\cite{rosenthal2020chaos}. A comprehensive multi-vocal literature review by Owotogbe et al.~\cite{owotogbe2025chaos} analyzed 96 academic and industrial sources, formalizing a taxonomy of chaos engineering platforms across execution environments, automation modes, and target architectures. Esen et al.~\cite{esen2025chaos} systematically reviewed chaos experiments in microservices across 31 papers and 38 tools, noting that mainstream tooling (e.g., Chaos Mesh~\cite{chaosmesh2021}, Gremlin~\cite{gremlin2022}, ChaosBlade~\cite{chaosblade2021}, LitmusChaos~\cite{litmus2022}, and AWS FIS~\cite{awsfis2023}) focuses overwhelmingly on physical and network faults—such as packet latency, CPU stress, and container restarts—while neglecting security-specific compromise states. Bagehorn et al.~\cite{baghorn2022fault} demonstrated fault injection platforms for training AIOps models, yet focused on operational anomalies rather than adversarial attack mitigations.
 
 Addressing the need for structured, configurable fault injection platforms, Camacho et al.~\cite{camacho2022chaos} introduced \textit{Chaos as a Software Product Line} (CoSPL) in \textit{Software: Practice and Experience}. Their platform, \textit{Pystol}, models fault injection capabilities as software product line features across open hybrid-cloud environments (e.g., OpenShift and Kubernetes). While CoSPL demonstrates the software engineering value of configurable chaos architectures, its execution remains declarative and open-loop: it verifies system tolerance against pre-scripted variations but lacks an autonomous, learning-based runtime mitigation engine.
 
 \subsection{Microservice Resiliency Benchmarking and Self-Healing}
-In distributed microservice systems, resilience patterns—such as timeouts, retries, fallbacks, and circuit breakers—are standard software engineering mechanisms to mitigate transient degradations~\cite{aderaldo2025declarative, schneider2015survey}. In a landmark study published in \textit{Software: Practice and Experience}, Aderaldo et al.~\cite{aderaldo2025declarative} presented \textit{ResilienceBench}, a declarative benchmarking approach and Kubernetes operator tool designed for the controlled evaluation of microservice resiliency patterns under simulated failures (tested on Google Online Boutique). Their work demonstrates that naive retry configurations amplify cascading service failures and increase tail latency during downstream disruptions.
+In distributed microservice systems, resilience patterns—such as timeouts, retries, fallbacks, and circuit breakers—are standard software engineering mechanisms to mitigate transient degradations~\cite{aderaldo2025declarative, schneider2015survey, soldani2023microservice}. Taibi et al.~\cite{taibi2021microservice} analyzed microservice API evolution patterns in \textit{Software: Practice and Experience}, emphasizing that service interface drift and asynchronous call coupling create fragile dependency chains.
+
+In a landmark study published in \textit{Software: Practice and Experience}, Aderaldo et al.~\cite{aderaldo2025declarative} presented \textit{ResilienceBench}, a declarative benchmarking approach and Kubernetes operator tool designed for the controlled evaluation of microservice resiliency patterns under simulated failures (tested on Google Online Boutique). Their work demonstrates that naive retry configurations amplify cascading service failures and increase tail latency during downstream disruptions.
 
 Self-healing systems literature provides the broader control-theoretic foundation for autonomous software resilience. In their seminal survey in \textit{Software: Practice and Experience}, Schneider, Barker, and Dobson~\cite{schneider2015survey} categorized multi-tier self-healing frameworks using the autonomic MAPE-K control loop~\cite{garlan2004rainbow, salehie2009self}. They highlighted that while rule-based self-healing loops succeed in isolated components, they exhibit severe stability issues when managing multi-tier dependencies subject to concurrent, overlapping disturbances. SecChaos-RL directly builds upon this insight: rather than using static rule heuristics that fight one another, it employs a centralized, threat-aware RL policy to coordinate multi-service mitigations.
 
 \subsection{Security Chaos Engineering (SCE) and DevSecOps}
 Security Chaos Engineering applies the empirical philosophy of chaos experimentation directly to cyber resilience~\cite{shortridge2023security}. Myrbakken and Colomo-Palacios~\cite{myrbakken2020security} reviewed security bottlenecks in DevSecOps pipelines, concluding that traditional pre-production testing fails to keep pace with continuous deployment agility. In subsequent work, Myrbakken et al.~\cite{myrbakken2021security} formalized SCE as a continuous assessment paradigm, demonstrating how automated security fault injection exposes configuration drifts and access control weaknesses.
 
-Shortridge and Rinehart~\cite{shortridge2023security} detailed the principles of SCE, arguing that complex software systems are fundamentally non-deterministic and that resilience depends on validating system behavior under active attack conditions. Bedoya et al.~\cite{bedoya2024enhancing} demonstrated the integration of SCE with Large Language Models (LLMs) to discover architectural threat vectors during the design phase of a commercial retail application. However, existing SCE tools (such as security extensions in ChaosBlade and LitmusChaos) remain limited to passive vulnerability discovery: they detect when a system fails a security property, but rely entirely on human engineers to craft and execute mitigations~\cite{shortridge2023security, owotogbe2025chaos}.
+Shortridge and Rinehart~\cite{shortridge2023security} detailed the principles of SCE, arguing that complex software systems are fundamentally non-deterministic and that resilience depends on validating system behavior under active attack conditions. Bedoya et al.~\cite{bedoya2024enhancing} demonstrated the integration of SCE with Large Language Models (LLMs) to discover architectural threat vectors during the design phase of a commercial retail application. However, existing SCE tools remain limited to passive vulnerability discovery: they detect when a system fails a security property, but rely entirely on human engineers to craft and execute mitigations~\cite{shortridge2023security, owotogbe2025chaos}.
 
 \subsection{Reinforcement Learning for Cyber Defense and Mitigation}
-Reinforcement learning has demonstrated significant capability in complex decision-making domains~\cite{silver2016mastering, sutton2018reinforcement}. Value-based methods (e.g., Deep Q-Networks~\cite{mnih2015human}) and policy gradient approaches (e.g., Advantage Actor-Critic~\cite{mnih2016asynchronous} and Proximal Policy Optimization~\cite{schulman2017ppo}) have enabled autonomous agents to learn sophisticated control strategies in high-dimensional state spaces.
+Reinforcement learning has demonstrated significant capability in complex decision-making domains~\cite{silver2016mastering, sutton1998reinforcement}. Value-based methods (e.g., Deep Q-Networks~\cite{mnih2015human}) and policy gradient approaches (e.g., Advantage Actor-Critic~\cite{mnih2016asynchronous} and Proximal Policy Optimization~\cite{schulman2017ppo}) have enabled autonomous agents to learn sophisticated control strategies in high-dimensional state spaces.
 
-In cybersecurity, deep reinforcement learning (DRL) has been applied to intrusion detection, cyber-physical defense, and autonomous penetration testing~\cite{nguyen2021deep, liu2025autonomous}. Standen et al.~\cite{standen2021cyborg} introduced \textit{CybORG}, a Gym-based simulation environment for training autonomous cyber defense agents in Security Operations Centers (SOCs). However, CybORG assumes static enterprise network topologies and fixed IP routing graphs, omitting microservice dependency cascades, runtime HTTP/gRPC request availability, and chaos-driven operational trade-offs. Algorithmic enhancements, such as Reward-based Prioritization PPO (RP-PPO) by Zheng et al.~\cite{zheng2025proximal}, have improved sample efficiency, but remain unspecialized for the dual constraints of security isolation and service continuity.
+In cybersecurity, deep reinforcement learning (DRL) has been applied to intrusion detection, cyber-physical defense, IoT protection~\cite{xiao2018iot}, and autonomous penetration testing~\cite{nguyen2021deep, liu2025autonomous}. Standen et al.~\cite{standen2021cyborg} introduced \textit{CybORG}, a Gym-based simulation environment for training autonomous cyber defense agents in Security Operations Centers (SOCs). However, CybORG assumes static enterprise network topologies and fixed IP routing graphs, omitting microservice dependency cascades, runtime HTTP/gRPC request availability, and chaos-driven operational trade-offs. Algorithmic enhancements, such as Reward-based Prioritization PPO (RP-PPO) by Zheng et al.~\cite{zheng2025proximal}, have improved sample efficiency, but remain unspecialized for the dual constraints of security isolation and service continuity. Standard frameworks such as Gymnasium~\cite{towers2026gymnasium} and Stable-Baselines3~\cite{raffin2021stable} provide standardized algorithmic baselines, which we leverage and extend for microservice security control.
 
 \begin{table*}[!t]
 \centering
@@ -154,17 +163,17 @@ As summarized in Table~\ref{tab:related_work_comparison}, existing literature is
 
 SecChaos-RL is designed as an extensible, closed-loop software architecture implementing the classic MAPE-K self-adaptation paradigm~\cite{salehie2009self, garlan2004rainbow}. The framework operates in discrete operational time steps, continuously observing telemetry from monitored microservices, injecting controlled security chaos, inferring optimal mitigation decisions, and asynchronously executing remediations.
 
-\begin{figure*}[!t]
+\begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.92\textwidth]{figs/workflow.jpg}
+\includegraphics[height=0.38\textheight, keepaspectratio]{figs/workflow.jpg}
 \caption{SecChaos-RL Closed-Loop Software Architecture: Interaction between the monitored microservice dependency topology, the Security Chaos Engine, telemetry collection, the threat-aware deep RL orchestrator, and the asynchronous mitigation executor.}
 \label{fig:framework_architecture}
-\end{figure*}
+\end{figure}
 
 As illustrated in Figure~\ref{fig:framework_architecture}, SecChaos-RL is composed of five decoupled, modular software components:
 
 \begin{enumerate}
-    \item \textbf{Monitored Microservice Topology (\texttt{DependencyTopology}):} Represents the operational target system structured as a directed acyclic graph (DAG) $\mathcal{G} = (\mathcal{V}, \mathcal{E})$. Each node $v \in \mathcal{V}$ models an individual microservice maintaining local security risk $r(v) \in [0, 1]$ and service availability $a(v) \in [0, 1]$. Directed edges $(u, v) \in \mathcal{E}$ represent synchronous downstream API call dependencies (e.g., the Gateway depends on Authentication, which depends on the User service).
+    \item \textbf{Monitored Microservice Topology (\texttt{DependencyTopology}):} Represents the operational target system structured as a directed acyclic graph (DAG) $\mathcal{G} = (\mathcal{V}, \mathcal{E})$. Each node $v \in \mathcal{V}$ models an individual microservice maintaining local security risk $r_t(v) \in [0, 1]$ and service availability $a_t(v) \in [0, 1]$. Directed edges $(u, v) \in \mathcal{E}$ represent synchronous downstream API call dependencies (e.g., the Gateway depends on Authentication, which depends on the User service).
     \item \textbf{Security Chaos Engine (\texttt{ChaosEngine}):} Implements dynamic, stochastic security fault injection across eight standardized vulnerability categories. The engine generates faults according to configurable Poisson arrival processes and assigns random severities and operational durations. It models active attacker exploitation by tracking concurrent attack sessions that target vulnerable services.
     \item \textbf{Telemetry and State Monitor (\texttt{StateMonitor}):} Continuously inspects the microservice cluster, aggregating individual service risks, resource metrics (CPU utilization, memory consumption, network overhead), transaction success ratios, and MTTR tracking into a standardized 16-dimensional observation vector $o_t \in \mathbb{R}^{16}$.
     \item \textbf{Threat-Aware Decision Orchestrator (\texttt{ThreatAwareOrchestrator}):} The intelligence engine of the framework, implementing our specialized deep actor-critic policy. It ingests the observation vector, computes multi-head self-attention across features, gates security dimensions based on active threat severity, and selects a mitigation action $a_t \in \mathcal{A}$.
@@ -201,26 +210,26 @@ $F_8$ & Exposed Internal API & Gateway & Unauthenticated internal endpoint acces
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:fault_categories} formalizes the eight security fault categories modeled in SecChaos-RL, mapped to their target services. When a fault $f_i$ with severity $\sigma_i \in [0.3, 0.7]$ is injected into service $u \in \mathcal{V}$, the service's risk is immediately incremented:
+Table~\ref{tab:fault_categories} formalizes the eight security fault categories modeled in SecChaos-RL, mapped to their target services. When a fault $f_i$ with severity $\sigma_i \in [0.35, 0.65]$ is injected into service $u \in \mathcal{V}$, the service's risk is immediately incremented:
 \begin{equation}
-    r(u) \leftarrow \min\left(1.0, r(u) + \sigma_i\right), \quad a(u) \leftarrow \max\left(0.0, a(u) - 0.12 \cdot \sigma_i\right)
+    r_{t+1}(u) \leftarrow \min\left(1.0, r_t(u) + \sigma_i\right), \quad a_{t+1}(u) \leftarrow \max\left(0.0, a_t(u) - 0.12 \cdot \sigma_i\right)
 \end{equation}
-If the service's risk crosses the critical degradation threshold ($r(u) > 0.35$), cascading failure propagates along all outgoing edges $(u, v) \in \mathcal{E}$:
+If the service's risk crosses the critical degradation threshold ($r_t(u) > 0.35$), cascading failure propagates along all outgoing edges $(u, v) \in \mathcal{E}$:
 \begin{align}
-    r(v) &\leftarrow \min\left(1.0, r(v) + 0.22 \cdot r(u) \cdot \gamma_{cascade}\right) \\
-    a(v) &\leftarrow \max\left(0.0, a(v) - 0.12 \cdot \left[0.22 \cdot r(u) \cdot \gamma_{cascade}\right]\right)
+    r_{t+1}(v) &\leftarrow \min\left(1.0, r_t(v) + \alpha_{casc} \cdot r_t(u) \cdot \gamma_{coupl}\right) \\
+    a_{t+1}(v) &\leftarrow \max\left(0.0, a_t(v) - 0.12 \cdot \left[\alpha_{casc} \cdot r_t(u) \cdot \gamma_{coupl}\right]\right)
 \end{align}
-where $\gamma_{cascade} = 0.5$ represents the inter-service coupling factor.
+where $\alpha_{casc} = 0.22$ and $\gamma_{coupl} = 0.5$ represent the cascading propagation coefficient and inter-service coupling factor, respectively.
 
 \subsection{Markov Decision Process (MDP) Formulation}
-The mitigation problem is formalized as an infinite-horizon discounted Markov Decision Process $\mathcal{M} = (\mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma)$:
+The mitigation decision space is formalized as an infinite-horizon discounted Markov Decision Process $\mathcal{M} = (\mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma)$:
 
 \subsubsection{Observation Space}
-The agent receives a 16-dimensional observation vector $o_t \in \mathbb{R}^{16}$:
+The agent receives a standardized 16-dimensional continuous observation vector $o_t \in \mathbb{R}^{16}$:
 \begin{equation}
     o_t = \left[ r_t^{cert}, r_t^{dep}, r_t^{sec}, r_t^{rbac}, r_t^{auth}, \mathcal{L}_{threat}, \mathcal{V}_{score}, \frac{A_{act}}{4}, u_{cpu}, u_{mem}, u_{net}, a_t, \frac{t_{rec}}{20}, \bar{h}_{atk}, \eta_{prev}, \frac{|\mathcal{F}_{act}|}{8} \right]^T
 \end{equation}
-where $r_t^{(1:5)}$ represent core security risks, $\mathcal{L}_{threat} \in [0, 1]$ is the global threat severity computed via a continuous logistic gate:
+where $r_t^{(1:5)}$ represent core security risks across five vulnerability domains, $\mathcal{L}_{threat} \in [0, 1]$ is the global threat severity computed via a continuous logistic sigmoid gate:
 \begin{equation}
     \mathcal{L}_{threat} = \frac{1}{1 + e^{-6.0(\mathcal{V}_{score} - 0.40)}}
 \end{equation}
@@ -232,13 +241,14 @@ The action space $\mathcal{A}$ comprises nine discrete mitigation actions:
     \mathcal{A} = \{ & a_0: \text{ignore}, a_1: \text{rotate\_cert}, a_2: \text{patch\_dep}, a_3: \text{rotate\_secret}, a_4: \text{restrict\_rbac}, \nonumber \\
     & a_5: \text{enable\_mfa}, a_6: \text{apply\_patch}, a_7: \text{revoke\_priv}, a_8: \text{rollback}\}
 \end{align}
-Each action $a_k$ specifies operational targets, an execution delay $\tau_k \in \{0, 1, 2\}$, and transient resource consumption overheads $\Delta u_{cpu}, \Delta u_{mem}, \Delta u_{net}$. When an action completes, it invokes \texttt{heal\_service(u, severity)}, restoring service availability and reducing risk by $80\%$.
+Each action $a_k$ specifies operational targets, an execution delay $\tau_k \in \{0, 1, 2\}$, and transient resource consumption overheads $\Delta u_{cpu}, \Delta u_{mem}, \Delta u_{net}$. Actions are stored in an execution queue $\mathcal{Q} = \{(t_{due}^{(k)}, a_k)\}$. When an action completes ($t = t_{due}$), it invokes \texttt{heal\_service(u, severity)}, restoring service availability and reducing risk by $80\%$.
 
 \subsubsection{Multi-Objective Reward Function}
 The composite reward function balances security risk reduction, operational availability preservation, rapid recovery, and resource efficiency while penalizing service disruption:
 \begin{align}
     R_t = & \; \alpha_1 \Delta \mathcal{L}_{sec} + \alpha_2 \Delta \mathcal{L}_{threat} + \alpha_3 \mathcal{L}_{avail} + \alpha_4 \mathcal{L}_{rec} + \alpha_5 \mathcal{L}_{eff} + \alpha_6 \mathcal{L}_{cont} \nonumber \\
     & - \beta_1 \mathcal{P}_{atk} - \beta_2 \mathcal{P}_{delay} - \beta_3 \mathcal{P}_{res} - \beta_4 \mathcal{P}_{wrong} + \mathcal{R}_{mit}
+    \label{eq:reward_function}
 \end{align}
 where $\Delta \mathcal{L}_{sec} = \bar{r}_t - \bar{r}_{t+1}$ captures local risk reduction, $\Delta \mathcal{L}_{threat}$ captures threat severity drop, $\mathcal{L}_{avail} = a_{t+1}$ rewards uptime, $\mathcal{L}_{rec} = \frac{1}{1 + t_{rec}}$ rewards fast recovery, $\mathcal{L}_{eff} = 1 - \frac{u_{cpu} + u_{mem} + u_{net}}{3}$ enforces resource efficiency, and $\mathcal{L}_{cont} = \mathbf{1}[a_{t+1} \ge 0.95]$ rewards steady-state continuity. The penalty terms penalize successful attacks ($\beta_1 = 1.2$), recovery delays ($\beta_2 = 0.05$), resource spikes $> 0.85$ ($\beta_3 = 0.25$), and wrong/unnecessary mitigations ($\beta_4 = 0.30$).
 
@@ -257,7 +267,7 @@ SecChaos-RL implements a specialized neural policy designed to handle correlated
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=0.85\columnwidth]{figs/network_architecture.jpg}
+\includegraphics[width=0.78\columnwidth]{figs/network_architecture.jpg}
 \caption{Threat-Aware Neural Network Architecture: Multi-Head Self-Attention over projected state embeddings, Threat-Aware Feature Gating, Auxiliary Risk Prediction, and Actor-Critic heads.}
 \label{fig:network_architecture}
 \end{figure}
@@ -277,7 +287,7 @@ SecChaos-RL implements a specialized neural policy designed to handle correlated
     This prevents secondary operational metrics (such as minor memory fluctuations) from distracting the policy during active security emergencies.
     \item \textbf{Multi-Head Self-Attention:} The gated embedding matrix $X_t = [g_t^{(1)}; \ldots; g_t^{(16)}] \in \mathbb{R}^{16 \times 32}$ is processed by a 2-head self-attention module~\cite{vaswani2017attention} to learn non-local correlations across service dependencies:
     \begin{equation}
-        \text{MHA}(X_t) = \text{Concat}(\text{head}_1, \text{head}_2) W^O
+        \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V, \quad \text{MHA}(X_t) = \text{Concat}(\text{head}_1, \text{head}_2) W^O
     \end{equation}
     The flattened attention output passes through feed-forward layers ($512 \rightarrow 256 \rightarrow 128$) to yield latent representation $z_t \in \mathbb{R}^{128}$.
     \item \textbf{Auxiliary Risk Prediction Head:} To regularize latent features and accelerate convergence, an auxiliary linear head predicts next-step service risks and availability $\hat{y}_t = [\hat{r}_{t+1}^{(1:5)}, \hat{a}_{t+1}]^T \in \mathbb{R}^6$, trained with MSE loss $\mathcal{L}_{aux}$.
@@ -288,6 +298,72 @@ SecChaos-RL implements a specialized neural policy designed to handle correlated
     Under quiescent conditions ($\mathcal{L}_{threat} \approx 0, \tau_t \approx 1.0$), the policy explores diverse actions stochastically. Under critical compromise ($\mathcal{L}_{threat} \approx 1.0, \tau_t \approx 0.5$), the temperature drops, forcing the agent to sample deterministically from its learned safety-optimal policy, preventing catastrophic exploration during live attacks.
 \end{enumerate}
 
+\subsection{Formal Algorithmic Workflows}
+The complete operational lifecycle of SecChaos-RL is formalized in Algorithm~\ref{alg:secchaos_execution} (runtime closed-loop execution) and Algorithm~\ref{alg:policy_training} (policy optimization).
+
+\begin{algorithm}[!htbp]
+\caption{SecChaos-RL Closed-Loop Mitigation and Healing Execution}
+\label{alg:secchaos_execution}
+\begin{algorithmic}[1]
+\Require Microservice topology $\mathcal{G} = (\mathcal{V}, \mathcal{E})$, trained policy $\pi_\theta$, value network $V_\phi$, action queue $\mathcal{Q} \leftarrow \emptyset$, maximum steps $T$.
+\Ensure Logged episode telemetry and resilience trajectory $\mathcal{T}$.
+\State Initialize microservice health: $r(v) \leftarrow r_0(v), a(v) \leftarrow 1.0, \forall v \in \mathcal{V}$
+\State Initialize active faults $\mathcal{F} \leftarrow \emptyset$, active attacks $A \leftarrow 0$, step counter $t \leftarrow 0$
+\While{$t < T$ \textbf{and} system not collapsed}
+    \State $t \leftarrow t + 1$
+    \State Observe telemetry vector $o_t \in \mathbb{R}^{16}$ via \texttt{StateMonitor}
+    \State Compute global threat severity $\mathcal{L}_{threat} \leftarrow \sigma(6.0(\mathcal{V}_{score} - 0.40))$
+    \State Compute adaptive temperature $\tau_t \leftarrow \max(0.2, 1.0 - 0.50 \cdot \mathcal{L}_{threat})$
+    \State Select mitigation action $a_t \sim \pi_\theta(\cdot | o_t, \tau_t)$
+    \If{$a_t \neq 0$}
+        \State Retrieve action specification: delay $\tau_{a_t}$, overheads $(\Delta u_{cpu}, \Delta u_{mem}, \Delta u_{net})$
+        \State Enqueue pending mitigation: $\mathcal{Q} \leftarrow \mathcal{Q} \cup \{(t + \tau_{a_t}, a_t)\}$
+    \EndIf
+    \State Extract due actions: $\mathcal{D}_t \leftarrow \{(t_{due}, a) \in \mathcal{Q} \mid t_{due} \le t\}$; $\mathcal{Q} \leftarrow \mathcal{Q} \setminus \mathcal{D}_t$
+    \For{each action $a \in \mathcal{D}_t$}
+        \For{each target fault code $c \in \text{targets}(a)$}
+            \State Remove resolved fault from active set: $\mathcal{F} \leftarrow \mathcal{F} \setminus \{f \in \mathcal{F} \mid f.code = c\}$
+            \State Invoke active graph healing: \texttt{heal\_service}(target($c$), severity)
+        \EndFor
+    \EndFor
+    \State Stochastic fault injection: sample $f_{new} \sim \text{Poisson}(\lambda_{fault})$; apply fault to target service
+    \State Cascading failure propagation: update downstream nodes $(u, v) \in \mathcal{E}$ with $r(u) > 0.35$
+    \State Update operational resource utilization $u_{cpu}, u_{mem}, u_{net}$ and service availability $a_t$
+    \State Compute multi-objective reward $R_t$ via Eq.~(\ref{eq:reward_function})
+\EndWhile
+\State \Return Execution trajectory $\mathcal{T} = \{(o_t, a_t, R_t, o_{t+1})\}$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[!htbp]
+\caption{Threat-Aware Policy Optimization with Auxiliary Risk Regularization}
+\label{alg:policy_training}
+\begin{algorithmic}[1]
+\Require Policy parameters $\theta$, value parameters $\phi$, auxiliary head $\psi$, learning rates $\eta_\pi, \eta_v, \eta_{aux}$, clipping threshold $\epsilon = 0.2$, GAE parameter $\lambda = 0.95$.
+\For{iteration $k = 1, 2, \dots, K$}
+    \State Collect batch of trajectories $\mathcal{D}_k$ by executing $\pi_{\theta_{old}}$ with threat-adaptive temperature $\tau_t$
+    \State Compute Generalized Advantage Estimates $\hat{A}_t$ and discounted returns $\hat{R}_t$:
+    \State \quad $\delta_t^V = R_t + \gamma V_\phi(o_{t+1}) - V_\phi(o_t)$
+    \State \quad $\hat{A}_t = \sum_{l=0}^{\infty} (\gamma \lambda)^l \delta_{t+l}^V$
+    \State Normalize advantages: $\hat{A}_t \leftarrow (\hat{A}_t - \mu_{\hat{A}}) / (\sigma_{\hat{A}} + 10^{-8})$
+    \For{epoch $e = 1, \dots, E$}
+        \State Compute probability ratios $r_t(\theta) = \frac{\pi_\theta(a_t | o_t, \tau_t)}{\pi_{\theta_{old}}(a_t | o_t, \tau_t)}$
+        \State Compute clipped surrogate objective:
+        \State \quad $\mathcal{L}_{clip}(\theta) = \hat{\mathbb{E}}_t \left[ \min\left(r_t(\theta)\hat{A}_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon)\hat{A}_t\right) \right]$
+        \State Compute value function squared error loss:
+        \State \quad $\mathcal{L}_{val}(\phi) = \hat{\mathbb{E}}_t \left[ (V_\phi(o_t) - \hat{R}_t)^2 \right]$
+        \State Compute auxiliary next-step risk prediction loss:
+        \State \quad $\mathcal{L}_{aux}(\psi) = \hat{\mathbb{E}}_t \left[ \|\hat{y}_t(\psi) - y_{t+1}^*\|_2^2 \right]$ where $y_{t+1}^* = [r_{t+1}^{(1:5)}, a_{t+1}]^T$
+        \State Total composite objective: $\mathcal{L}_{total} = -\mathcal{L}_{clip}(\theta) + c_1 \mathcal{L}_{val}(\phi) + c_2 \mathcal{L}_{aux}(\psi) - c_3 \mathcal{H}(\pi_\theta)$
+        \State Update parameters via gradient descent with norm clipping $\|\nabla\|_2 \le 0.5$:
+        \State \quad $\theta \leftarrow \theta - \eta_\pi \nabla_\theta \mathcal{L}_{total}, \quad \phi \leftarrow \phi - \eta_v \nabla_\phi \mathcal{L}_{total}, \quad \psi \leftarrow \psi - \eta_{aux} \nabla_\psi \mathcal{L}_{total}$
+    \EndFor
+    \State $\theta_{old} \leftarrow \theta$
+\EndFor
+\State \Return Optimized parameters $\theta^*, \phi^*, \psi^*$
+\end{algorithmic}
+\end{algorithm}
+
 % ==============================================================================
 % 5. EXPERIMENTAL SETUP
 % ==============================================================================
@@ -295,7 +371,7 @@ SecChaos-RL implements a specialized neural policy designed to handle correlated
 \label{sec:setup}
 
 \subsection{Microservice Benchmark Topology}
-We model a 7-service enterprise e-commerce microservice topology structured after industry-standard benchmarks (Google Online Boutique and Sock Shop)~\cite{aderaldo2025declarative}:
+We model a 7-service enterprise e-commerce microservice topology structured after industry-standard benchmarks (Google Online Boutique and Sock Shop)~\cite{aderaldo2025declarative, soldani2023microservice}:
 \begin{itemize}
     \item \textbf{Gateway:} Ingress router and TLS termination point (vulnerable to $F_1, F_8$).
     \item \textbf{Authentication:} Token validation and session manager (vulnerable to $F_4, F_5$).
@@ -311,7 +387,7 @@ To comprehensively evaluate SecChaos-RL's software engineering utility, we evalu
 \begin{enumerate}
     \item \textbf{No-Mitigation Policy:} Passive failure baseline. Quantifies the natural degradation trajectory when faults accumulate unmanaged.
     \item \textbf{Static Rule-Based Policy:} Deterministic greedy automation. Immediately triggers the prescribed mitigation action upon detecting an elevated risk alert.
-    \item \textbf{Threshold-Based Policy:} Industry-standard DevOps SRE heuristic. Triggers mitigations only when risk crosses $\theta_{risk} > 0.35$ and cluster CPU is not spiking ($u_{cpu} < 0.85$).
+    \item \textbf{Threshold-Based Policy:} Industry-standard DevOps SRE heuristic. Triggers mitigations only when risk crosses $\theta_{risk} > 0.35$ and cluster CPU is not currently spiking ($u_{cpu} < 0.85$).
     \item \textbf{Deep Q-Network (DQN)~\cite{mnih2015human}:} Off-policy value-based RL agent with experience replay buffer ($10,000$ transitions) and target network updates.
     \item \textbf{Advantage Actor-Critic (A2C)~\cite{mnih2016asynchronous}:} Synchronous on-policy actor-critic architecture.
     \item \textbf{Standard PPO~\cite{schulman2017ppo}:} Standard Proximal Policy Optimization with clipping ($\epsilon = 0.2$), GAE ($\lambda = 0.95$), and standard MLP policy.
@@ -364,7 +440,7 @@ This section presents the empirical findings across all 30 random seeds, structu
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=\textwidth]{figs/resilience_benchmarking.png}
+\includegraphics[width=0.92\textwidth]{figs/resilience_benchmarking.png}
 \caption{Comprehensive quantitative resilience benchmarking across 30 random seeds: Distributions of Risk Reduction, Service Availability, MTTR, Attack Success Rate (ASR), False Mitigation Rate (FMR), and Composite Resilience Score across seven compared policies.}
 \label{fig:resilience_benchmarking}
 \end{figure*}
@@ -384,23 +460,23 @@ Among reinforcement learning baselines, standard \textbf{DQN}, \textbf{A2C}, and
 \label{subsec:rq2_availability}
 A central challenge in cloud-native software engineering is avoiding disruptive mitigation storms that degrade request availability. Table~\ref{tab:rl_resilience_results} and Figure~\ref{fig:pareto_tradeoff} illustrate the operational trade-offs across all seven evaluated policies.
 
-While the Rule-Based policy achieves high security risk reduction ($55.2\%$), it exhibits an alarming \textbf{False Mitigation Rate (FMR) of $43.2\% \pm 4.0\%$}. Because static alert-matching rules lack execution queue awareness and cluster resource introspection, they continuously dispatch redundant mitigations for already-queued operations, inducing CPU and memory contention. Conversely, the Threshold-Based heuristic minimizes false mitigations ($0.15\% \pm 0.15\%$) by enforcing resource guards ($u_{cpu} < 0.85$), but incurs elevated MTTR ($2.29$ steps) and increased attack susceptibility ($\text{ASR} = 27.4\% \pm 1.3\%$).
-
-Under standard reinforcement learning exploration, DQN, A2C, and PPO experience high false mitigation rates ($90.1\%$, $91.5\%$, and $90.5\%$, respectively), reflecting exploratory action churn under continuous chaos. SecChaos-RL mitigates this churn through its threat-aware feature gating and adaptive temperature dampening, lowering the False Mitigation Rate to $86.6\% \pm 16.5\%$ and maintaining service availability at $85.8\% \pm 1.7\%$.
-
-\begin{figure}[!t]
+\begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.68\columnwidth]{figs/pareto_tradeoff.png}
+\includegraphics[width=0.62\columnwidth]{figs/pareto_tradeoff.png}
 \caption{Pareto trade-off between Security Risk Reduction and Service Availability across 30 seeds. Visualizing the operational boundaries between deterministic heuristics and autonomous reinforcement learning policies.}
 \label{fig:pareto_tradeoff}
 \end{figure}
 
+While the Rule-Based policy achieves high security risk reduction ($55.2\%$), it exhibits an alarming \textbf{False Mitigation Rate (FMR) of $43.2\% \pm 4.0\%$}. Because static alert-matching rules lack execution queue awareness and cluster resource introspection, they continuously dispatch redundant mitigations for already-queued operations, inducing CPU and memory contention. Conversely, the Threshold-Based heuristic minimizes false mitigations ($0.15\% \pm 0.15\%$) by enforcing resource guards ($u_{cpu} < 0.85$), but incurs elevated MTTR ($2.29$ steps) and increased attack susceptibility ($\text{ASR} = 27.4\% \pm 1.3\%$).
+
+Under standard reinforcement learning exploration, DQN, A2C, and PPO experience high false mitigation rates ($90.1\%$, $91.5\%$, and $90.5\%$, respectively), reflecting exploratory action churn under continuous chaos. SecChaos-RL mitigates this churn through its threat-aware feature gating and adaptive temperature dampening, lowering the False Mitigation Rate to $86.6\% \pm 16.5\%$ and maintaining service availability at $85.8\% \pm 1.7\%$.
+
 \subsection{RQ3: Architectural Ablation and Component Contributions}
 Table~\ref{tab:ablation_results} and Figure~\ref{fig:ablation_study} summarize the quantitative results of the five-stage ablation study across all 30 random seeds, isolating the impact of each architectural component:
 
-\begin{figure}[!t]
+\begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.80\columnwidth]{figs/ablation_study.png}
+\includegraphics[width=0.75\columnwidth]{figs/ablation_study.png}
 \caption{Ablation Study: Incremental contribution of SecChaos-RL architectural components to the composite Resilience Score across 30 random seeds.}
 \label{fig:ablation_study}
 \end{figure}
@@ -415,9 +491,9 @@ Table~\ref{tab:ablation_results} and Figure~\ref{fig:ablation_study} summarize t
 
 Figure~\ref{fig:learning_curves} depicts the training convergence trajectories across 250 curriculum episodes for all four learning algorithms. SecChaos-RL exhibits stable convergence behavior across all 30 seeds, showing consistent advantage over DQN and A2C under escalating chaos stages.
 
-\begin{figure}[!t]
+\begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.75\columnwidth]{figs/learning_curves.png}
+\includegraphics[width=0.72\columnwidth]{figs/learning_curves.png}
 \caption{Training convergence trajectories across 30 random seeds through curriculum progression (Stages 0--3) with $95\%$ confidence intervals.}
 \label{fig:learning_curves}
 \end{figure}
@@ -438,8 +514,8 @@ The empirical findings provide important insights for software engineers, site r
 \subsection{When Is Autonomous RL Mitigation Superior to Static Rules?}
 Our comparative results reveal clear boundaries regarding when adaptive RL is justified over simpler rule-based automation:
 \begin{itemize}
-    \item \textbf{Under Low Turbulence and Isolated Faults:} When security faults occur infrequently and affect independent services without downstream dependencies, static rule heuristics perform acceptably ($48\%$ risk reduction) with negligible overhead. In simple monolithic architectures, introducing deep RL adds unnecessary complexity.
-    \item \textbf{Under Concurrent Chaos and Cascading Topologies:} When multiple faults occur simultaneously across interdependent microservices (as in modern Kubernetes clusters), static rules fail catastrophically: they trigger alert storms, deploy redundant actions ($38.4\%$ false mitigation rate), and exhaust cluster resources. SecChaos-RL is specifically valuable in these complex settings, where it sequences mitigations intelligently, prioritizing upstream bottleneck services (such as Gateway and Authentication) to halt cascading failures while safeguarding availability SLAs.
+    \item \textbf{Under Low Turbulence and Isolated Faults:} When security faults occur infrequently and affect independent services without downstream dependencies, static rule heuristics perform acceptably with negligible overhead. In simple monolithic architectures, introducing deep RL adds unnecessary complexity.
+    \item \textbf{Under Concurrent Chaos and Cascading Topologies:} When multiple faults occur simultaneously across interdependent microservices (as in modern Kubernetes clusters), static rules fail catastrophically: they trigger alert storms, deploy redundant actions ($43.2\%$ false mitigation rate), and exhaust cluster resources. SecChaos-RL is specifically valuable in these complex settings, where it sequences mitigations intelligently, prioritizing upstream bottleneck services (such as Gateway and Authentication) to halt cascading failures while safeguarding availability SLAs.
 \end{itemize}
 
 \subsection{Industrial Deployment Road-Map for Kubernetes}
@@ -460,7 +536,7 @@ SecChaos-RL's modular architecture was designed to facilitate direct integration
 
 \textbf{Internal Validity:} Internal validity addresses whether the observed gains are genuinely caused by our architectural design. We mitigated potential bias by executing all policies under identical environmental seeds, utilizing standardized curriculum progressions, and conducting a strict five-stage ablation study isolating each component.
 
-\textbf{External Validity:} External validity concerns the generalizability of our findings to production enterprise microservices. Our experiments were conducted within a simulated microservice dependency topology modeled after industry benchmarks (Online Boutique). While our simulation captures realistic cascading dynamics, asynchronous action delays, and resource contention, physical production environments introduce network jitter, database lock contention, and third-party SaaS latencies. Extending SecChaos-RL to live, containerized testbeds on managed Kubernetes clusters represents an important area of future work.
+\textbf{External Validity:} External validity concerns the generalizability of our findings to production enterprise microservices. Our experiments were conducted within a simulated microservice dependency topology modeled after industry benchmarks (Online Boutique)~\cite{aderaldo2025declarative, soldani2023microservice}. While our simulation captures realistic cascading dynamics, asynchronous action delays, and resource contention, physical production environments introduce network jitter, database lock contention, and third-party SaaS latencies. Extending SecChaos-RL to live, containerized testbeds on managed Kubernetes clusters represents an important area of future work.
 
 \textbf{Conclusion Validity:} Conclusion validity was reinforced by running exactly 30 independent random seeds, verifying data distributions, reporting 95\% confidence intervals, and confirming statistical significance via One-Way ANOVA, post-hoc Tukey HSD tests, and Cohen's $d$ effect sizes.
 
@@ -470,7 +546,7 @@ SecChaos-RL's modular architecture was designed to facilitate direct integration
 \section{Conclusion and Future Work}
 \label{sec:conclusion}
 
-This paper introduced \textbf{SecChaos-RL}, an autonomous, threat-aware resilience engineering framework that unifies Security Chaos Engineering with deep reinforcement learning for microservice software systems. By formalizing security mitigation as a multi-objective Markov Decision Process and designing a specialized neural policy architecture—incorporating multi-head self-attention, threat-aware feature gating, auxiliary risk prediction, and threat-adaptive temperature exploration—SecChaos-RL resolves the fundamental operational tension between rapid security isolation and microservice availability SLAs.
+This paper introduced \textbf{SecChaos-RL}, an autonomous, threat-aware resilience engineering framework that unifies Security Chaos Engineering with deep reinforcement learning for microservice software systems. By formalizing security mitigation as a multi-objective Markov Decision Process and designing a specialized neural policy architecture—incorporating multi-head self-attention, threat-aware feature gating, auxiliary risk prediction, and threat-adaptive temperature exploration—SecChaos-RL addresses the fundamental operational tension between rapid security isolation and microservice availability SLAs.
 
 Rigorous evaluation across 30 independent random seeds demonstrates that SecChaos-RL achieves superior recovery speed ($\text{MTTR} = 1.47 \pm 0.48$ steps vs. $1.64$ for standard PPO and $1.68$ for A2C), reduces false mitigations compared to standard RL baselines ($86.6\%$ vs. $91.5\%$), and profiles sub-millisecond decision latency ($0.52 \pm 0.26$\,ms). A systematic five-stage ablation study substantiates the incremental contribution of each architectural component, and our comparative findings delineate the practical boundaries between deterministic alert heuristics and adaptive reinforcement learning control in cloud-native software environments.
 
