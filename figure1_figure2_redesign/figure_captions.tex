@@ -1,0 +1,40 @@
+% ==============================================================================
+% Final Journal Figure Captions for Figure 1 and Figure 2
+% Target: Software: Practice and Experience (Wiley)
+% ==============================================================================
+
+% ------------------------------------------------------------------------------
+% Figure 1 Caption
+% ------------------------------------------------------------------------------
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{figs/figure1_secchaos_framework.pdf}
+\caption{Overall SecChaos-RL closed-loop resilience engineering framework across five coordinated functional regions: 
+(Region~A) Monitored microservice dependency DAG $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ with runtime telemetry probes; 
+(Region~B) Security Chaos Engine injecting standardized stochastic faults ($F_1$--$F_8$, Poisson arrival rate $\lambda_k \in [0.05, 0.25]$) alongside dynamic continuous logistic threat severity evaluation ($\mathcal{L}_{\mathrm{threat}}$); 
+(Region~C) Threat-aware deep reinforcement learning controller featuring linear state projection, threat-aware feature gating, 2-head self-attention ($H=2$), and three decoupled output heads (actor policy $\pi_\theta$ with adaptive temperature $\tau_t$, critic baseline $V_\phi$, and auxiliary risk prediction head $\hat{\mathbf{r}}_{t+1}$); 
+(Region~D) Operational safety guardrails (dispatch validation and transient queue drop filter $\epsilon_{\mathrm{queue}} = 0.08$), asynchronous execution queue ($\tau \in \{0, 1, 2\}$), and cloud-native remediation actuators delivering active service healing (reducing targeted service risk by $80\%\sigma$ and restoring availability by $+15\%\sigma$); and 
+(Region~E) Real-time multi-objective evaluation tracking availability, recovery time (MTTR), security risk reduction, and false mitigation rate (FMR), driving PPO policy gradient parameter updates ($\nabla_\theta \mathcal{L}_{\mathrm{PPO}}$) through the closed learning loop. 
+Solid lines indicate runtime data and operational control paths; dashed red lines indicate chaos fault ingress; and dotted purple lines indicate policy-training updates (performed during offline training phases). 
+Abbreviations: DAG: Directed Acyclic Graph; DRL: Deep Reinforcement Learning; FMR: False Mitigation Rate; MTTR: Mean Time to Recovery; PPO: Proximal Policy Optimization; SCE: Security Chaos Engineering.}
+\label{fig:framework_architecture}
+\end{figure*}
+
+% ------------------------------------------------------------------------------
+% Figure 2 Caption
+% ------------------------------------------------------------------------------
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.96\textwidth]{figs/figure2_secchaos_policy.pdf}
+\caption{Threat-aware deep neural policy network architecture and optimization workflow: 
+(Stage~A) Standardized 16-dimensional observation state $\mathbf{s}_t \in \mathbb{R}^{16}$ partitioned into five semantic feature groups (security risks $s_0$--$s_4$, threat dynamics $s_5$--$s_7$, cluster resource telemetry $s_8$--$s_{10}$, resilience QoS $s_{11}$--$s_{12}$, and execution status $s_{13}$--$s_{15}$); 
+(Stage~B) Sixteen independent linear feature projections transforming scalar inputs into $32$-dimensional token embeddings ($\mathbf{e}_t^{(i)} \in \mathbb{R}^{32}$); 
+(Stage~C) Context-aware threat gating multiplying security channels by $(1.0 + \mathcal{L}_{\mathrm{threat}})$ based on global threat severity $s_5$; 
+(Stage~D) Multi-head self-attention ($H=2, d_k=16$) capturing topological inter-service failure dependencies across tokens; 
+(Stage~E) Flattening and shared dense representation layers ($512 \to 256 \to 128$, Tanh); 
+(Stage~F) Three multi-task decoupled output heads: Actor policy $\pi_\theta(a|\mathbf{s}_t)$ with threat-adaptive exploration temperature $\tau_t = \tau_0 \exp(-\beta \mathcal{L}_{\mathrm{threat}})$, Critic baseline $V_\phi(\mathbf{s}_t)$, and Auxiliary next-step risk predictor $\hat{\mathbf{r}}_{t+1} \in \mathbb{R}^6$; and 
+(Stage~G) PPO policy optimization with trajectory rollouts, clipped surrogate objective, value loss, and auxiliary risk prediction loss. 
+The auxiliary head acts as an inductive regularizer during training and is detached during live inference ($0.44$\,ms online decision latency). 
+Abbreviations: GAE: Generalized Advantage Estimation; MHA: Multi-Head Attention; MLP: Multi-Layer Perceptron; QoS: Quality of Service.}
+\label{fig:network_architecture}
+\end{figure*}

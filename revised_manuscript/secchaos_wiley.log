@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.10.27)  27 OCT 2026 20:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.10.27)  27 OCT 2026 20:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1971,12 +1971,12 @@ Underfull \hbox (badness 5847) in paragraph at lines 139--139
 \T1/stix2/b/n/8 se-cu-rity, avail-abil-ity, and
  []
 
-<figs/secchaos_main_methodology.pdf, id=219, 686.16151pt x 243.78778pt>
-File: figs/secchaos_main_methodology.pdf Graphic file (type pdf)
-<use figs/secchaos_main_methodology.pdf>
-Package pdftex.def Info: figs/secchaos_main_methodology.pdf  used on input line
- 155.
-(pdftex.def)             Requested size: 506.45908pt x 179.93886pt.
+<figs/figure1_secchaos_framework.pdf, id=219, 720.3934pt x 261.54411pt>
+File: figs/figure1_secchaos_framework.pdf Graphic file (type pdf)
+<use figs/figure1_secchaos_framework.pdf>
+Package pdftex.def Info: figs/figure1_secchaos_framework.pdf  used on input lin
+e 155.
+(pdftex.def)             Requested size: 506.45908pt x 183.87778pt.
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <9.03374> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 163.
 
@@ -2065,10 +2065,10 @@ Overfull \hbox (261.76537pt too wide) has occurred while \output is active
 [4{/home/karthik/.miktex/texmfs/install/fonts/enc/dvips/stix2-type1/stix2-mathc
 al.enc}{/home/karthik/.miktex/texmfs/install/fonts/enc/dvips/stix2-type1/stix2-
 mathbb.enc}]
-Overfull \vbox (8.776pt too high) has occurred while \output is active []
+Overfull \vbox (22.71492pt too high) has occurred while \output is active []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Overfull \vbox (1.13431pt too high) has occurred while \output is active []
 
 
 Overfull \hbox (261.76537pt too wide) has occurred while \output is active
@@ -2078,7 +2078,7 @@ Overfull \hbox (261.76537pt too wide) has occurred while \output is active
 [5{/home/karthik/.miktex/texmfs/install/fonts/enc/dvips/stix2-type1/stix2-mathr
 m-bold.enc}{/home/karthik/.miktex/texmfs/install/fonts/enc/dvips/stix2-type1/st
 ix2-mathsf.enc}{/home/karthik/.miktex/texmfs/install/fonts/enc/dvips/stix2-type
-1/stix2-mathscr.enc} <./figs/secchaos_main_methodology.pdf>]
+1/stix2-mathscr.enc} <./figs/figure1_secchaos_framework.pdf>]
 Underfull \hbox (badness 10000) detected at line 225
 []
  []
@@ -2203,12 +2203,12 @@ Overfull \hbox (68.81717pt too wide) detected at line 329
 [][][]\LS2/stix2cal/m/n/9.03374 R[] \LS1/stix2/m/n/9.03374 = []
  []
 
-<figs/secchaos_network_architecture.pdf, id=353, 557.35425pt x 212.3182pt>
-File: figs/secchaos_network_architecture.pdf Graphic file (type pdf)
-<use figs/secchaos_network_architecture.pdf>
-Package pdftex.def Info: figs/secchaos_network_architecture.pdf  used on input 
-line 337.
-(pdftex.def)             Requested size: 481.13457pt x 183.28339pt.
+<figs/figure2_secchaos_policy.pdf, id=353, 749.86748pt x 227.1948pt>
+File: figs/figure2_secchaos_policy.pdf Graphic file (type pdf)
+<use figs/figure2_secchaos_policy.pdf>
+Package pdftex.def Info: figs/figure2_secchaos_policy.pdf  used on input line 3
+37.
+(pdftex.def)             Requested size: 486.2041pt x 147.31432pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -2327,7 +2327,7 @@ Overfull \hbox (261.76537pt too wide) has occurred while \output is active
 []| 
  []
 
-[9 <./figs/secchaos_network_architecture.pdf>]
+[9 <./figs/figure2_secchaos_policy.pdf>]
 Underfull \hbox (badness 3240) in paragraph at lines 504--505
  \T1/stix2/m/n/9.03374 episodes ($\LS1/stix2/m/n/9.03374 50$ \T1/stix2/m/n/9.03
 374 steps/episode, to-tal-ing $\LS1/stix2/m/n/9.03374 12\LS1/stix2/m/it/9.03374
@@ -2493,7 +2493,7 @@ Underfull \hbox (badness 10000) detected at line 5
  []
 
 )
-<figs/resilience_benchmarking.png, id=493, 1156.32pt x 650.43pt>
+<figs/resilience_benchmarking.png, id=497, 1156.32pt x 650.43pt>
 File: figs/resilience_benchmarking.png Graphic file (type png)
 <use figs/resilience_benchmarking.png>
 Package pdftex.def Info: figs/resilience_benchmarking.png  used on input line 5
@@ -2533,7 +2533,7 @@ Underfull \hbox (badness 1412) in paragraph at lines 601--602
  out-come:
  []
 
-<figs/pareto_tradeoff.png, id=518, 505.89pt x 361.35pt>
+<figs/pareto_tradeoff.png, id=522, 505.89pt x 361.35pt>
 File: figs/pareto_tradeoff.png Graphic file (type png)
 <use figs/pareto_tradeoff.png>
 Package pdftex.def Info: figs/pareto_tradeoff.png  used on input line 609.
@@ -2558,7 +2558,7 @@ Underfull \hbox (badness 6608) in paragraph at lines 618--619
 -tro-spec-tion and cooldown
  []
 
-<figs/ablation_study.png, id=529, 758.835pt x 361.35pt>
+<figs/ablation_study.png, id=533, 758.835pt x 361.35pt>
 File: figs/ablation_study.png Graphic file (type png)
 <use figs/ablation_study.png>
 Package pdftex.def Info: figs/ablation_study.png  used on input line 627.
@@ -2609,7 +2609,7 @@ Underfull \hbox (badness 1442) in paragraph at lines 645--646
  ($\LS1/stix2/m/n/9.03374 ^^A =
  []
 
-<figs/learning_curves.png, id=533, 578.16pt x 361.35pt>
+<figs/learning_curves.png, id=537, 578.16pt x 361.35pt>
 File: figs/learning_curves.png Graphic file (type png)
 <use figs/learning_curves.png>
 Package pdftex.def Info: figs/learning_curves.png  used on input line 651.
@@ -2890,12 +2890,12 @@ L3 programming layer <2026-09-09>
  ) 
 Here is how much of TeX's memory you used:
  37669 strings out of 467393
- 688677 string characters out of 5409564
- 1143895 words of memory out of 5000000
+ 688642 string characters out of 5409564
+ 1144503 words of memory out of 5000000
  66168 multiletter control sequences out of 15000+600000
  916424 words of font info for 270 fonts, out of 8000000 for 9000
  1167 hyphenation exceptions out of 8191
- 121i,14n,122p,1870b,706s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 121i,14n,122p,2054b,706s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </home/karthik/.miktex/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi525/ectt08
 00.pk> </home/karthik/.miktex/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi375/ec
 tt0800.pk> </home/karthik/.miktex/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi60
@@ -2920,9 +2920,9 @@ arthik/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmtt8.pfb></home/k
 arthik/.miktex/texmfs/install/fonts/type1/public/amsfonts/symbols/msbm5.pfb></h
 ome/karthik/.miktex/texmfs/install/fonts/type1/public/amsfonts/symbols/msbm7.pf
 b>
-Output written on secchaos_wiley.pdf (19 pages, 2670163 bytes).
+Output written on secchaos_wiley.pdf (19 pages, 2681575 bytes).
 PDF statistics:
- 944 PDF objects out of 1000 (max. 8388607)
+ 948 PDF objects out of 1000 (max. 8388607)
  189 named destinations out of 1000 (max. 500000)
  15714 words of extra memory for PDF output out of 17280 (max. 10000000)
 
