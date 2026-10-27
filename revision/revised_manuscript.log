@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.8.6)  27 OCT 2026 16:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.8.6)  27 OCT 2026 16:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -787,7 +787,7 @@ File: figs/learning_curves.png Graphic file (type png)
 Package pdftex.def Info: figs/learning_curves.png  used on input line 668.
 (pdftex.def)             Requested size: 326.13744pt x 203.8323pt.
  [27] [28 <./figs/learning_curves.png>] [29] [30] [31]
-[32] (revised_manuscript.bbl [33] [34] [35]) [36] (revised_manuscript.aux)
+[32] (revised_manuscript.bbl [33] [34]) [35] (revised_manuscript.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
@@ -796,8 +796,8 @@ Package rerunfilecheck Info: File `revised_manuscript.out' has not changed.
 (rerunfilecheck)             Checksum: E8AD0B919CEB7281A3DEE0F48EA508EA;8838.
  ) 
 Here is how much of TeX's memory you used:
- 15970 strings out of 467511
- 253159 string characters out of 5412721
+ 15969 strings out of 467511
+ 253152 string characters out of 5412721
  755014 words of memory out of 5000000
  44490 multiletter control sequences out of 15000+600000
  651691 words of font info for 246 fonts, out of 8000000 for 9000
@@ -831,9 +831,9 @@ s/cm/cmti10.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfon
 ts/cm/cmti8.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfon
 ts/cm/cmtt10.pfb></home/karthik/.miktex/texmfs/install/fonts/type1/public/amsfo
 nts/symbols/msbm10.pfb>
-Output written on revised_manuscript.pdf (36 pages, 2063254 bytes).
+Output written on revised_manuscript.pdf (35 pages, 2059718 bytes).
 PDF statistics:
- 780 PDF objects out of 1000 (max. 8388607)
- 208 named destinations out of 1000 (max. 500000)
+ 775 PDF objects out of 1000 (max. 8388607)
+ 207 named destinations out of 1000 (max. 500000)
  50487 words of extra memory for PDF output out of 51595 (max. 10000000)
 
