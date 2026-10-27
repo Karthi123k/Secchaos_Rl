@@ -13,7 +13,7 @@
 
 This report evaluates the revised SecChaos-RL manuscript and codebase following a comprehensive, evidence-driven audit and revision. The project has been systematically transformed from a rejected, algorithm-centric draft into a rigorous software engineering research contribution specifically tailored to the scope and standards of **Software: Practice and Experience (Wiley)**.
 
-All fatal research integrity defects—including synthetic number overwrites, unhealed dependency graphs, missing ablation code, and fragmented section structures—have been eradicated. Authentic experiments across 30 independent random seeds have been executed, yielding verifiable datasets, publication-quality figures, and statistically validated findings. The manuscript compiles with zero errors and zero warnings into an authoritative 34-page PDF.
+All fatal research integrity defects—including synthetic number overwrites, unhealed dependency graphs, missing ablation code, and fragmented section structures—have been eradicated. Authentic experiments across 30 independent random seeds have been executed, yielding verifiable datasets, publication-quality figures, and statistically validated findings. The manuscript compiles with zero errors and zero warnings into an authoritative 35-page PDF.
 
 **Final Verdict:** **READY FOR SUBMISSION** to *Software: Practice and Experience*.
 
@@ -70,7 +70,7 @@ All fatal research integrity defects—including synthetic number overwrites, un
    - Reports Mean $\pm$ Standard Deviation and 95% Confidence Intervals.
    - Repeated-Measures ANOVA ($p < 10^{-125}$), paired $t$-tests with Holm-Bonferroni correction ($\alpha = 0.05$), non-parametric Wilcoxon signed-rank tests, and Cohen's $d$ effect sizes.
 5. **Manuscript Artifacts:**
-   - Authoritative 34-page PDF compiled cleanly via `pdflatex` + `bibtex` with 0 errors and 0 LaTeX warnings.
+   - Authoritative 35-page PDF compiled cleanly via `pdflatex` + `bibtex` with 0 errors and 0 LaTeX warnings.
    - 6 high-resolution figures (300 DPI) and 5 standardized publication tables including full 8-policy benchmark and 6-stage ablation study with paired stage differences and Holm-Bonferroni corrections (Panel A/B).
 
 ---
@@ -90,7 +90,7 @@ revision/
 ├── references.bib                         # Verified BibTeX database with 3 SP&E citations
 ├── related_work_comparison.csv            # Qualitative feature comparison with 6 state-of-the-art tools
 ├── research_gaps.md                       # Breakdown of SQJ rejection causes & repositioning strategy
-├── revised_manuscript.pdf                 # Fully compiled 34-page publication PDF
+├── revised_manuscript.pdf                 # Fully compiled 35-page publication PDF
 ├── revised_manuscript.tex                 # Clean LaTeX source manuscript
 ├── revision_change_log.md                 # Complete itemized changelog
 ├── submission_readiness_report.md         # Final pre-submission compliance audit (this document)
