@@ -1,0 +1,26 @@
+         Multiple Comparison of Means - Tukey HSD, FWER=0.05          
+======================================================================
+    group1         group2     meandiff p-adj   lower    upper   reject
+----------------------------------------------------------------------
+          A2C             DQN   0.9695 0.5585  -0.6464   2.5853  False
+          A2C   No-Mitigation   3.0018    0.0    1.386   4.6177   True
+          A2C             PPO   0.0591    1.0  -1.5568    1.675  False
+          A2C      Rule-Based  24.8426    0.0  23.2267  26.4584   True
+          A2C     SecChaos-RL   0.6754 0.8756  -0.9404   2.2913  False
+          A2C Threshold-Based   8.3892    0.0   6.7733  10.0051   True
+          DQN   No-Mitigation   2.0324 0.0043   0.4165   3.6482   True
+          DQN             PPO  -0.9104 0.6316  -2.5262   0.7055  False
+          DQN      Rule-Based  23.8731    0.0  22.2572   25.489   True
+          DQN     SecChaos-RL   -0.294 0.9982  -1.9099   1.3218  False
+          DQN Threshold-Based   7.4197    0.0   5.8039   9.0356   True
+No-Mitigation             PPO  -2.9427    0.0  -4.5586  -1.3269   True
+No-Mitigation      Rule-Based  21.8407    0.0  20.2249  23.4566   True
+No-Mitigation     SecChaos-RL  -2.3264 0.0005  -3.9423  -0.7105   True
+No-Mitigation Threshold-Based   5.3874    0.0   3.7715   7.0032   True
+          PPO      Rule-Based  24.7835    0.0  23.1676  26.3994   True
+          PPO     SecChaos-RL   0.6163 0.9163  -0.9995   2.2322  False
+          PPO Threshold-Based   8.3301    0.0   6.7142    9.946   True
+   Rule-Based     SecChaos-RL -24.1671    0.0  -25.783 -22.5513   True
+   Rule-Based Threshold-Based -16.4534    0.0 -18.0692 -14.8375   True
+  SecChaos-RL Threshold-Based   7.7138    0.0   6.0979   9.3296   True
+----------------------------------------------------------------------

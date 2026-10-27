@@ -1,0 +1,294 @@
+\begin{thebibliography}{41}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Aderaldo et~al.(2025)Aderaldo, Mendon{\c{c}}a, Costa, Vasconcelos,
+  C{\'a}mara, and Garlan]{aderaldo2025declarative}
+Carlos~Mendes Aderaldo, Nabor~C. Mendon{\c{c}}a, Thiago~M. Costa, Davi~M.
+  Vasconcelos, Javier C{\'a}mara, and David Garlan.
+\newblock A declarative approach and benchmark tool for controlled evaluation
+  of microservice resiliency patterns.
+\newblock \emph{Software: Practice and Experience}, 55\penalty0 (1):\penalty0
+  170--192, 2025.
+\newblock \doi{10.1002/spe.3259}.
+
+\bibitem[{Amazon Web Services}(2023)]{awsfis2023}
+{Amazon Web Services}.
+\newblock Aws fault injection simulator, 2023.
+\newblock URL \url{https://aws.amazon.com/fis}.
+
+\bibitem[Awal et~al.(2025)Awal, Rochan, and Roy]{awal2025adversarial}
+M.~A. Awal, M.~Rochan, and C.~K. Roy.
+\newblock Investigating adversarial attacks in software analytics via machine
+  learning explainability.
+\newblock \emph{Software Quality Journal}, 33:\penalty0 31, 2025.
+\newblock \doi{10.1007/s11219-025-09727-2}.
+\newblock URL \url{https://doi.org/10.1007/s11219-025-09727-2}.
+
+\bibitem[Bagehorn et~al.(2022)Bagehorn, Rios, Jha, Filepp, Shwartz, Abe, and
+  Yang]{baghorn2022fault}
+F.~Bagehorn, J.~Rios, S.~Jha, R.~Filepp, L.~Shwartz, N.~Abe, and X.~Yang.
+\newblock A fault injection platform for learning aiops models.
+\newblock In \emph{Proc. 37th IEEE/ACM Int. Conf. Automated Software
+  Engineering (ASE)}, pages 1--5, 2022.
+\newblock \doi{10.1145/3551349.3559503}.
+
+\bibitem[Basiri et~al.(2016)Basiri, Behnam, de~Rooij, Hochstein, Kosewski,
+  Reynolds, and Rosenthal]{basiri2016chaos}
+A.~Basiri, N.~Behnam, R.~de~Rooij, L.~Hochstein, L.~Kosewski, J.~Reynolds, and
+  C.~Rosenthal.
+\newblock Chaos engineering.
+\newblock \emph{IEEE Softw.}, 33\penalty0 (3):\penalty0 35--41, May-Jun. 2016.
+\newblock \doi{10.1109/MS.2016.60}.
+
+\bibitem[Bedoya et~al.(2024)Bedoya, Palacios, D{\'i}az-L{\'o}pez, Laverde, and
+  Nespoli]{bedoya2024enhancing}
+M.~Bedoya, S.~Palacios, D.~D{\'i}az-L{\'o}pez, E.~Laverde, and P.~Nespoli.
+\newblock Enhancing devsecops practice with large language models and security
+  chaos engineering.
+\newblock \emph{Int. J. Inf. Secur.}, 23\penalty0 (6):\penalty0 3765--3788,
+  2024.
+\newblock \doi{10.1007/s10207-024-00909-w}.
+
+\bibitem[Brooker and Desai(2025)]{brooker2025systems}
+M.~Brooker and A.~Desai.
+\newblock Systems correctness practices at amazon web services.
+\newblock \emph{Commun. ACM}, 68\penalty0 (6):\penalty0 38--42, 2025.
+\newblock \doi{10.1145/3729175}.
+
+\bibitem[Camacho et~al.(2022)Camacho, Ca{\~n}izares, Llana, and
+  N{\'u}{\~n}ez]{camacho2022chaos}
+Carlos Camacho, Pablo~C. Ca{\~n}izares, Luis Llana, and Alberto N{\'u}{\~n}ez.
+\newblock Chaos as a software product line---a platform for improving open
+  hybrid-cloud systems resiliency.
+\newblock \emph{Software: Practice and Experience}, 52\penalty0 (7):\penalty0
+  1581--1614, 2022.
+\newblock \doi{10.1002/spe.3076}.
+
+\bibitem[{Chaos Mesh}(2021)]{chaosmesh2021}
+{Chaos Mesh}.
+\newblock Chaos mesh: A chaos engineering platform for kubernetes, 2021.
+\newblock URL \url{https://chaos-mesh.org}.
+
+\bibitem[{ChaosBlade}(2021)]{chaosblade2021}
+{ChaosBlade}.
+\newblock Chaosblade: An easy to use and powerful chaos engineering toolkit,
+  2021.
+\newblock URL \url{https://github.com/chaosblade-io/chaosblade}.
+
+\bibitem[Du et~al.(2024)Du, Liu, Li, et~al.]{du2024llmbrc}
+X.~Du, Z.~Liu, C.~Li, et~al.
+\newblock Llm-brc: A large language model-based bug report classification
+  framework.
+\newblock \emph{Software Quality Journal}, 32:\penalty0 985--1005, 2024.
+\newblock \doi{10.1007/s11219-024-09675-3}.
+\newblock URL \url{https://doi.org/10.1007/s11219-024-09675-3}.
+
+\bibitem[Esen et~al.(2025)Esen, Akbulut, and Catal]{esen2025chaos}
+E.~Esen, A.~Akbulut, and C.~Catal.
+\newblock Chaos experiments in microservice architectures: A systematic
+  literature review.
+\newblock \emph{Comput. Stand. Interfaces}, page 104116, 2025.
+\newblock \doi{10.1016/j.csi.2025.104116}.
+
+\bibitem[Garlan et~al.(2004)Garlan, Cheng, Huang, Schmerl, and
+  Steenkiste]{garlan2004rainbow}
+D.~Garlan, S.~W. Cheng, A.~C. Huang, B.~Schmerl, and P.~Steenkiste.
+\newblock Rainbow: Architecture-based self-adaptation with reusable
+  infrastructure.
+\newblock \emph{Computer}, 37\penalty0 (10):\penalty0 46--54, 2004.
+\newblock \doi{10.1109/MC.2004.175}.
+
+\bibitem[{Gremlin}(2022)]{gremlin2022}
+{Gremlin}.
+\newblock Gremlin: Chaos engineering for everyone, 2022.
+\newblock URL \url{https://www.gremlin.com}.
+
+\bibitem[Haldar and Capretz(2026)]{haldar2026testplan}
+S.~Haldar and L.~F. Capretz.
+\newblock Automated test plan generation using large language models.
+\newblock \emph{Software Quality Journal}, 34:\penalty0 8, 2026.
+\newblock \doi{10.1007/s11219-026-09744-9}.
+\newblock URL \url{https://doi.org/10.1007/s11219-026-09744-9}.
+
+\bibitem[Hou et~al.(2024)]{hou2024large}
+X.~Hou et~al.
+\newblock Large language models for software engineering: A systematic
+  literature review.
+\newblock \emph{ACM Trans. Softw. Eng. Methodol.}, 33\penalty0 (8):\penalty0
+  1--79, 2024.
+\newblock \doi{10.1145/3695988}.
+
+\bibitem[Huang et~al.(2026)Huang, Chen, Cai, et~al.]{huang2026cotstatic}
+Y.~Huang, Y.~Chen, J.~Cai, et~al.
+\newblock Towards combining chain-of-thought and code static analysis for
+  buffer overflow vulnerability detection.
+\newblock \emph{Software Quality Journal}, 34:\penalty0 2, 2026.
+\newblock \doi{10.1007/s11219-025-09733-4}.
+\newblock URL \url{https://doi.org/10.1007/s11219-025-09733-4}.
+
+\bibitem[{LitmusChaos}(2022)]{litmus2022}
+{LitmusChaos}.
+\newblock Litmuschaos: Cloud native chaos engineering framework, 2022.
+\newblock URL \url{https://litmuschaos.io}.
+
+\bibitem[Liu et~al.(2025)Liu, Zhang, Zhou, Yang, Lu, and
+  Zhong]{liu2025autonomous}
+J.~Liu, Y.~Zhang, S.~Zhou, J.~Yang, Y.~Lu, and X.~Zhong.
+\newblock Autonomous penetration testing using reinforcement learning: A review
+  and perspectives.
+\newblock \emph{Expert Syst. Appl.}, page 130219, 2025.
+\newblock \doi{10.1016/j.eswa.2025.130219}.
+
+\bibitem[Mnih et~al.(2015)]{mnih2015human}
+V.~Mnih et~al.
+\newblock Human-level control through deep reinforcement learning.
+\newblock \emph{Nature}, 518\penalty0 (7540):\penalty0 529--533, 2015.
+\newblock \doi{10.1038/nature14236}.
+
+\bibitem[Mnih et~al.(2016)]{mnih2016asynchronous}
+V.~Mnih et~al.
+\newblock Asynchronous methods for deep reinforcement learning.
+\newblock In \emph{Proc. Int. Conf. Mach. Learn. (ICML)}, pages 1928--1937,
+  2016.
+
+\bibitem[Myrbakken and Colomo-Palacios(2017)]{myrbakken2020security}
+H.~Myrbakken and R.~Colomo-Palacios.
+\newblock Devsecops: A multivocal literature review.
+\newblock In \emph{Proc. Int. Conf. Softw. Process Improvement and Capability
+  Determination (SPICE)}, pages 17--29, Cham, Switzerland, Sept. 2017.
+  Springer.
+\newblock \doi{10.1007/978-3-319-67383-7_2}.
+
+\bibitem[Myrbakken et~al.(2021)Myrbakken, del Pino, and
+  Colomo-Palacios]{myrbakken2021security}
+H.~Myrbakken, I.~D.~M. del Pino, and R.~Colomo-Palacios.
+\newblock Security chaos engineering for continuous security assessment in
+  devops.
+\newblock \emph{Comput. Stand. Interfaces}, 79:\penalty0 103546, 2021.
+\newblock \doi{10.1016/j.csi.2021.103546}.
+
+\bibitem[Nguyen and Reddi(2021)]{nguyen2021deep}
+T.~T. Nguyen and V.~J. Reddi.
+\newblock Deep reinforcement learning for cyber security.
+\newblock \emph{IEEE Trans. Neural Netw. Learn. Syst.}, 34\penalty0
+  (8):\penalty0 3779--3795, 2021.
+\newblock \doi{10.1109/TNNLS.2021.3121870}.
+
+\bibitem[Owotogbe et~al.(2025)Owotogbe, Kumara, van~den Heuvel, and
+  Tamburri]{owotogbe2025chaos}
+J.~Owotogbe, I.~Kumara, W.~J. van~den Heuvel, and D.~Tamburri.
+\newblock Chaos engineering: A multi-vocal literature review.
+\newblock \emph{ACM Comput. Surv.}, 58\penalty0 (7):\penalty0 1--44, 2025.
+\newblock \doi{10.1145/3777375}.
+
+\bibitem[Raffin et~al.(2021)Raffin, Hill, Gleave, Kanervisto, Ernestus, and
+  Dormann]{raffin2021stable}
+A.~Raffin, A.~Hill, A.~Gleave, A.~Kanervisto, M.~Ernestus, and N.~Dormann.
+\newblock Stable-baselines3: Reliable reinforcement learning implementations.
+\newblock \emph{J. Mach. Learn. Res.}, 22\penalty0 (268):\penalty0 1--8, 2021.
+
+\bibitem[Rosenthal and Jones(2020)]{rosenthal2020chaos}
+C.~Rosenthal and N.~Jones.
+\newblock \emph{Chaos Engineering: System Resiliency in Practice}.
+\newblock O'Reilly Media, Sebastopol, CA, USA, 2020.
+
+\bibitem[Salehie and Tahvildari(2009)]{salehie2009self}
+M.~Salehie and L.~Tahvildari.
+\newblock Self-adaptive software: Landscape and research challenges.
+\newblock \emph{ACM Trans. Auton. Adapt. Syst.}, 4\penalty0 (2):\penalty0
+  1--42, 2009.
+\newblock \doi{10.1145/1516533.1516538}.
+
+\bibitem[Schneider et~al.(2015)Schneider, Barker, and
+  Dobson]{schneider2015survey}
+Chris Schneider, Adam Barker, and Simon Dobson.
+\newblock A survey of self-healing systems frameworks.
+\newblock \emph{Software: Practice and Experience}, 45\penalty0 (10):\penalty0
+  1375--1398, 2015.
+\newblock \doi{10.1002/spe.2288}.
+
+\bibitem[Schulman et~al.(2017)Schulman, Wolski, Dhariwal, Radford, and
+  Klimov]{schulman2017ppo}
+J.~Schulman, F.~Wolski, P.~Dhariwal, A.~Radford, and O.~Klimov.
+\newblock Proximal policy optimization algorithms.
+\newblock \emph{arXiv preprint arXiv:1707.06347}, 2017.
+
+\bibitem[Shortridge(2023)]{shortridge2023security}
+K.~Shortridge.
+\newblock \emph{Security Chaos Engineering: Sustaining Resilience in Software
+  and Systems}.
+\newblock O'Reilly Media, Sebastopol, CA, USA, 2023.
+
+\bibitem[Silver et~al.(2016)]{silver2016mastering}
+D.~Silver et~al.
+\newblock Mastering the game of go with deep neural networks and tree search.
+\newblock \emph{Nature}, 529\penalty0 (7587):\penalty0 484--489, 2016.
+\newblock \doi{10.1038/nature16961}.
+
+\bibitem[Soldani et~al.(2023)Soldani, Tamburri, and Van
+  Den~Heuvel]{soldani2023microservice}
+Jacopo Soldani, Damian~A. Tamburri, and Willem-Jan Van Den~Heuvel.
+\newblock Microservice reference architecture design: A multi-case study.
+\newblock \emph{Software: Practice and Experience}, 53\penalty0 (5):\penalty0
+  1121--1149, 2023.
+\newblock \doi{10.1002/spe.3241}.
+
+\bibitem[Standen et~al.(2021)Standen, Lucas, Bowman, Richer, Kim, and
+  Marriott]{standen2021cyborg}
+M.~Standen, M.~Lucas, D.~Bowman, T.~J. Richer, J.~Kim, and D.~Marriott.
+\newblock Cyborg: A gym for the development of autonomous cyber agents.
+\newblock \emph{arXiv preprint arXiv:2108.09118}, 2021.
+
+\bibitem[Sutton and Barto(1998)]{sutton1998reinforcement}
+R.~S. Sutton and A.~G. Barto.
+\newblock \emph{Reinforcement Learning: An Introduction}.
+\newblock MIT Press, Cambridge, MA, USA, 1st edition, 1998.
+
+\bibitem[Taibi et~al.(2021)Taibi, Lenarduzzi, and Pahl]{taibi2021microservice}
+Davide Taibi, Valentina Lenarduzzi, and Claus Pahl.
+\newblock Microservice api evolution in practice: A study on strategies and
+  challenges.
+\newblock \emph{Software: Practice and Experience}, 51\penalty0 (6):\penalty0
+  1311--1337, 2021.
+\newblock \doi{10.1002/spe.2967}.
+
+\bibitem[Tong et~al.(2026)Tong, Gao, Zhang, et~al.]{tong2026osel}
+Y.~Tong, S.~Gao, M.~Zhang, et~al.
+\newblock Osel: boosting vulnerability detection with opcode slicing-enhanced
+  feature learning.
+\newblock \emph{Software Quality Journal}, 34:\penalty0 1, 2026.
+\newblock \doi{10.1007/s11219-025-09734-3}.
+\newblock URL \url{https://doi.org/10.1007/s11219-025-09734-3}.
+
+\bibitem[Towers et~al.(2026)]{towers2026gymnasium}
+M.~Towers et~al.
+\newblock Gymnasium: A standard interface for reinforcement learning
+  environments.
+\newblock In \emph{Adv. Neural Inf. Process. Syst.}, volume~38, 2026.
+
+\bibitem[Vaswani et~al.(2017)]{vaswani2017attention}
+A.~Vaswani et~al.
+\newblock Attention is all you need.
+\newblock In \emph{Proc. Adv. Neural Inf. Process. Syst. (NeurIPS)}, pages
+  5998--6008, 2017.
+
+\bibitem[Xiao et~al.(2018)Xiao, Wan, Lu, Zhang, and Wu]{xiao2018iot}
+L.~Xiao, X.~Wan, X.~Lu, Y.~Zhang, and D.~Wu.
+\newblock Iot security techniques based on machine learning: How do iot devices
+  use ai to enhance security?
+\newblock \emph{IEEE Signal Process. Mag.}, 35\penalty0 (5):\penalty0 41--49,
+  2018.
+\newblock \doi{10.1109/MSP.2018.2825478}.
+
+\bibitem[Zheng et~al.(2025)Zheng, Zhang, Zhan, Ren, and
+  L{\"u}]{zheng2025proximal}
+M.~Zheng, J.~Zhang, C.~Zhan, X.~Ren, and S.~L{\"u}.
+\newblock Proximal policy optimization with reward-based prioritization.
+\newblock \emph{Expert Syst. Appl.}, 283:\penalty0 127659, 2025.
+\newblock \doi{10.1016/j.eswa.2025.127659}.
+
+\end{thebibliography}
